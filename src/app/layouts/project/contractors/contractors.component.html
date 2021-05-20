@@ -1,0 +1,183 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<br>
+<div class="container">
+    <p-table id="my-table" class="container card" #dt dataKey="id" [rows]="5" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[5,10,50]" styleClass="p-datatable-customers" [paginator]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0" #dt
+        [globalFilterFields]="['contractorName','contactName','email','phone','relevantPhone']" [value]="lstContractors">
+        <ng-template pTemplate="caption">
+            <h1 style="margin-bottom: 20px; font-size: 2em;color: #2674a8;">Contractors</h1>
+            <div class="row">
+                <div class="table-header col-md-10">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search"/>
+                    </span>
+                </div>
+                <div class="col-md-2">
+                    <button id="addEmpBtn" (click)="NewDialog()" class="btn btn-outline-primary btn-md btn-block">
+                        <span class="pi pi-plus">Add</span> </button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr style="height: 5px !important; ">
+                <th pSortableColumn="contractorName"><span>Contractor Name</span>
+                    <p-sortIcon field="contractorName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="contactName"><span>Contact Name</span>
+                    <p-sortIcon field="contactName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="email"><span>email</span>
+                    <p-sortIcon field="email"></p-sortIcon>
+                </th>
+                <th pSortableColumn="phone"><span>Phone</span>
+                    <p-sortIcon field="phone"></p-sortIcon>
+                </th>
+                <th pSortableColumn="relevantPhone"><span>Relevant Phone</span>
+                    <p-sortIcon field="relevantPhone"></p-sortIcon>
+                </th>
+                <th>Controls</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-contractor>
+            <tr style="height: 5px !important;font-size: 17px;">
+                <td>{{contractor.contractorName}}</td>
+                <td>{{contractor.contactName}}</td>
+                <td>{{contractor.email}}</td>
+                <td>{{contractor.phone}}</td>
+                <td>{{contractor.relevantPhone}}</td>
+                <td>
+                    <span class="pi pi-compass btn" aria-hidden="true"
+                        (click)="showBasicDialog(contractor.id)"></span>
+                    <button class="btn pi pi-pencil" aria-hidden="true"
+                        (click)="EditDialog(contractor.id)"></button>
+                    <button class="btn pi pi-times" (click)="confirm(contractor.id)" aria-hidden="true"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="displayBasic"  [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Contractor Details</h1>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">contractor Name : </span></th>
+        <td>{{ContractorsObj.contractorName}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Contact Name : </span></th>
+        <td>{{ContractorsObj.contactName}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Email : </span></th>
+        <td>{{ContractorsObj.email}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Phone : </span></th>
+        <td>{{ContractorsObj.phone}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Relevant Phone : </span></th>
+        <td>{{ContractorsObj.relevantPhone}}</td>
+    </tr>
+</p-dialog>
+
+<form>
+    <p-dialog [(visible)]="Editboolean" [style]="{width: '50vw'}" [baseZIndex]="10000">
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Update Contractors</h1>
+        <div class="row">
+            <span class="col-md-4" for="time">Contractor Name</span>
+            <input name="contractorName" type="text" class="col-md-6 form-control"
+                [(ngModel)]="ContractorsObj.contractorName" inputId="date">
+        </div>
+        <div class="row">
+            <span class="col-md-4" for="time">Contact Name</span>
+            <input name="contactName" type="text" class="col-md-6 form-control"
+                [(ngModel)]="ContractorsObj.contactName" inputId="date">
+        </div>
+        <div class="row">
+            <span class="col-md-4" for="time">Email</span>
+            <input name="email" type="text" class="col-md-6 form-control"
+                [(ngModel)]="ContractorsObj.email" inputId="date">
+        </div>
+        <div class="row">
+            <span class="col-md-4" for="time">phone</span>
+            <input name="phone" type="text" class="col-md-6 form-control"
+                [(ngModel)]="ContractorsObj.phone" inputId="date">
+        </div>
+        <div class="row">
+            <span class="col-md-4" for="time">Relevant Phone</span>
+            <input name="relevantPhone" type="text" class="col-md-6 form-control"
+                [(ngModel)]="ContractorsObj.relevantPhone" inputId="date">
+        </div>
+        <ng-template pTemplate="footer">
+            <p-button (onClick)="update(ContractorsObj.id)" type="submit" icon="pi pi-check"
+                styleClass="p-button-text">Submit</p-button>
+            <p-button icon="pi pi-times" (click)="displayBasic=false">Cancel</p-button>
+        </ng-template>
+
+    </p-dialog>
+</form>
+
+<form #frm="ngForm">
+    <p-dialog [(visible)]="NewDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
+        <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Add Contractors</h1>
+        <div class="row">
+            <span class="col-md-4" for="time">Contractor Name</span>
+            <input name="contractorName" type="text" class="col-md-6 form-control"
+                [(ngModel)]="ContractorsObj.contractorName" inputId="date">
+        </div>
+        <div class="row">
+            <span class="col-md-4" for="time">Contact Name</span>
+            <input name="contactName" type="text" class="col-md-6 form-control"
+                [(ngModel)]="ContractorsObj.contactName" inputId="date">
+        </div>
+        <div class="row">
+            <span class="col-md-4" for="time">Email</span>
+            <input name="email" type="text" class="col-md-6 form-control"
+                [(ngModel)]="ContractorsObj.email" inputId="date">
+        </div>
+        <div class="row">
+            <span class="col-md-4" for="time">phone</span>
+            <input name="phone" type="text" class="col-md-6 form-control"
+                [(ngModel)]="ContractorsObj.phone" inputId="date">
+        </div>
+        <div class="row">
+            <span class="col-md-4" for="time">Relevant Phone</span>
+            <input name="relevantPhone" type="text" class="col-md-6 form-control"
+                [(ngModel)]="ContractorsObj.relevantPhone" inputId="date">
+        </div>
+        <ng-template pTemplate="footer">
+            <p-button (onClick)="add()" [disabled]="frm.invalid" type="submit" icon="pi pi-check"
+                styleClass="p-button-text">Submit
+            </p-button>
+            <p-button icon="pi pi-times" (click)="NewDialogbool=false">Cancel</p-button>
+        </ng-template>
+
+    </p-dialog>
+</form>

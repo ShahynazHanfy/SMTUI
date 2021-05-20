@@ -1,0 +1,49 @@
+p {
+    font-family: Lato;
+    }
+    .example-card {
+    max-width: 800px;
+    margin: 50px
+    }
+    
+    mat-card-subtitle{
+    font-size:30px
+    }
+    
+    mat-card-title{
+    color:green;
+    font-size:40px
+    }
+    .headerw{
+        margin-top: 20px;
+        text-align: center;
+        color: rgb(38, 0, 255);
+        font-weight: bold;
+        font-size: 40px;
+    }
+    span{
+        color: orange;
+    }
+    .AddButton{
+        margin-left: 46%;
+    }
+    .cont{
+        border: 2px solid gray;
+    }
+    
+.labelMarginRight{
+    margin-right: 10px;
+}
+:host ::ng-deep .p-dropdown {
+    width: 12rem;
+  }
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
+    border-radius: 40vh;
+  }
+  .uploadFile{
+      margin-top: 20px;
+  }

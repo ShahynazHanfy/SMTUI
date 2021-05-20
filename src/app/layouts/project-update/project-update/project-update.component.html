@@ -1,0 +1,348 @@
+<div class="container-fluid cont">
+	<h3 style="color: red;">Project Updates</h3>
+
+	<h1 class="headerw">{{project.projectName}}</h1>
+	<button class="btn btn-warning AddButton" (click)="addNewUpdate()">Add Update</button>
+	<a href="E:/PharmacyDictionary.docx">Show Latest Docs</a>
+
+	<div *ngFor="let i of LstProjectUpdateDescription">
+		<mat-card class="example-card">
+			<mat-card-header>
+				<mat-card-title>{{i.descriptionDate | slice:0:16}}</mat-card-title>
+				<span>{{i.userName}}</span>
+				<mat-card-subtitle>
+					<!-- One stop solution -->
+					<br>
+				</mat-card-subtitle>
+			</mat-card-header>
+
+			<mat-card-content>
+				<p>
+					{{i.description}}
+				</p>
+			</mat-card-content>
+
+			<mat-card-actions>
+				<button mat-button style="background-color:blue; color:white" (click)="ViewDocs(i)">
+					Show Documents
+				</button>
+
+				<button mat-button style="background-color:green; color:white" (click)="MakeOfferFlag=true">
+					Make an Offer
+				</button>
+			</mat-card-actions>
+		</mat-card>
+	</div>
+	<p-dialog header=" Add Update " [(visible)]="NewLeaveDialogbool" [style]="{width: '38vw'}" [baseZIndex]="10000">
+		<p-toast position="top-left" key="tl"></p-toast>
+		<p-toast position="top-center" key="tc"></p-toast>
+		<p-toast position="bottom-center" key="bc"></p-toast>
+		<br>
+		<div class="row container-fluid">
+			<!-- <h2>{{project.projectName}}</h2> -->
+			<div>
+				<!-- <h4>Upload Documents</h4> -->
+				<div class="row container">
+					<div class="col-12">
+						<div>
+							<div class="p-inputgroup">
+								<div class="form-group col-12" [style]="{minWidth: '420px'}" style="padding: 0 0 0 0;">
+									<label for="inputState">Select Document Category</label>
+									<select id="inputState" [ngModelOptions]="{standalone: true}"
+										[(ngModel)]="docproject.documentsCategoryId" class="form-control">
+										<option *ngFor="let i of lstDocumentCategory" value="{{i.id}}">
+											{{i.categoryName}}</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="p-col-12">
+							<div class="row">
+								<div class="col">
+									<input type="file" #file placeholder="Choose file" multiple
+										(change)="uploadFile(file.files)" style="display:none;">
+									<button type="button" class="btn btn-success" (click)="file.click()">Upload
+										File</button>
+								</div>
+								<div class="col">
+									<button class="btn btn-info" style="float: right;" (click)="Savedoctolist()">Save To
+										List</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div style="margin-left: 10px;width: 100px;" [contentStyle]="{maxWidth:'500px'}">
+						<br>
+						<table class="table container-fluid col-12" style="width: 100px">
+							<thead>
+								<tr>
+									<th>Category Name</th>
+									<th>File Name</th>
+									<th>Delete</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								<tr *ngFor="let i of lstoddocproj">
+									<td>{{i.documentsCategoryName}}</td>
+									<td>
+										<div class="row">
+											<div class="col">
+												{{i.documentFile}}
+											</div>
+
+										</div>
+									</td>
+									<td>
+										<div class="col"><button class="btn btn-danger"
+												(click)="deleteDocFromList(i)">Delete</button></div>
+									</td>
+
+								</tr>
+
+								<tr *ngIf="lstoddocproj.length == 0">
+									<td colspan="4" style="color: rgb(102, 97, 23);">No Documents found.</td>
+								</tr>
+
+							</tbody>
+
+						</table>
+					</div>
+				</div>
+				<!-- <div style="margin-left: 10px;">
+					<h4>Please Fill a detaild description </h4>
+					<textarea id="description" [(ngModel)]="ProjectUpdateDescription.description"
+						placeholder=" Description ......." pInputTextarea rows="10" cols="48"></textarea>
+					<br>
+				</div> -->
+				<div class="input-group container-fluid uploadFile">
+					<div class="input-group-prepend" style="background-color: rgb(215, 226, 226);">
+						<span class="input-group-text"
+							style="color: rgb(12, 12, 12);margin-right: 10px;">Description</span>
+					</div>
+					<textarea class="form-control" [(ngModel)]="ProjectUpdateDescription.description"
+						aria-label="With textarea"></textarea>
+				</div>
+			</div>
+		</div>
+		<br>
+		<ng-template pTemplate="footer">
+			<p-button type="submit" (click)="SaveProjectUpdate()" icon="pi pi-check" label=""
+				styleClass="p-button-text">
+				<span>Save</span>
+			</p-button>
+			<p-button icon="pi pi-times" (click)="NewLeaveDialogbool=false" label="" class="p-button-secondary">NO
+			</p-button>
+		</ng-template>
+
+	</p-dialog>
+
+
+	<p-dialog header=" View All Documents " [(visible)]="ViewDocsFlag" [style]="{width: '45vw'}" [baseZIndex]="10000">
+		<p-toast position="top-left" key="tl"></p-toast>
+		<p-toast position="top-center" key="tc"></p-toast>
+		<p-toast position="bottom-center" key="bc"></p-toast>
+		<!-- 
+	<div class="row">
+		<span class="col-md-3" for="employee">Employee Name</span>
+		<select (change)="onChange($event.target.value)" name="employee" class="form-control col-md-6">Employee
+			<option value="" selected disabled hidden><span>Employee Name</span></option>
+			<option *ngFor="let item of GetUnregisteredUsers" value="{{item.id}}">{{item.name}}</option>
+		</select>
+	</div> -->
+		<br>
+		<div class="row">
+			<!-- <h2>{{project.projectName}}</h2> -->
+			<div style="margin-top: 30px;">
+				<!-- <h4>Upload Documents</h4> -->
+				<div class="row container">
+
+					<div style="margin-left: 10px;">
+						<br>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>File Name</th>
+									<th><i>View</i></th>
+									<th><i>Delete</i></th>
+
+								</tr>
+							</thead>
+							<tbody>
+
+								<tr *ngFor="let i of lstProjDocuments">
+									<td>
+										{{i.documentFile}}
+									</td>
+									<td>
+										<div class="col"><button class="btn btn-primary"
+												(click)="viewSingleDoc(i)">View</button></div>
+									</td>
+									<td>
+										<div class="col"><button class="btn btn-danger"
+												(click)="deleteDocDB(i)">Delete</button></div>
+									</td>
+
+								</tr>
+
+								<tr *ngIf="lstProjDocuments.length == 0">
+									<td colspan="4" style="color: rgb(102, 97, 23);">No Documents found.</td>
+								</tr>
+
+							</tbody>
+
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- </div> -->
+		<br>
+		<ng-template pTemplate="footer">
+			<p-button type="submit" (click)="SaveProjectUpdate()" icon="pi pi-check" label=""
+				styleClass="p-button-text">
+				<span>Save</span>
+			</p-button>
+			<p-button icon="pi pi-times" (click)="ViewDocsFlag=false" label="" class="p-button-secondary">NO
+			</p-button>
+		</ng-template>
+
+	</p-dialog>
+
+	<p-dialog header=" Make Offer ({{project.projectName}})" [contentStyle]="{minHeight:'400px'}"
+		[(visible)]="MakeOfferFlag" [style]="{width: '62vw'}">
+
+
+		<p-toast position="top-left" key="tl"></p-toast>
+		<p-toast position="top-center" key="tc"></p-toast>
+		<p-toast position="bottom-center" key="bc"></p-toast>
+		<img width="70px" height="70px" class="center"
+			src="https://cdn.imgbin.com/16/4/6/imgbin-post-it-note-paper-clip-page-six-yellow-sticky-note-3uNPmBzME6aZAqRcZHvDqDQvk.jpg"
+			alt="">
+		<!-- Handle Steps Details,Documents,Desc,Confirmation -->
+		<!-- <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps> -->
+		<br>
+		<div class="row">
+			<!-- <h2>{{project.projectName}}</h2> -->
+			<div>
+				<!-- <h4>Upload Documents</h4> -->
+
+				<div class="row container">
+					<div class="col">
+						<label for="inputState">Select OfferStatus</label>
+
+						<p-dropdown [options]="LstOfferStatus" [(ngModel)]="offer.offerStatusId" [style]="{width: '14vw'}" placeholder="Offer Statues"
+							optionLabel="offerStatusName" optionValue="id">
+						</p-dropdown>
+					</div>
+					<div class="col">
+						<label for="inputState">Enter the cost
+						</label>
+
+						<p-inputNumber [showButtons]="true"  [(ngModel)]="costObj.cost" buttonLayout="horizontal"
+							inputId="horizontal" spinnerMode="horizontal" [step]="0.25"
+							decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
+							incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" mode="currency"
+							currency={{value1}}>
+						</p-inputNumber>
+
+					</div>
+					<div class="col">
+						<label for="inputState">Currency</label>
+
+						<p-selectButton [options]="stateOptions" (onChange)="catchCurrency($event)" #curr
+							[(ngModel)]="value1" optionLabel="label" optionValue="value"></p-selectButton>
+
+					</div>
+				</div>
+				<div class="p-col-12">
+					<div class="row">
+						<div class="col">
+							<input type="file" #file placeholder="Choose file" multiple
+								(change)="uploadFile(file.files)" style="display:none;">
+							<button type="button" class="btn btn-success" (click)="file.click()">Upload
+								File</button>
+						</div>
+						<div class="col">
+							<button class="btn btn-info" style="float: right;" (click)="Savedoctolist()">Save To
+								List</button>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="container-fluid uploadFile">
+
+
+					<div class="input-group">
+
+						<div class="custom-file">
+							<input type="button" class="custom-file-input" (click)="file.click()"
+								(change)="uploadFile(file.files)">
+							<label class="custom-file-label" for="inputGroupFile02"
+								aria-describedby="inputGroupFileAddon02"><span
+									style="color: rgb(102, 97, 23);">{{SelectionFileName}}</span></label>
+						</div>
+					</div>
+
+				</div> -->
+
+				<div style="margin-left: 10px;width: 100px;" [contentStyle]="{maxWidth:'500px'}">
+					<br>
+					<table class="table container-fluid col-12" style="width: 100px">
+						<thead>
+							<tr>
+								<th>Category Name</th>
+								<th>File Name</th>
+								<th>Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<tr *ngFor="let i of lstoddocproj">
+								<td>{{i.documentsCategoryName}}</td>
+								<td>
+									<div class="row">
+										<div class="col">
+											{{i.documentFile}}
+										</div>
+
+									</div>
+								</td>
+								<td>
+									<div class="col"><button class="btn btn-danger"
+											(click)="deleteDocFromList(i)">Delete</button></div>
+								</td>
+
+							</tr>
+
+							<tr *ngIf="lstoddocproj.length == 0">
+								<td colspan="4" style="color: rgb(102, 97, 23);">No Documents found.</td>
+							</tr>
+
+						</tbody>
+
+					</table>
+				</div>
+
+				<div class="input-group container-fluid uploadFile">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Description</span>
+					</div>
+					<textarea class="form-control" aria-label="With textarea"></textarea>
+				</div>
+			</div>
+		</div>
+		<ng-template pTemplate="footer">
+			<!-- <p-button type="button" icon="pi pi-check" label="" (click)="SaveOffer()" styleClass="p-button-text">
+				<span>Next</span>
+			</p-button> -->
+
+			<p-button type="submit" (click)="SaveOffer()" icon="pi pi-check" label="" styleClass="p-button-text">
+				<span>Save</span>
+			</p-button>
+			<p-button icon="pi pi-times" (click)="MakeOfferFlag=false" label="" class="p-button-secondary">NO
+			</p-button>
+		</ng-template>
+
+	</p-dialog>
+</div>

@@ -1,0 +1,106 @@
+<div class="card container">
+
+    <p-tabView styleClass="tabview-custom">
+
+        <p-tabPanel>
+            <ng-template pTemplate="header">
+                <i class="pi pi-fw pi-home"></i>
+                <span style="margin-left: 10px;">Project</span>
+            </ng-template>
+            <div class="row">
+                <div class="p-field col-md-3">
+                    <label for="Project Name" class="labelMarginRight">Project Name</label><br>
+                    <!--  [(ngModel)]="product.name" -->
+                    <input type="text" [(ngModel)]="projectObj.projectName" pInputText id="name" required autofocus />
+                    <small class="p-invalid"></small>
+                </div>
+                <div class="p-field col-md-3">
+                    <label for="Company Name" class="labelMarginRight">Company Name</label><br>
+                    <!--  [(ngModel)]="product.name" -->
+                    <input type="text" [(ngModel)]="projectObj.companyName" pInputText id="name" required autofocus />
+                    <small class="p-invalid"></small>
+                </div>
+                <div class="p-field col-md-3">
+                    <label for="ContractorContact Name" class="labelMarginRight">ContractorContact Name</label><br>
+                    <!--  [(ngModel)]="product.name" -->
+                    <input type="text" [(ngModel)]="projectObj.contractorContactName" pInputText
+                        id="contractorContactName" required autofocus />
+                    <small class="p-invalid"></small>
+                </div>
+                <div class="p-field col-md-3">
+                    <label for="Project rank" class="labelMarginRight">Project rank</label><br>
+                    <input type="text" [(ngModel)]="projectObj.rank" pInputText id="Code" required autofocus />
+                    <small class="p-invalid"></small>
+                </div>
+                <div class="p-field col-md-3">
+                    <label for="projectComponentsName" class="labelMarginRight">Project Components Name</label><br>
+                    <p-dropdown [options]="lstProjComponent" [(ngModel)]="projectObj.projectComponentsId"
+                        placeholder="Select Project Component Name" optionLabel="projectComponentName" optionValue="id">
+                    </p-dropdown>
+                </div>
+                <div class="p-field col-md-3">
+                    <label for="contractors" class="labelMarginRight"> Contractors Name</label><br>
+                    <p-dropdown [options]="lstContractors" [(ngModel)]="projectObj.contractorsId"
+                        placeholder="Select Contractors Name" optionLabel="contractorName" optionValue="id">
+                    </p-dropdown>
+                </div>
+                <div class="p-field col-md-3">
+                    <label for="Status Name" class="labelMarginRight">Status Name</label><br>
+                    <p-dropdown [options]="lstProjStatus" [readonly]="true" [(ngModel)]="projectObj.projectStatusId"
+                        placeholder="Select Status Name" optionLabel="projectStatusName" optionValue="id">
+                    </p-dropdown>
+                </div>
+                <div class="p-field col-md-3">
+                    <label for="EndUser Name" class="labelMarginRight">EndUser Name</label><br>
+                    <p-dropdown [options]="lstEndUsers" [(ngModel)]="projectObj.endUsersId"
+                        placeholder="Select EndUser Name" optionLabel="contactName" optionValue="id">
+                    </p-dropdown>
+                </div>
+                <div class="p-field col-md-3">
+                    <label for="Governorate Name" class="labelMarginRight">Governorate Name</label><br>
+                    <p-dropdown [options]="lstGovn" [(ngModel)]="projectObj.governorateId"
+                        placeholder="Select Governorate Name" optionLabel="governorateName" optionValue="id">
+                    </p-dropdown>
+                </div>
+                <div class="p-field col-md-3">
+                    <label for="projectCreationDate" class="labelMarginRight">ProjectCreationDate</label><br>
+                    <p-calendar [(ngModel)]="projectObj.projectCreationDate" readonlyInput="true" dateFormat="dd.mm.yy"></p-calendar>
+                    <small class="p-invalid"></small>
+                </div>
+                <!-- <div class="p-field col-md-3">
+                    <label for="ContractorName" class="labelMarginRight">contractorName</label><br>
+                    <input type="number" [(ngModel)]="projectObj.contractorName" pInputText id="Cost" required autofocus />
+                    <small class="p-invalid"></small>
+                </div> -->
+            </div><br>
+            <div class="row" aria-readonly="true">
+
+            </div> <br>
+            <div class="row" style="float: right;margin-right: 50px;margin-bottom: 20px;">
+                <button pButton type="button" (click)="AddProject()" icon="pi pi-check" label="Submit"
+                    class="p-button-raised "></button>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+
+</div>
+<!-- <p-dialog [(visible)]="showTheFirstStepDialog" [style]="{width: '50vw'}"> -->
+  
+    <!-- <div [hidden]="!showTheFirstStepDialog">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <div class="icon-box">
+                        <i class="material-icons">&#xE876;</i>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body text-center">
+                    <h4>Great!</h4>	
+                    <p>Your account has been created successfully.</p>
+                    <button class="btn btn-success" data-dismiss="modal"><span>Start Exploring</span> <i class="material-icons">&#xE5C8;</i></button>
+                </div>
+            </div>
+        </div>
+    </div>    -->
+<!-- </p-dialog> -->
