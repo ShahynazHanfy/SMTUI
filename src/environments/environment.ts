@@ -29,7 +29,8 @@ export const environment = {
   Datasheet:'http://localhost:57910/api/DataSheets/',
   GetDocument:'http://localhost:57910/api/DataSheets/GetDocument/',
   projectCost:'http://localhost:57910/api/ProjectCosts/',
-  Offer:'http://localhost:57910/api/Offers/'
+  Offer:'http://localhost:57910/api/Offers/',
+  Employees:'http://localhost:57910/api/Employees/'
 
 
 };

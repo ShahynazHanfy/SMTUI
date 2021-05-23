@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { data } from 'jquery';
 import { environment } from '../../../../../src/environments/environment';
 import { ForgotPassword } from '../../Models/ForgotPassword';
 import { ResetPasswordDTO } from '../../Models/ResetPasswordDTO';
@@ -31,13 +32,11 @@ export class AuthenticateService {
   public resetPassword = (route: string, body: ResetPasswordDTO) => {
     return this.httpClient.post(this.createCompleteRoute(route, environment.urlAddress), body);
   }
-
-
-
   login(email:string,password:string){
     this.email=email;
     this.password=password
     let Data = { email, password }
+    console.log("data",Data)
     return this.httpClient.post(`${environment.Domain}api/authenticate/login`, Data, this.httpHeader)
   }
   logout()

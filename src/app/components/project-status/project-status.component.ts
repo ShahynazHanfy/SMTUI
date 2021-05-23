@@ -1,41 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { EndUsers } from '../../../../../src/app/Shared/Models/EndUsers';
-import { EndUsersService } from '../../../../../src/app/Shared/Services/EndUsers/end-users.service';
+import { ProjectStatus } from '../../../../src/app/Shared/Models/ProjectStatus';
+import { ProjectStatusService } from '../../../../src/app/Shared/Services/ProjectStatus/project-status.service';
 @Component({
-  selector: 'app-end-users',
-  templateUrl: './end-users.component.html',
-  styleUrls: ['./end-users.component.css']
+  selector: 'app-project-status',
+  templateUrl: './project-status.component.html',
+  styleUrls: ['./project-status.component.css']
 })
-export class EndUsersComponent implements OnInit {
-  lstEndUsers: EndUsers[];
-  EndUsersObj:EndUsers;
+export class ProjectStatusComponent implements OnInit {
+  lstProjectStatus: ProjectStatus[];
+  ProjectStatusObj:ProjectStatus;
   Editboolean: boolean;
   displayBasic: boolean;
   NewDialogbool: boolean;
-  constructor(private EndUsersService:EndUsersService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
+  constructor(private projectStatusService:ProjectStatusService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.EndUsersObj={id:0,contactName:'',companyName:'',email:'',phone:'',relevantPhone:''}
-    this.EndUsersService.GetAllEndUsers().subscribe(
-      res=>{this.lstEndUsers=res},
+    this.ProjectStatusObj={id:0,projectStatusName:''}
+    this.projectStatusService.GetAllProjectStatus().subscribe(
+      res=>{this.lstProjectStatus=res},
       err=>console.log(err)
     )
   }
   showBasicDialog(id) {
     this.displayBasic = true;
-    this.EndUsersService.GetEndUserById(id).subscribe(
-      data => { this.EndUsersObj = data ,console.log("EndUsersObj",this.EndUsersObj)},
+    this.projectStatusService.GetProjectStatusById(id).subscribe(
+      data => { this.ProjectStatusObj = data },
       error => { console.log(error) }
     );
   }
   NewDialog() {
     this.NewDialogbool = true;
-    this.EndUsersObj={id:0,contactName:'',companyName:'',email:'',phone:'',relevantPhone:''}
+    this.ProjectStatusObj={id:0,projectStatusName:""}
   }
   add() {
-    this.EndUsersService.insertEndUser(this.EndUsersObj).subscribe(
+    this.projectStatusService.insertProjectStatus(this.ProjectStatusObj).subscribe(
       res => {
         this.NewDialogbool = false;
         this.ngOnInit(),
@@ -46,14 +46,14 @@ export class EndUsersComponent implements OnInit {
   }
   EditDialog(id) {
     this.Editboolean = true;
-    this.EndUsersService.GetEndUserById(id).subscribe(
-      data => { this.EndUsersObj = data},
+    this.projectStatusService.GetProjectStatusById(id).subscribe(
+      data => { this.ProjectStatusObj = data},
       error => { console.log(error) }
     )
   }
   update(id) {
     console.log("id",id)
-    this.EndUsersService.updateEndUser(id,this.EndUsersObj).subscribe(
+    this.projectStatusService.updateProjectStatus(id,this.ProjectStatusObj).subscribe(
       data => { this.ngOnInit()
         this.messageService.add({ severity: 'info', summary: 'Record Updated!', detail: 'Record Updated!' });
       },
@@ -65,7 +65,7 @@ export class EndUsersComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
-        this.EndUsersService.deleteEndUser(id).subscribe(
+        this.projectStatusService.deleteProjectStatus(id).subscribe(
           data => {
             this.ngOnInit(),
               this.messageService.add({ severity: 'info', summary: 'Record Deleted!', detail: 'Record Deleted!' });
@@ -132,4 +132,3 @@ export class EndUsersComponent implements OnInit {
     this.messageService.clear();
   }
 }
-

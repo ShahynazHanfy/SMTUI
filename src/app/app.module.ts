@@ -7,7 +7,7 @@ import { SidebarModule } from './sidebar/sidebar.module';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule} from './shared/navbar/navbar.module';
 import { FixedPluginModule} from './shared/fixedplugin/fixedplugin.module';
-
+// import { ProjectStatusComponent } from "../app/components/project-status/project-status.component";
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
 import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api';
@@ -45,7 +45,8 @@ import { RatingModule } from "primeng/rating";
 @NgModule({
   declarations: [
     AppComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+    // ProjectStatusComponent
   ],
   imports: [
     BrowserModule,

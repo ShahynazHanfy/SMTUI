@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { ProjectRouting } from './project-routing';
 import { ProjectComponent } from './project/project.component';
 import { AddProjectComponent } from './add-project/add-project.component';
-import { ProjectComponentComponent } from './project-component/project-component.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -36,10 +35,6 @@ import { HttpClientModule } from '@angular/common/http';
 // import { MatFormFieldModule } from '@angular/material/form-field';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
-import { ProjectStatusComponent } from './project-status/project-status.component';
-import { GovernoratesComponent } from './governorates/governorates.component';
-import { ContractorsComponent } from './contractors/contractors.component';
-import { EndUsersComponent } from './end-users/end-users.component';
 // import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import {StepsModule} from 'primeng/steps';
 // import { BrowserModule } from '@angular/platform-browser'
@@ -92,11 +87,7 @@ import {StepsModule} from 'primeng/steps';
   declarations: [
     ProjectComponent,
     AddProjectComponent,
-    ProjectComponentComponent,
-    ProjectStatusComponent,
-    GovernoratesComponent,
-    ContractorsComponent,
-    EndUsersComponent
+
   ],
     
   providers: [ConfirmationService,

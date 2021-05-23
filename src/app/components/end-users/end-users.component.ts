@@ -1,41 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Governorates } from '../../../../../src/app/Shared/Models/Governorates';
-import { GovernoratesService } from '../../../../../src/app/Shared/Services/Governorates/governorates.service';
+import { EndUsers } from '../../../../src/app/Shared/Models/EndUsers';
+import { EndUsersService } from '../../../../src/app/Shared/Services/EndUsers/end-users.service';
 @Component({
-  selector: 'app-governorates',
-  templateUrl: './governorates.component.html',
-  styleUrls: ['./governorates.component.css']
+  selector: 'app-end-users',
+  templateUrl: './end-users.component.html',
+  styleUrls: ['./end-users.component.css']
 })
-export class GovernoratesComponent implements OnInit {
-  lstGovernorates: Governorates[];
-  GovernoratesObj:Governorates;
+export class EndUsersComponent implements OnInit {
+  lstEndUsers: EndUsers[];
+  EndUsersObj:EndUsers;
   Editboolean: boolean;
   displayBasic: boolean;
   NewDialogbool: boolean;
-  constructor(private GovernoratesService:GovernoratesService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
+  constructor(private EndUsersService:EndUsersService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.GovernoratesObj={id:0,governorateName:''}
-    this.GovernoratesService.GetAllGovernorates().subscribe(
-      res=>{this.lstGovernorates=res},
+    this.EndUsersObj={id:0,contactName:'',companyName:'',email:'',phone:'',relevantPhone:''}
+    this.EndUsersService.GetAllEndUsers().subscribe(
+      res=>{this.lstEndUsers=res},
       err=>console.log(err)
     )
   }
   showBasicDialog(id) {
     this.displayBasic = true;
-    this.GovernoratesService.GetGovernorateById(id).subscribe(
-      data => { this.GovernoratesObj = data },
+    this.EndUsersService.GetEndUserById(id).subscribe(
+      data => { this.EndUsersObj = data ,console.log("EndUsersObj",this.EndUsersObj)},
       error => { console.log(error) }
     );
   }
   NewDialog() {
     this.NewDialogbool = true;
-    this.GovernoratesObj={id:0,governorateName:""}
+    this.EndUsersObj={id:0,contactName:'',companyName:'',email:'',phone:'',relevantPhone:''}
   }
   add() {
-    this.GovernoratesService.insertGovernorate(this.GovernoratesObj).subscribe(
+    this.EndUsersService.insertEndUser(this.EndUsersObj).subscribe(
       res => {
         this.NewDialogbool = false;
         this.ngOnInit(),
@@ -46,14 +46,14 @@ export class GovernoratesComponent implements OnInit {
   }
   EditDialog(id) {
     this.Editboolean = true;
-    this.GovernoratesService.GetGovernorateById(id).subscribe(
-      data => { this.GovernoratesObj = data},
+    this.EndUsersService.GetEndUserById(id).subscribe(
+      data => { this.EndUsersObj = data},
       error => { console.log(error) }
     )
   }
   update(id) {
     console.log("id",id)
-    this.GovernoratesService.updateGovernorate(id,this.GovernoratesObj).subscribe(
+    this.EndUsersService.updateEndUser(id,this.EndUsersObj).subscribe(
       data => { this.ngOnInit()
         this.messageService.add({ severity: 'info', summary: 'Record Updated!', detail: 'Record Updated!' });
       },
@@ -65,7 +65,7 @@ export class GovernoratesComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
-        this.GovernoratesService.deleteGovernorate(id).subscribe(
+        this.EndUsersService.deleteEndUser(id).subscribe(
           data => {
             this.ngOnInit(),
               this.messageService.add({ severity: 'info', summary: 'Record Deleted!', detail: 'Record Deleted!' });
@@ -132,3 +132,4 @@ export class GovernoratesComponent implements OnInit {
     this.messageService.clear();
   }
 }
+

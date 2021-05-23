@@ -17,7 +17,21 @@ import { ProjectComponent } from "../project/project/project.component";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { RatingModule } from 'primeng/rating';
-
+import { AllUsersComponent } from "../../components/all-users/all-users.component";
+import { ProjectComponentComponent } from "../../components/project-component/project-component.component";
+import { ProjectStatusComponent } from "../../components/project-status/project-status.component";
+import { GovernoratesComponent } from "../../components/governorates/governorates.component";
+import { ContractorsComponent } from "../../components/contractors/contractors.component";
+import { EndUsersComponent } from "../../components/end-users/end-users.component";
+import { ReactiveFormsModule} from '@angular/forms'
+import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
+import { SliderModule } from 'primeng/slider';
+import { DialogModule } from 'primeng/dialog';
+import { AccordionModule } from 'primeng/accordion';
+import { ButtonModule } from 'primeng/button';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 @NgModule({
   imports: [
     // CommonModule,
@@ -26,7 +40,14 @@ import { RatingModule } from 'primeng/rating';
     NgbModule,
     CommonModule,
     RatingModule,
-
+    ReactiveFormsModule,
+    TableModule,
+    ToastModule,
+    SliderModule,
+    AccordionModule,
+    DialogModule,
+    ButtonModule,
+    ConfirmDialogModule
   ],
   declarations: [
     DashboardComponent,
@@ -37,8 +58,14 @@ import { RatingModule } from 'primeng/rating';
     IconsComponent,
     MapsComponent,
     NotificationsComponent,
-    
-  ]
+    AllUsersComponent,
+    ProjectComponentComponent,
+    ProjectStatusComponent,
+    GovernoratesComponent,
+    ContractorsComponent,
+    EndUsersComponent
+  ],
+  providers:[ConfirmationService,MessageService]
 })
 
 export class AdminLayoutModule {}

@@ -23,4 +23,11 @@ export class EmployeeService {
         })};
     return this.httpclient.get<Employee[]>(`${environment.Domain}api/Users/GetAllEmployees`,httpOptions);
   }
+  // GetEmpById(empId:number): Observable<Employee> {
+  //   return this.httpclient.get<Employee>(`${environment.Employees}/`+empId, this.httpHeader)
+  // }
+
+  GetEmpById(EndUsersID: number): Observable<Employee> {
+    return this.httpclient.get<Employee>(`${environment.Employees}`+EndUsersID, this.httpHeader)
+  }
 }

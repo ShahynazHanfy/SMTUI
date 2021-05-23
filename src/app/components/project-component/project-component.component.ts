@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ProjectComponentModel } from '../../../../../src/app/Shared/Models/ProjectComponent';
-import { ProjectComponentService } from '../../../../../src/app/Shared/Services/ProjectComponent/project-component.service';
+import { ProjectComponentModel } from '../../../../src/app/Shared/Models/ProjectComponent';
+import { ProjectComponentService } from '../../../../src/app/Shared/Services/ProjectComponent/project-component.service';
 @Component({
   selector: 'app-project-component',
   templateUrl: './project-component.component.html',

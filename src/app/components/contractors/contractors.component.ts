@@ -1,41 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ProjectStatus } from '../../../../../src/app/Shared/Models/ProjectStatus';
-import { ProjectStatusService } from '../../../../../src/app/Shared/Services/ProjectStatus/project-status.service';
+import { Contractors } from '../../../../src/app/Shared/Models/Contractors';
+import { ContractorsService } from '../../../../src/app/Shared/Services/Contractors/contractors.service';
 @Component({
-  selector: 'app-project-status',
-  templateUrl: './project-status.component.html',
-  styleUrls: ['./project-status.component.css']
+  selector: 'app-contractors',
+  templateUrl: './contractors.component.html',
+  styleUrls: ['./contractors.component.css']
 })
-export class ProjectStatusComponent implements OnInit {
-  lstProjectStatus: ProjectStatus[];
-  ProjectStatusObj:ProjectStatus;
+export class ContractorsComponent implements OnInit {
+  lstContractors: Contractors[];
+  ContractorsObj:Contractors;
   Editboolean: boolean;
   displayBasic: boolean;
   NewDialogbool: boolean;
-  constructor(private projectStatusService:ProjectStatusService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
+  constructor(private ContractorsService:ContractorsService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.ProjectStatusObj={id:0,projectStatusName:''}
-    this.projectStatusService.GetAllProjectStatus().subscribe(
-      res=>{this.lstProjectStatus=res},
+    this.ContractorsObj={id:0,contactName:'',contractorName:'',email:'',phone:'',relevantPhone:''}
+    this.ContractorsService.GetAllContractors().subscribe(
+      res=>{this.lstContractors=res},
       err=>console.log(err)
     )
   }
   showBasicDialog(id) {
     this.displayBasic = true;
-    this.projectStatusService.GetProjectStatusById(id).subscribe(
-      data => { this.ProjectStatusObj = data },
+    this.ContractorsService.GetContractorById(id).subscribe(
+      data => { this.ContractorsObj = data ,console.log("ContractorsObj",this.ContractorsObj)},
       error => { console.log(error) }
     );
   }
   NewDialog() {
     this.NewDialogbool = true;
-    this.ProjectStatusObj={id:0,projectStatusName:""}
+    this.ContractorsObj={id:0,contactName:'',contractorName:'',email:'',phone:'',relevantPhone:''}
   }
   add() {
-    this.projectStatusService.insertProjectStatus(this.ProjectStatusObj).subscribe(
+    this.ContractorsService.insertContractor(this.ContractorsObj).subscribe(
       res => {
         this.NewDialogbool = false;
         this.ngOnInit(),
@@ -46,14 +46,14 @@ export class ProjectStatusComponent implements OnInit {
   }
   EditDialog(id) {
     this.Editboolean = true;
-    this.projectStatusService.GetProjectStatusById(id).subscribe(
-      data => { this.ProjectStatusObj = data},
+    this.ContractorsService.GetContractorById(id).subscribe(
+      data => { this.ContractorsObj = data},
       error => { console.log(error) }
     )
   }
   update(id) {
     console.log("id",id)
-    this.projectStatusService.updateProjectStatus(id,this.ProjectStatusObj).subscribe(
+    this.ContractorsService.updateContractor(id,this.ContractorsObj).subscribe(
       data => { this.ngOnInit()
         this.messageService.add({ severity: 'info', summary: 'Record Updated!', detail: 'Record Updated!' });
       },
@@ -65,7 +65,7 @@ export class ProjectStatusComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
-        this.projectStatusService.deleteProjectStatus(id).subscribe(
+        this.ContractorsService.deleteContractor(id).subscribe(
           data => {
             this.ngOnInit(),
               this.messageService.add({ severity: 'info', summary: 'Record Deleted!', detail: 'Record Deleted!' });
@@ -132,3 +132,4 @@ export class ProjectStatusComponent implements OnInit {
     this.messageService.clear();
   }
 }
+
