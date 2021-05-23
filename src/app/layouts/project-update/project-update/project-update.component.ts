@@ -35,6 +35,8 @@ export class ProjectUpdateComponent implements OnInit {
   items: MenuItem[];
   ProjectUpdateDescription: ProjectDescription
   LstProjectUpdateDescription: ProjectDescription[]
+  LstProjectUpdateDescriptionByUpdateId: ProjectDescription[]
+
   projectUpdate: ProjectUpdate
   NewLeaveDialogbool: boolean
   docproject: ProjectDocuments
@@ -52,8 +54,11 @@ export class ProjectUpdateComponent implements OnInit {
   lstOfCurrency: string[]
   documentObj: ProjectDocuments
   ViewDocsFlag: boolean = false
+  ViewLatestDocsFlag: boolean = false
+  ViewDocsUpadteFlag: boolean = false
   MakeOfferFlag: boolean = false
   lstProjDocuments: ProjectDocuments[]
+  lstOfLatestProjDocuments: ProjectDocuments[]
   offer: Offer
   costObj: ProjectCost
   stateOptions: any[];
@@ -92,7 +97,9 @@ export class ProjectUpdateComponent implements OnInit {
     this.lstDocumentCategory = []
     this.lstoddocprojOff = []
     this.lstProjDocuments = []
+    this.lstOfLatestProjDocuments=[]
     this.LstProjectUpdateDescription = []
+    this.LstProjectUpdateDescriptionByUpdateId=[]
     this.result = []
     this.lstOfferDataSheet = []
     this.LstOfferStatus = []
@@ -105,7 +112,7 @@ export class ProjectUpdateComponent implements OnInit {
     //   { icon: 'pi pi-dollar', justify: 'Left' },
     //   { icon: 'pi pi-euro', justify: 'Right' },
     // ];
-    this.project = {
+    this.project = {lstprojectSystems:[],
       companyName: '', contractorContactName: '', contractorName: '', endUserContactName: '', endUsersId: 0,
       contractorsId: 0, governorateName: '', projectComponentName: '', projectCreationDate: new Date, projectName: '',
       projectStatusName: '', rank: 0, governorateId: 0, id: 0, projectComponentsId: 0, projectStatusId: 0
@@ -126,6 +133,7 @@ export class ProjectUpdateComponent implements OnInit {
     this.projectService.GetProjectById(this.projectId).subscribe(e => {
       this.project = e
     })
+
     this.projectUpdate = {
       DueDate: new Date, id: 0, ProjectId: this.projectId, ProjectName: this.project.projectName
     }
@@ -181,6 +189,8 @@ export class ProjectUpdateComponent implements OnInit {
 
       this.projectDescriptionService.GetDescriptionsByProjectId(this.projectId).subscribe(e => {
         this.LstProjectUpdateDescription = e
+        this.LstProjectUpdateDescription.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
+
         console.log("LstProjectUpdateDescription", e)
       })
       this.docproject = {
@@ -321,6 +331,15 @@ export class ProjectUpdateComponent implements OnInit {
     this.messageService.add({ severity: 'warn', key: "tc", summary: 'Removed', detail: 'Removed Successfully' });
 
   }
+  ViewDescrption(projectUpdateId)
+  {
+    this.ViewDocsUpadteFlag=true;
+    this.projectDescriptionService.GetDescriptionsByProjectUpdateId(projectUpdateId).subscribe(e => {
+      this.LstProjectUpdateDescriptionByUpdateId = e
+      this.LstProjectUpdateDescription.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
+      console.log("LstProjectUpdateDescriptionByUpdateId", e)
+    })
+  }
   ViewDocs(docObj) {
     this.ViewDocsFlag = true
     this.documentObj = docObj
@@ -331,6 +350,16 @@ export class ProjectUpdateComponent implements OnInit {
       console.log("lstProjDocuments", this.lstProjDocuments)
     })
   }
+  ViewLatestDocs(projectId) {
+    this.ViewLatestDocsFlag = true
+    //this.documentObj = docObj
+    this.projectdocumentService.GetLatestDocuments(this.projectId).subscribe(e => {
+      this.lstOfLatestProjDocuments = e
+      console.log("lstOfLatestProjDocuments", this.lstOfLatestProjDocuments)
+    })
+  }
+
+  
   handleFileInput(files: FileList) {
     var fil = document.getElementById("myFile");
   }

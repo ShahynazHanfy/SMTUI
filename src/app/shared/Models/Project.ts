@@ -15,5 +15,6 @@ export class Project {
     projectComponentName:string
     governorateId:number
     governorateName:string
+    lstprojectSystems:[]
 
 }
