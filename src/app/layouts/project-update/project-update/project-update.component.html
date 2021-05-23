@@ -1,17 +1,16 @@
 <div class="container-fluid cont">
 	<h3 style="color: red;">Project Updates</h3>
-
+<!-- 
 	<h1 class="headerw">{{project.projectName}}</h1>
 	<button class="btn btn-warning AddButton" (click)="addNewUpdate()">Add Update</button>
-	<a href="E:/PharmacyDictionary.docx">Show Latest Docs</a>
+	<a href="E:/PharmacyDictionary.docx">Show Latest Docs</a> -->
 
-	<div *ngFor="let i of LstProjectUpdateDescription">
+	<!-- <div *ngFor="let i of LstProjectUpdateDescription">
 		<mat-card class="example-card">
 			<mat-card-header>
 				<mat-card-title>{{i.descriptionDate | slice:0:16}}</mat-card-title>
 				<span>{{i.userName}}</span>
 				<mat-card-subtitle>
-					<!-- One stop solution -->
 					<br>
 				</mat-card-subtitle>
 			</mat-card-header>
@@ -32,7 +31,7 @@
 				</button>
 			</mat-card-actions>
 		</mat-card>
-	</div>
+	</div> -->
 	<p-dialog header=" Add Update " [(visible)]="NewLeaveDialogbool" [style]="{width: '38vw'}" [baseZIndex]="10000">
 		<p-toast position="top-left" key="tl"></p-toast>
 		<p-toast position="top-center" key="tc"></p-toast>
@@ -232,15 +231,16 @@
 					<div class="col">
 						<label for="inputState">Select OfferStatus</label>
 
-						<p-dropdown [options]="LstOfferStatus" [(ngModel)]="offer.offerStatusId" [style]="{width: '14vw'}" placeholder="Offer Statues"
-							optionLabel="offerStatusName" optionValue="id">
+						<p-dropdown [options]="LstOfferStatus" [(ngModel)]="offer.offerStatusId"
+							[style]="{width: '14vw'}" placeholder="Offer Statues" optionLabel="offerStatusName"
+							optionValue="id">
 						</p-dropdown>
 					</div>
 					<div class="col">
 						<label for="inputState">Enter the cost
 						</label>
 
-						<p-inputNumber [showButtons]="true"  [(ngModel)]="costObj.cost" buttonLayout="horizontal"
+						<p-inputNumber [showButtons]="true" [(ngModel)]="costObj.cost" buttonLayout="horizontal"
 							inputId="horizontal" spinnerMode="horizontal" [step]="0.25"
 							decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
 							incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" mode="currency"
@@ -345,4 +345,87 @@
 		</ng-template>
 
 	</p-dialog>
+</div>
+
+<br>
+<br>
+
+<div class="card">
+	<p-table #dt2 [value]="LstProjectUpdateDescription" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+		[rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-customers container-fluid"
+		[paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+		[globalFilterFields]="['ProjectName','Date Created','Rank','status']">
+		<ng-template pTemplate="caption">
+			<div class="p-d-flex">
+				<span class="p-input-icon-left p-ml-auto">
+					<i class="pi pi-search"></i>
+					<input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
+						placeholder="Search keyword" />
+
+					<button class="btn btn-info" style="margin-left: 20px;" (click)="showTheFirstStepDialog=true">Add
+						New Update
+					</button>
+					<button class="btn btn-info" style="margin-left: 20px;" (click)="showTheFirstStepDialog=true">
+						Show Latest Documents
+					</button>
+				</span>
+			</div>
+		</ng-template>
+		<ng-template pTemplate="header">
+			<tr>
+				<th>User Name
+					<p-columnFilter type="text" field="userName" display="menu"></p-columnFilter>
+				</th>
+				<th>Date
+					<p-columnFilter type="date" field="descriptionDate" display="menu"></p-columnFilter>
+				</th>
+				<th></th>
+				<th></th>
+				<th></th>
+			</tr>
+			<!-- <tr>
+				<th>Name
+					<p-columnFilter type="text" field="userName" display="menu"></p-columnFilter>
+				</th>
+				<th>
+					<div class="p-d-flex p-jc-between p-ai-center">
+						Date
+						<p-columnFilter type="date" field="descriptionDate" display="menu"></p-columnFilter>
+					</div>
+				</th>
+
+
+			</tr> -->
+		</ng-template>
+		<ng-template pTemplate="body" let-customer>
+
+			<tr>
+
+				<td>
+					<span style="font-weight: bold;">{{customer.userName}}</span>
+				</td>
+				<td>{{customer.descriptionDate | date: 'short'}}</td>
+				<td>
+					<button class="btn btn-warning"  (click)="showTheFirstStepDialog=true">
+						Show Description
+					</button>
+				</td>
+				<td>
+					<button class="btn btn-warning"  (click)="showTheFirstStepDialog=true">
+						Show Documents
+					</button>
+				</td>
+				<td>
+					<button class="btn btn-warning"  (click)="showTheFirstStepDialog=true">
+						Make Offer
+					</button>
+				</td>
+			</tr>
+		</ng-template>
+		<ng-template pTemplate="emptymessage">
+			<tr>
+				<td colspan="5">No customers found.</td>
+			</tr>
+		</ng-template>
+	</p-table>
 </div>
