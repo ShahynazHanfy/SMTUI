@@ -65,6 +65,7 @@ export class ProjectComponent implements OnInit {
   lstDocumentCategory: DocumentCategory[]
   selectedColumns: ProjectComponent[];
   projectSystem: ProjectSystem
+  displayBasic: boolean;
 
   constructor(private route: Router, private projStatusService: ProjectStatusService,
     private projectComponentService: ProjectComponentService,
@@ -116,7 +117,7 @@ export class ProjectComponent implements OnInit {
       id: 0, projectName: '', description: '', userName: this.userName,
       descriptionDate: new Date, projectId: 0, projectUpdateId: 0, userId: this.userId
     }
-    this.projectObj = {
+    this.projectObj = {lstprojectSystems:[],
       companyName: '', contractorName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
       contractorContactName: '', projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date,
       governorateId: 0, projectName: '', projectStatusId: 1, rank: 0, governorateName: '', id: 0, projectStatusName: 'New'
@@ -127,7 +128,7 @@ export class ProjectComponent implements OnInit {
     this.docproject = {
       projectUpdateId: 0, documentsCategoryId: 0, documentFile: '', id: 0, projectId: 0, documentsCategoryName: ''
     }
-    this.project = {
+    this.project = {lstprojectSystems:[],
       id: 0, projectStatusName: '', companyName: '', contractorName: '', contractorContactName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
       projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date, projectName: '', projectStatusId: 0, rank: 0, governorateId: 0, governorateName: ''
     }
@@ -159,6 +160,13 @@ export class ProjectComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
+  }
+  showBasicDialog(id) {
+    this.displayBasic = true;
+    this.projectService.GetProjectById(id).subscribe(
+      data => { this.projectObj = data ,console.log("projectObj",this.projectObj)},
+      error => { console.log(error) }
+    );
   }
   goToProjCom() {
     this.route.navigate(['/projectComponent']);

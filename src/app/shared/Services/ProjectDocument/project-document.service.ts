@@ -44,6 +44,9 @@ export class ProjectDocumentService {
   GetAllDocumentsByProjectUpdateID(ProjectUpdateID:Number): Observable <ProjectDocuments[]>{
     return this.httpClient.get<ProjectDocuments[]> (`${environment.GetAllUpdatesByProjectUpdateId}${ProjectUpdateID}`,this.httpHeader) ;
   }
+  GetLatestDocuments(projectId:Number): Observable <ProjectDocuments[]>{
+    return this.httpClient.get<ProjectDocuments[]> (`${environment.GetLatestDocuments}${projectId}`,this.httpHeader) ;
+  }
   // updatedocumentbyprojectid(documents:ProjectDocuments[]):Observable<ProjectDocuments[]>{
   //   return this.httpClient.put<ProjectDocuments[]>(`${environment.updatedocumectsbyprojectid}`,documents,this.httpHeader);
   // }

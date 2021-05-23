@@ -1,4 +1,4 @@
-<div class="container-fluid cont">
+<div class="container">
 	<h3 style="color: red;">Project Updates</h3>
 <!-- 
 	<h1 class="headerw">{{project.projectName}}</h1>
@@ -71,7 +71,7 @@
 						</div>
 					</div>
 
-					<div style="margin-left: 10px;width: 100px;" [contentStyle]="{maxWidth:'500px'}">
+					<div style="margin-left: 10px;width: 100px;" >
 						<br>
 						<table class="table container-fluid col-12" style="width: 100px">
 							<thead>
@@ -136,7 +136,53 @@
 		</ng-template>
 
 	</p-dialog>
+	<p-dialog header=" View Description " [(visible)]="ViewDocsUpadteFlag" [style]="{width: '60vw'}" [baseZIndex]="10000">
+		<p-toast position="top-left" key="tl"></p-toast>
+		<p-toast position="top-center" key="tc"></p-toast>
+		<p-toast position="bottom-center" key="bc"></p-toast>
+		<div class="row">
+				<div class="row container">
 
+					<div style="margin-left: 10px;">
+						<br>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>User Name</th>
+									<th>Date</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								<tr *ngFor="let i of LstProjectUpdateDescriptionByUpdateId">
+									<td>
+										{{i.userName}}
+									</td>
+									<td>
+										{{i.descriptionDate | date: 'short'}}
+									</td>
+									<td>
+										{{i.description}}
+									</td>
+								</tr>
+								<tr *ngIf="LstProjectUpdateDescriptionByUpdateId.length == 0">
+									<td colspan="4" style="color: rgb(102, 97, 23);">No Documents found.</td>
+								</tr>
+							</tbody>
+
+						</table>
+					</div>
+				</div>
+		</div>
+		<!-- </div> -->
+		<br>
+		<ng-template pTemplate="footer">
+			<p-button icon="pi pi-times" (click)="ViewDocsUpadteFlag=false" label="" class="p-button-secondary">Exit
+			</p-button>
+		</ng-template>
+
+	</p-dialog>
 
 	<p-dialog header=" View All Documents " [(visible)]="ViewDocsFlag" [style]="{width: '45vw'}" [baseZIndex]="10000">
 		<p-toast position="top-left" key="tl"></p-toast>
@@ -163,6 +209,7 @@
 							<thead>
 								<tr>
 									<th>File Name</th>
+									<th>Category Name</th>
 									<th><i>View</i></th>
 									<th><i>Delete</i></th>
 
@@ -173,6 +220,9 @@
 								<tr *ngFor="let i of lstProjDocuments">
 									<td>
 										{{i.documentFile}}
+									</td>
+									<td>
+										{{i.documentsCategoryName}}
 									</td>
 									<td>
 										<div class="col"><button class="btn btn-primary"
@@ -204,6 +254,58 @@
 				<span>Save</span>
 			</p-button>
 			<p-button icon="pi pi-times" (click)="ViewDocsFlag=false" label="" class="p-button-secondary">NO
+			</p-button>
+		</ng-template>
+
+	</p-dialog>
+
+	<p-dialog header=" View Latest Documents " [(visible)]="ViewLatestDocsFlag" [style]="{width: '45vw'}" [baseZIndex]="10000">
+		<p-toast position="top-left" key="tl"></p-toast>
+		<p-toast position="top-center" key="tc"></p-toast>
+		<p-toast position="bottom-center" key="bc"></p-toast>
+		<br>
+		<div class="row">
+			<div style="margin-top: 30px;">
+				<div class="row container">
+					<div style="margin-left: 10px;">
+						<br>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>File Name</th>
+									<th>Category Name</th>
+									<th><i>View</i></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let i of lstOfLatestProjDocuments">
+									<td>
+										{{i.documentFile}}
+									</td>
+									<td>
+										{{i.documentsCategoryName}}
+									</td>
+									<td>
+										<div class="col"><button class="btn btn-primary"
+												(click)="viewSingleDoc(i)">View</button></div>
+									</td>
+								</tr>
+
+								<tr *ngIf="lstOfLatestProjDocuments.length == 0">
+									<td colspan="4" style="color: rgb(102, 97, 23);">No Documents found.</td>
+								</tr>
+
+							</tbody>
+
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<ng-template pTemplate="footer">
+
+			<p-button icon="pi pi-times" (click)="ViewLatestDocsFlag=false" label="" class="p-button-secondary">Exit
 			</p-button>
 		</ng-template>
 
@@ -286,7 +388,7 @@
 
 				</div> -->
 
-				<div style="margin-left: 10px;width: 100px;" [contentStyle]="{maxWidth:'500px'}">
+				<div style="margin-left: 10px;width: 100px;" >
 					<br>
 					<table class="table container-fluid col-12" style="width: 100px">
 						<thead>
@@ -347,14 +449,11 @@
 	</p-dialog>
 </div>
 
-<br>
-<br>
-
 <div class="card">
-	<p-table #dt2 [value]="LstProjectUpdateDescription" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
-		[rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-customers container-fluid"
+	<p-table #dt2 [value]="LstProjectUpdateDescription" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
+		[rowsPerPageOptions]="[5,10,50]"  styleClass="p-datatable-customers container-fluid"
 		[paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-		[globalFilterFields]="['ProjectName','Date Created','Rank','status']">
+		[globalFilterFields]="['userName','descriptionDate']">
 		<ng-template pTemplate="caption">
 			<div class="p-d-flex">
 				<span class="p-input-icon-left p-ml-auto">
@@ -362,10 +461,10 @@
 					<input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
 						placeholder="Search keyword" />
 
-					<button class="btn btn-info" style="margin-left: 20px;" (click)="showTheFirstStepDialog=true">Add
+					<button class="btn btn-info" style="margin-left: 20px;" (click)="addNewUpdate()">Add
 						New Update
 					</button>
-					<button class="btn btn-info" style="margin-left: 20px;" (click)="showTheFirstStepDialog=true">
+					<button class="btn btn-info" style="margin-left: 20px;" (click)="ViewLatestDocs(documentObj.projectId)">
 						Show Latest Documents
 					</button>
 				</span>
@@ -379,9 +478,9 @@
 				<th>Date
 					<p-columnFilter type="date" field="descriptionDate" display="menu"></p-columnFilter>
 				</th>
-				<th></th>
-				<th></th>
-				<th></th>
+				<th>Show Description</th>
+				<th>Show Documents</th>
+				<th>Make Offer</th>
 			</tr>
 			<!-- <tr>
 				<th>Name
@@ -406,17 +505,17 @@
 				</td>
 				<td>{{customer.descriptionDate | date: 'short'}}</td>
 				<td>
-					<button class="btn btn-warning"  (click)="showTheFirstStepDialog=true">
+					<button class="btn btn-warning"  (click)="ViewDescrption(customer.id)">
 						Show Description
 					</button>
 				</td>
 				<td>
-					<button class="btn btn-warning"  (click)="showTheFirstStepDialog=true">
+					<button class="btn btn-warning"  (click)="ViewDocs(customer)">
 						Show Documents
 					</button>
 				</td>
 				<td>
-					<button class="btn btn-warning"  (click)="showTheFirstStepDialog=true">
+					<button class="btn btn-warning"  (click)="MakeOfferFlag=true">
 						Make Offer
 					</button>
 				</td>
