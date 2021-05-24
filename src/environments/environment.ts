@@ -28,13 +28,14 @@ export const environment = {
   ProjectDocumentByProjectID:'http://localhost:57910/api/ProjectDocuments/GetProjectDocumentByProjectId/',
   ProjectSystem:'http://localhost:57910/api/ProjectSystems/',
   OfferStatus:'http://localhost:57910/api/OfferStatus/',
-  Datasheet:'http://localhost:57910/api/DataSheets/',
+  OfferDocuments:'http://localhost:57910/api/OfferDocuments/',
   GetDocument:'http://localhost:57910/api/DataSheets/GetDocument/',
   projectCost:'http://localhost:57910/api/ProjectCosts/',
   Offer:'http://localhost:57910/api/Offers/',
   Employees:'http://localhost:57910/api/Employees/',
   AcceptProject:'http://localhost:57910/api/Projects/AcceptProject/',
-  GetAllAcceptedProjects:'http://localhost:57910/api/Projects/GetAllAcceptedProjects'
+  GetAllAcceptedProjects:'http://localhost:57910/api/Projects/GetAllAcceptedProjects',
+  OfferDescription:'http://localhost:57910/api/OfferDescriptions'
 
 };
 

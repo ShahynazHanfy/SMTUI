@@ -32,7 +32,7 @@
 			</mat-card-actions>
 		</mat-card>
 	</div> -->
-	<p-dialog header=" Add Update " [(visible)]="NewLeaveDialogbool" [style]="{width: '38vw'}" [baseZIndex]="10000">
+	<p-dialog header=" Add Update " [(visible)]="NewLeaveDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
 		<p-toast position="top-left" key="tl"></p-toast>
 		<p-toast position="top-center" key="tc"></p-toast>
 		<p-toast position="bottom-center" key="bc"></p-toast>
@@ -313,7 +313,7 @@
 
 	</p-dialog>
 
-	<p-dialog header=" Make Offer ({{project.projectName}})" [(visible)]="MakeOfferFlag" [style]="{width: '40vw'}">
+	<p-dialog header=" Make Offer ({{project.projectName}})" [(visible)]="MakeOfferFlag" [style]="{width: '56vw'}">
 
 
 		<p-toast position="top-left" key="tl"></p-toast>
@@ -322,89 +322,65 @@
 		<img width="70px" height="70px" class="center"
 			src="https://cdn.imgbin.com/16/4/6/imgbin-post-it-note-paper-clip-page-six-yellow-sticky-note-3uNPmBzME6aZAqRcZHvDqDQvk.jpg"
 			alt="">
-		<!-- Handle Steps Details,Documents,Desc,Confirmation -->
-		<!-- <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps> -->
-		<br>
 		<div class="row">
-			<!-- <h2>{{project.projectName}}</h2> -->
-			<div>
-				<!-- <h4>Upload Documents</h4> -->
-
-				<div class="row container">
-					<div>
-						<label for="inputState">Select OfferStatus</label>
-						<div class="col-md-12">
-							<p-dropdown [options]="LstOfferStatus" [(ngModel)]="offer.offerStatusId"
-								[style]="{width: '14vw'}" placeholder="Offer Statues" optionLabel="offerStatusName"
-								optionValue="id">
-							</p-dropdown>
-						</div>
-
-					</div>
-					<div class="col-md-12">
-						<label for="inputState">Enter the cost
-						</label>
-
-						<p-inputNumber [showButtons]="true" [(ngModel)]="costObj.cost" buttonLayout="horizontal"
-							inputId="horizontal" spinnerMode="horizontal" [step]="0.25"
-							decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
-							incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" mode="currency"
-							currency={{value1}}>
-						</p-inputNumber>
-
-					</div>
+			<div class="row container">
+				<div>
+					<label for="inputState">Select OfferStatus</label>
 					<div class="col">
-						<label for="inputState">Currency</label>
+						<p-dropdown [options]="LstOfferStatus" [(ngModel)]="offer.offerStatusId"
+							[style]="{width: '14vw'}" placeholder="Offer Statues" optionLabel="offerStatusName"
+							optionValue="id">
+						</p-dropdown>
+					</div>
 
-						<p-selectButton [options]="stateOptions" (onChange)="catchCurrency($event)" #curr
-							[(ngModel)]="value1" optionLabel="label" optionValue="value"></p-selectButton>
+				</div>
+				<div class="col">
+					<label for="inputState">Enter the cost
+					</label>
 
+					<p-inputNumber [showButtons]="true" [(ngModel)]="costObj.cost" buttonLayout="horizontal"
+						inputId="horizontal" spinnerMode="horizontal" [step]="0.25"
+						decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
+						incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" mode="currency"
+						currency={{value1}}>
+					</p-inputNumber>
+
+				</div>
+				<div class="col">
+					<label for="inputState">Currency</label>
+
+					<p-selectButton [options]="stateOptions" (onChange)="catchCurrency($event)" #curr
+						[(ngModel)]="value1" optionLabel="label" optionValue="value"></p-selectButton>
+
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="col" style="margin-left: 15px;margin-top: 17px;">
+					<div>
+						<input type="file" #file2 placeholder="Choose file" multiple
+							(change)="uploadFileInDataSheet(file2.files)" style="display:none;">
+						<button type="button" class="btn btn-success" (click)="file2.click()">Upload
+							File</button>
+					</div>
+					<div>
+						<button class="btn btn-info" (click)="SavedocOffertolist()">Save To
+							List</button>
 					</div>
 				</div>
-				<div class="p-col-12">
-					<div class="row">
-						<div class="col-6">
-							<input type="file" #file placeholder="Choose file" multiple
-								(change)="uploadFile(file.files)" style="display:none;">
-							<button type="button" class="btn btn-success" (click)="file.click()">Upload
-								File</button>
-						</div>
-						<div class="col-6">
-							<button class="btn btn-info" style="float: right;" (click)="Savedoctolist()">Save To
-								List</button>
-						</div>
-					</div>
-				</div>
-				<!-- <div class="container-fluid uploadFile">
 
-
-					<div class="input-group">
-
-						<div class="custom-file">
-							<input type="button" class="custom-file-input" (click)="file.click()"
-								(change)="uploadFile(file.files)">
-							<label class="custom-file-label" for="inputGroupFile02"
-								aria-describedby="inputGroupFileAddon02"><span
-									style="color: rgb(102, 97, 23);">{{SelectionFileName}}</span></label>
-						</div>
-					</div>
-
-				</div> -->
-
-				<div style="margin-left: 10px;width: 100px;">
+				<div class="col">
 					<br>
-					<table class="table container-fluid col-12" style="width: 100px">
+					<table class="table container">
 						<thead>
 							<tr>
-								<th>Category Name</th>
 								<th>File Name</th>
 								<th>Delete</th>
 							</tr>
 						</thead>
 						<tbody>
 
-							<tr *ngFor="let i of lstoddocproj">
-								<td>{{i.documentsCategoryName}}</td>
+							<tr *ngFor="let i of lstdocOffer">
 								<td>
 									<div class="row">
 										<div class="col">
@@ -415,12 +391,12 @@
 								</td>
 								<td>
 									<div class="col"><button class="btn btn-danger"
-											(click)="deleteDocFromList(i)">Delete</button></div>
+											(click)="deleteDocOfferFromList(i)">Delete</button></div>
 								</td>
 
 							</tr>
 
-							<tr *ngIf="lstoddocproj.length == 0">
+							<tr *ngIf="lstdocOffer.length == 0">
 								<td colspan="4" style="color: rgb(102, 97, 23);">No Documents found.</td>
 							</tr>
 
@@ -428,13 +404,13 @@
 
 					</table>
 				</div>
-
-				<div class="input-group container-fluid uploadFile">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Description</span>
-					</div>
-					<textarea class="form-control" aria-label="With textarea"></textarea>
+			</div>
+			<div class="input-group container-fluid uploadFile">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Description</span>
 				</div>
+				<textarea class="form-control" aria-label="With textarea"
+					[(ngModel)]="offerDescription.description"></textarea>
 			</div>
 		</div>
 		<ng-template pTemplate="footer">
@@ -485,6 +461,7 @@
 				<th>Show Description</th>
 				<th>Show Documents</th>
 				<th>Make Offer</th>
+				<th>Offers</th>
 			</tr>
 			<!-- <tr>
 				<th>Name
@@ -509,18 +486,23 @@
 				</td>
 				<td>{{customer.descriptionDate | date: 'short'}}</td>
 				<td>
-					<button class="btn btn-warning" (click)="ViewDescrption(customer.id)">
-						Show Description
+					<button class="btn btn-primary" (click)="ViewDescrption(customer.id)">
+						Description
 					</button>
 				</td>
 				<td>
-					<button class="btn btn-warning" (click)="ViewDocs(customer)">
-						Show Documents
+					<button class="btn btn-primary" (click)="ViewDocs(customer)">
+						Documents
 					</button>
 				</td>
 				<td>
-					<button class="btn btn-warning" (click)="MakeOfferFlag=true">
+					<button class="btn btn-primary" (click)="MakeOfferFlag=true">
 						Make Offer
+					</button>
+				</td>
+				<td>
+					<button class="btn btn-primary" (click)="showOffers()">
+						Offers
 					</button>
 				</td>
 			</tr>
@@ -532,3 +514,67 @@
 		</ng-template>
 	</p-table>
 </div>
+
+
+
+<p-dialog header=" View Offers " [(visible)]="ViewOffersFlag" [style]="{width: '60vw'}" [baseZIndex]="10000">
+
+	<div class="card">
+		<p-table #dt2 [value]="lstOffer" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+			[rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-customers container-fluid" [paginator]="true"
+			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+			[globalFilterFields]="['projectName','OfferCreationDate','OfferStatusName','Cost']">
+			<ng-template pTemplate="caption">
+				<div class="p-d-flex">
+					<span class="p-input-icon-left p-ml-auto">
+						<i class="pi pi-search"></i>
+						<input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
+							placeholder="Search keyword" />
+					</span>
+				</div>
+			</ng-template>
+			<ng-template pTemplate="header">
+				<tr>
+					<th>Offer Name
+						<p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
+					</th>
+					<th>
+						<div class="p-d-flex p-jc-between p-ai-center">
+							Date
+							<p-columnFilter type="date" field="offerCreationDate" display="menu"></p-columnFilter>
+						</div>
+					</th>
+					<th>Cost
+						<p-columnFilter type="text" field="cost" display="menu"></p-columnFilter>
+					</th>
+					<th>Status
+						<p-columnFilter type="text" field="offerStatusName" display="menu"></p-columnFilter>
+					</th>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="body" let-customer>
+				<tr>
+					<td>
+						<span style="font-weight: bold;">{{customer.projectName}}</span>
+					</td>
+					<td>{{customer.offerCreationDate | date: 'MM/dd/yyyy'}}</td>
+
+					<td>
+						{{customer.cost}}
+					</td>
+
+					<td>
+						<p-dropdown [options]="LstOfferStatus" (onChange)="changeStatus(customer)" [readonly]="false"
+							[(ngModel)]="customer.offerStatusId" optionLabel="offerStatusName" optionValue="id">
+						</p-dropdown>
+					</td>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="emptymessage">
+				<tr>
+					<td colspan="5">No offers found.</td>
+				</tr>
+			</ng-template>
+		</p-table>
+	</div>
+</p-dialog>
