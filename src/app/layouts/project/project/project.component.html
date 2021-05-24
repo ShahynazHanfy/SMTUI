@@ -256,7 +256,7 @@
                     <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
                         placeholder="Search keyword" />
 
-                    <button class="btn btn-primary" style="margin-left: 20px;" (click)="showTheFirstStepDialog=true">Add
+                    <button class="btn btn-primary" *ngIf="role=='Sales'" style="margin-left: 20px;" (click)="showTheFirstStepDialog=true">Add
                         New
                         Project</button>
                     <!-- <a class="btn btn-secondary" style="background-color: rgb(180, 187, 83);"
@@ -268,15 +268,6 @@
             </div>
         </ng-template>
         <ng-template pTemplate="header">
-            <!-- <tr>
-                <th>Employee</th>
-                <th>Name</th>
-                <th>Date</th>
-
-                <th>Rank</th>
-                <th>Status</th>
-                <th style="width: 7rem">UPDATE</th>
-            </tr> -->
             <tr>
                 <th>Emloyee Image</th>
                 <th>Project Name
@@ -288,24 +279,6 @@
                         <p-columnFilter type="date" field="projectCreationDate" display="menu"></p-columnFilter>
                     </div>
                 </th>
-                <!-- 
-                    hna higeeb kol elusers w 3shan tzhar f dropdown list
-                 -->
-                <!-- <th>
-                    <p-columnFilter field="EndUserContactName" matchMode="in" [showMenu]="false">
-                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                            <p-multiSelect [options]="representatives" placeholder="Any" (onChange)="filter($event.value)" optionLabel="endUserContactName">
-                                <ng-template let-option pTemplate="item">
-                                    <div class="p-multiselect-representative-option">
-                                        <img [alt]="option.label" src="assets/showcase/images/demo/avatar/{{option.image}}" width="32" style="vertical-align: middle" />
-                                        <span class="p-ml-1">{{option.name}}</span>
-                                    </div>
-                                </ng-template>
-                            </p-multiSelect>
-                        </ng-template>
-                    </p-columnFilter>
-                </th> -->
-
                 <th>
                     <div class="p-d-flex p-jc-between p-ai-center">
                         Activity
@@ -332,16 +305,6 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-customer>
-
-            <!-- <td>{{i.projectName}}</td>
-            <td>{{i.rank}}</td>
-            <td>{{i.projectCreationDate | date:'short'}}</td>
-            <td>{{i.projectStatusName}}</td>
-            <td>{{i.contractorContactName}}</td>
-            <td>{{i.endUserContactName}}</td>
-            <td>{{i.projectComponentName}}</td>
-            <td>{{i.governorateName}}</td> -->
-
             <tr>
                 <td>
                     <img src="../../../../assets/img/sales.png" style="border-radius: 50%;margin-right: 10px;"
@@ -408,10 +371,11 @@
                 <td>
                     <span class="pi pi-compass" aria-hidden="true" style="cursor: pointer;"
                         (click)="showBasicDialog(customer.id)"></span>
-                    <span class="pi pi-pencil" aria-hidden="true" style="cursor: pointer;margin-left: 15px;"
-                        (click)="EditDialog(customer.id)"></span>
-                    <span class="pi pi-times" (click)="confirm(customer.id)" style="cursor: pointer;margin-left: 15px;"
-                        aria-hidden="true"></span>
+                        <button class="btn btn-info" *ngIf="role=='SalesManager'" [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)">Accept</button>
+                    <!-- <span class="pi pi-pencil" aria-hidden="true" style="cursor: pointer;margin-left: 15px;"
+                        (click)="EditDialog(customer.id)"></span> -->
+                    <!-- <span class="pi pi-times" (click)="confirm(customer.id)" style="cursor: pointer;margin-left: 15px;"
+                        aria-hidden="true"></span> -->
                 </td>
             </tr>
         </ng-template>
@@ -423,6 +387,8 @@
     </p-table>
 </div>
 
+<span data-notify="icon" class="nc-icon nc-chart-pie-36"></span>
+<span data-notify="message">This is a notification with close button and icon and have many lines. You can see that the icon and the close button are always vertically aligned. This is a beautiful notification. So you don't have to worry about the style.</span>
 
 
 <p-dialog [(visible)]="displayBasic" [style]="{width: '60vw'}" [baseZIndex]="10000">

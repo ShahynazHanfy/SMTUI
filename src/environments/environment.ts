@@ -32,8 +32,9 @@ export const environment = {
   GetDocument:'http://localhost:57910/api/DataSheets/GetDocument/',
   projectCost:'http://localhost:57910/api/ProjectCosts/',
   Offer:'http://localhost:57910/api/Offers/',
-  Employees:'http://localhost:57910/api/Employees/'
-
+  Employees:'http://localhost:57910/api/Employees/',
+  AcceptProject:'http://localhost:57910/api/Projects/AcceptProject/',
+  GetAllAcceptedProjects:'http://localhost:57910/api/Projects/GetAllAcceptedProjects'
 
 };
 

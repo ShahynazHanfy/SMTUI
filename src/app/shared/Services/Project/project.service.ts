@@ -30,6 +30,11 @@ export class ProjectService {
   GetProjectById(ProjectID: number): Observable<Project> {
     return this.httpClient.get<Project>(`${environment.Project}/` + ProjectID, this.httpHeader)
   }
-
+  AcceptProject(ProjectId:number): Observable<Project> {
+    return this.httpClient.get<Project>(`${environment.AcceptProject}` + ProjectId, this.httpHeader)
+  }
+  GetAllAcceptedProjects(): Observable<Project[]> {
+    return this.httpClient.get<Project[]>(`${environment.GetAllAcceptedProjects}`, this.httpHeader)
+  }
 
 }

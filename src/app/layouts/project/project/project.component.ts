@@ -27,6 +27,7 @@ import { ProjectDescriptionService } from '../../../../../src/app/Shared/Service
 import { ProjectSystemService } from '../../../../../src/app/Shared/Services/ProjectSystem/project-system.service';
 import { ProjectSystem } from '../../../../../src/app/Shared/Models/ProjectSystem';
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-project',
@@ -52,6 +53,7 @@ export class ProjectComponent implements OnInit {
   lstContractors: Contractors[]
   userId: string = localStorage.getItem('userId')
   userName: string = localStorage.getItem('userName')
+  role: string = localStorage.getItem('roles')
   project: Project
   showTheFirstStepDialog: boolean;
   uploadDocuments: boolean;
@@ -66,7 +68,7 @@ export class ProjectComponent implements OnInit {
   selectedColumns: ProjectComponent[];
   projectSystem: ProjectSystem
   displayBasic: boolean;
-
+  AcceptedProject: boolean = false
   constructor(private route: Router, private projStatusService: ProjectStatusService,
     private projectComponentService: ProjectComponentService,
     private EndUsersService: EndUsersService,
@@ -75,13 +77,14 @@ export class ProjectComponent implements OnInit {
     private projectService: ProjectService,
     private _formBuilder: FormBuilder,
     private httpClient: HttpClient,
+    private toastr: ToastrService,
     private projectdocumentService: ProjectDocumentService,
     private projectDescriptionService: ProjectDescriptionService,
     private confirmationService: ConfirmationService, private messageService: MessageService,
     private DocumentCategoryService: DocumentCategoryService,
     private ProjectSystemService: ProjectSystemService,
-   ) { }
-   activityValues: number[] = [0,100];
+  ) { }
+  activityValues: number[] = [0, 100];
 
   ngOnInit(): void {
 
@@ -112,12 +115,14 @@ export class ProjectComponent implements OnInit {
     this.lstDocumentCategory = []
     this.lstContractors = []
 
+
     this.ProjectDescriptionObj =
     {
       id: 0, projectName: '', description: '', userName: this.userName,
       descriptionDate: new Date, projectId: 0, projectUpdateId: 0, userId: this.userId
     }
-    this.projectObj = {lstprojectSystems:[],
+    this.projectObj = {
+      lstprojectSystems: [],
       companyName: '', contractorName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
       contractorContactName: '', projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date,
       governorateId: 0, projectName: '', projectStatusId: 1, rank: 0, governorateName: '', id: 0, projectStatusName: 'New'
@@ -128,14 +133,23 @@ export class ProjectComponent implements OnInit {
     this.docproject = {
       projectUpdateId: 0, documentsCategoryId: 0, documentFile: '', id: 0, projectId: 0, documentsCategoryName: ''
     }
-    this.project = {lstprojectSystems:[],
+    this.project = {
+      lstprojectSystems: [],
       id: 0, projectStatusName: '', companyName: '', contractorName: '', contractorContactName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
       projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date, projectName: '', projectStatusId: 0, rank: 0, governorateId: 0, governorateName: ''
     }
-    this.projectService.GetAllProjects().subscribe(e => {
-      this.projectList = e, console.log("projectList", this.projectList)
-      this.projectList.forEach(customer => customer.projectCreationDate = new Date(customer.projectCreationDate));
-    })
+    if (this.role == 'Sales') {
+      this.projectService.GetAllAcceptedProjects().subscribe(e=>{
+        this.projectList = e
+      })
+
+    } else if (this.role == 'SalesManager') {
+      this.projectService.GetAllProjects().subscribe(e => {
+        this.projectList = e,
+          this.projectList.forEach(customer => customer.projectCreationDate = new Date(customer.projectCreationDate));
+      })
+    }
+
     this.projStatusService.GetAllProjectStatus().subscribe(e => {
       this.lstProjStatus = e
     })
@@ -164,7 +178,7 @@ export class ProjectComponent implements OnInit {
   showBasicDialog(id) {
     this.displayBasic = true;
     this.projectService.GetProjectById(id).subscribe(
-      data => { this.projectObj = data ,console.log("projectObj",this.projectObj)},
+      data => { this.projectObj = data, console.log("projectObj", this.projectObj) },
       error => { console.log(error) }
     );
   }
@@ -287,19 +301,98 @@ export class ProjectComponent implements OnInit {
   }
   clear(table: Table) {
     table.clear();
-}
-tech($event)
-{
-console.log("filter",$event.value);
-}
+  }
+  tech($event) {
+    console.log("filter", $event.value);
+  }
 
-customFilterCallback(filter: (a) => void, value: any): void {
- // this.stopListening = true;
+  customFilterCallback(filter: (a) => void, value: any): void {
+    // this.stopListening = true;
 
- console.log("value",value);
-  filter(value);
-//  this.stopListening = false;
-}
+    console.log("value", value);
+    filter(value);
+    //  this.stopListening = false;
+  }
+  showNotification(from, align) {
+    const color = Math.floor(Math.random() * 5 + 1);
+
+    switch (color) {
+      case 1:
+        this.toastr.info(
+          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">Successfully Sent to  <b>Mohamed Labib</b> - He will review the project and will be tell you about the new updates Thank you for your interst .</span>',
+          "",
+          {
+            timeOut: 4000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: "alert alert-warning alert-with-icon",
+            positionClass: "toast-" + from + "-" + align
+          }
+        );
+        break;
+      case 2:
+        this.toastr.success(
+          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">Successfully Sent to  <b>Mohamed Labib</b> - He will review the project and will be tell you about the new updates Thank you for your interst .</span>',
+          "",
+          {
+            timeOut: 4000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: "alert alert-warning alert-with-icon",
+            positionClass: "toast-" + from + "-" + align
+          }
+        );
+        break;
+      case 3:
+        this.toastr.warning(
+          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">Successfully Sent to  <b>Mohamed Labib</b> - He will review the project and will be tell you about the new updates Thank you for your interst .</span>',
+          "",
+          {
+            timeOut: 4000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: "alert alert-warning alert-with-icon",
+            positionClass: "toast-" + from + "-" + align
+          }
+        );
+        break;
+      case 4:
+        this.toastr.error(
+          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">Successfully Sent to  <b>Mohamed Labib</b> - He will review the project and will be tell you about the new updates Thank you for your interst .</span>',
+          "",
+          {
+            timeOut: 4000,
+            enableHtml: true,
+            closeButton: true,
+            toastClass: "alert alert-warning alert-with-icon",
+            positionClass: "toast-" + from + "-" + align
+          }
+        );
+        break;
+      case 5:
+        this.toastr.show(
+          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">Successfully Sent to  <b>Mohamed Labib</b> - He will review the project and will be tell you about the new updates Thank you for your interst .</span>',
+          "",
+          {
+            timeOut: 4000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: "alert alert-primary alert-with-icon",
+            positionClass: "toast-" + from + "-" + align
+          }
+        );
+        break;
+      default:
+        break;
+    }
+  }
+  AcceptProject(projId) {
+    this.projectService.AcceptProject(projId).subscribe(e => {
+      this.ngOnInit()
+      this.showNotification('top', 'left')
+      this.AcceptedProject = true
+    })
+  }
 }
 
 

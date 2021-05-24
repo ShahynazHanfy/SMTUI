@@ -1,6 +1,6 @@
 <div class="container">
 	<h3 style="color: red;">Project Updates</h3>
-<!-- 
+	<!-- 
 	<h1 class="headerw">{{project.projectName}}</h1>
 	<button class="btn btn-warning AddButton" (click)="addNewUpdate()">Add Update</button>
 	<a href="E:/PharmacyDictionary.docx">Show Latest Docs</a> -->
@@ -71,7 +71,7 @@
 						</div>
 					</div>
 
-					<div style="margin-left: 10px;width: 100px;" >
+					<div style="margin-left: 10px;width: 100px;">
 						<br>
 						<table class="table container-fluid col-12" style="width: 100px">
 							<thead>
@@ -136,44 +136,45 @@
 		</ng-template>
 
 	</p-dialog>
-	<p-dialog header=" View Description " [(visible)]="ViewDocsUpadteFlag" [style]="{width: '60vw'}" [baseZIndex]="10000">
+	<p-dialog header=" View Description " [(visible)]="ViewDocsUpadteFlag" [style]="{width: '60vw'}"
+		[baseZIndex]="10000">
 		<p-toast position="top-left" key="tl"></p-toast>
 		<p-toast position="top-center" key="tc"></p-toast>
 		<p-toast position="bottom-center" key="bc"></p-toast>
 		<div class="row">
-				<div class="row container">
+			<div class="row container">
 
-					<div style="margin-left: 10px;">
-						<br>
-						<table class="table">
-							<thead>
-								<tr>
-									<th>User Name</th>
-									<th>Date</th>
-									<th>Description</th>
-								</tr>
-							</thead>
-							<tbody>
+				<div style="margin-left: 10px;">
+					<br>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>User Name</th>
+								<th>Date</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
 
-								<tr *ngFor="let i of LstProjectUpdateDescriptionByUpdateId">
-									<td>
-										{{i.userName}}
-									</td>
-									<td>
-										{{i.descriptionDate | date: 'short'}}
-									</td>
-									<td>
-										{{i.description}}
-									</td>
-								</tr>
-								<tr *ngIf="LstProjectUpdateDescriptionByUpdateId.length == 0">
-									<td colspan="4" style="color: rgb(102, 97, 23);">No Documents found.</td>
-								</tr>
-							</tbody>
+							<tr *ngFor="let i of LstProjectUpdateDescriptionByUpdateId">
+								<td>
+									{{i.userName}}
+								</td>
+								<td>
+									{{i.descriptionDate | date: 'short'}}
+								</td>
+								<td>
+									{{i.description}}
+								</td>
+							</tr>
+							<tr *ngIf="LstProjectUpdateDescriptionByUpdateId.length == 0">
+								<td colspan="4" style="color: rgb(102, 97, 23);">No Documents found.</td>
+							</tr>
+						</tbody>
 
-						</table>
-					</div>
+					</table>
 				</div>
+			</div>
 		</div>
 		<!-- </div> -->
 		<br>
@@ -259,7 +260,8 @@
 
 	</p-dialog>
 
-	<p-dialog header=" View Latest Documents " [(visible)]="ViewLatestDocsFlag" [style]="{width: '45vw'}" [baseZIndex]="10000">
+	<p-dialog header=" View Latest Documents " [(visible)]="ViewLatestDocsFlag" [style]="{width: '45vw'}"
+		[baseZIndex]="10000">
 		<p-toast position="top-left" key="tl"></p-toast>
 		<p-toast position="top-center" key="tc"></p-toast>
 		<p-toast position="bottom-center" key="bc"></p-toast>
@@ -311,8 +313,7 @@
 
 	</p-dialog>
 
-	<p-dialog header=" Make Offer ({{project.projectName}})" [contentStyle]="{minHeight:'400px'}"
-		[(visible)]="MakeOfferFlag" [style]="{width: '62vw'}">
+	<p-dialog header=" Make Offer ({{project.projectName}})" [(visible)]="MakeOfferFlag" [style]="{width: '40vw'}">
 
 
 		<p-toast position="top-left" key="tl"></p-toast>
@@ -330,15 +331,17 @@
 				<!-- <h4>Upload Documents</h4> -->
 
 				<div class="row container">
-					<div class="col">
+					<div>
 						<label for="inputState">Select OfferStatus</label>
+						<div class="col-md-12">
+							<p-dropdown [options]="LstOfferStatus" [(ngModel)]="offer.offerStatusId"
+								[style]="{width: '14vw'}" placeholder="Offer Statues" optionLabel="offerStatusName"
+								optionValue="id">
+							</p-dropdown>
+						</div>
 
-						<p-dropdown [options]="LstOfferStatus" [(ngModel)]="offer.offerStatusId"
-							[style]="{width: '14vw'}" placeholder="Offer Statues" optionLabel="offerStatusName"
-							optionValue="id">
-						</p-dropdown>
 					</div>
-					<div class="col">
+					<div class="col-md-12">
 						<label for="inputState">Enter the cost
 						</label>
 
@@ -360,13 +363,13 @@
 				</div>
 				<div class="p-col-12">
 					<div class="row">
-						<div class="col">
+						<div class="col-6">
 							<input type="file" #file placeholder="Choose file" multiple
 								(change)="uploadFile(file.files)" style="display:none;">
 							<button type="button" class="btn btn-success" (click)="file.click()">Upload
 								File</button>
 						</div>
-						<div class="col">
+						<div class="col-6">
 							<button class="btn btn-info" style="float: right;" (click)="Savedoctolist()">Save To
 								List</button>
 						</div>
@@ -388,7 +391,7 @@
 
 				</div> -->
 
-				<div style="margin-left: 10px;width: 100px;" >
+				<div style="margin-left: 10px;width: 100px;">
 					<br>
 					<table class="table container-fluid col-12" style="width: 100px">
 						<thead>
@@ -451,8 +454,8 @@
 
 <div class="card">
 	<p-table #dt2 [value]="LstProjectUpdateDescription" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
-		[rowsPerPageOptions]="[5,10,50]"  styleClass="p-datatable-customers container-fluid"
-		[paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+		[rowsPerPageOptions]="[5,10,50]" styleClass="p-datatable-customers container-fluid" [paginator]="true"
+		currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
 		[globalFilterFields]="['userName','descriptionDate']">
 		<ng-template pTemplate="caption">
 			<div class="p-d-flex">
@@ -464,7 +467,8 @@
 					<button class="btn btn-info" style="margin-left: 20px;" (click)="addNewUpdate()">Add
 						New Update
 					</button>
-					<button class="btn btn-info" style="margin-left: 20px;" (click)="ViewLatestDocs(documentObj.projectId)">
+					<button class="btn btn-info" style="margin-left: 20px;"
+						(click)="ViewLatestDocs(documentObj.projectId)">
 						Show Latest Documents
 					</button>
 				</span>
@@ -505,17 +509,17 @@
 				</td>
 				<td>{{customer.descriptionDate | date: 'short'}}</td>
 				<td>
-					<button class="btn btn-warning"  (click)="ViewDescrption(customer.id)">
+					<button class="btn btn-warning" (click)="ViewDescrption(customer.id)">
 						Show Description
 					</button>
 				</td>
 				<td>
-					<button class="btn btn-warning"  (click)="ViewDocs(customer)">
+					<button class="btn btn-warning" (click)="ViewDocs(customer)">
 						Show Documents
 					</button>
 				</td>
 				<td>
-					<button class="btn btn-warning"  (click)="MakeOfferFlag=true">
+					<button class="btn btn-warning" (click)="MakeOfferFlag=true">
 						Make Offer
 					</button>
 				</td>

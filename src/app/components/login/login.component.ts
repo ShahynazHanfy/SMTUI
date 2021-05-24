@@ -22,6 +22,9 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.email, this.password).subscribe(res => {
       console.log("Thank you",res)
       localStorage.setItem("userName", res["userName"])
+      localStorage.setItem("token", res["token"])
+      localStorage.setItem("roles", res["roles"])
+
       localStorage.setItem("empId", res["empId"])
       localStorage.setItem("userId", res["userId"])
       this.route.navigate(['/admin']);
