@@ -434,20 +434,21 @@
 		currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
 		[globalFilterFields]="['userName','descriptionDate']">
 		<ng-template pTemplate="caption">
-			<div class="p-d-flex">
-				<span class="p-input-icon-left p-ml-auto">
-					<i class="pi pi-search"></i>
+			<div class="row">
+				<div class="col-6 p-input-icon-left p-ml-auto">
+					<i class="pi pi-search" style="margin-left: 20px;margin-top: -16px;"></i>
 					<input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
 						placeholder="Search keyword" />
-
-					<button class="btn btn-info" style="margin-left: 20px;" (click)="addNewUpdate()">Add
+				</div>
+				<div class="col-6" style="float: right;">
+					<button class="btn btn-info" (click)="addNewUpdate()">Add
 						New Update
 					</button>
 					<button class="btn btn-info" style="margin-left: 20px;"
 						(click)="ViewLatestDocs(documentObj.projectId)">
 						Show Latest Documents
 					</button>
-				</span>
+				</div>
 			</div>
 		</ng-template>
 		<ng-template pTemplate="header">
