@@ -53,6 +53,7 @@ export class ProjectUpdateComponent implements OnInit {
   dataSheetObj: Datasheet
   userId: string = localStorage.getItem('userId')
   projectUpdateId: number
+  projectUpdateIdForOffer: number
   result: ProjectUpdateExtraData[]
   projectId: number
   selectedCountry: string
@@ -105,7 +106,7 @@ export class ProjectUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.lstOffer = []
-    this.lstOfferDescription=[]
+    this.lstOfferDescription = []
     this.lstdocOffer = []
     this.lstoddocproj = []
     this.lstDocumentCategory = []
@@ -122,10 +123,7 @@ export class ProjectUpdateComponent implements OnInit {
     this.stateOptions = [{ label: 'EGP', value: 'EGP' }, { label: 'USD', value: 'USD' }, { label: 'EUR', value: 'EUR' }];
     this.projectId = this.activeRoute.snapshot.params['projectId'];
     console.log("projectId", this.projectId)
-    // this.justifyOptions = [
-    //   { icon: 'pi pi-dollar', justify: 'Left' },
-    //   { icon: 'pi pi-euro', justify: 'Right' },
-    // ];
+
     this.docOffer = { id: 0, offerId: 0, documentFile: '' }
     this.project = {
       lstprojectSystems: [],
@@ -138,7 +136,8 @@ export class ProjectUpdateComponent implements OnInit {
       userName: ''
     }
     this.offerDescription = {
-      offersId: 0, id: 0, description: '', descriptionDate: new Date, projectId: this.projectId, projectName: '', userId: this.userId, userName: ''
+      offersId: 0, id: 0, description: '', projectUpdateId: 0,
+      descriptionDate: new Date, projectId: this.projectId, projectName: '', userId: this.userId, userName: ''
     }
     this.documentObj = {
       documentsCategoryName: '', id: 0, projectId: 0, documentFile: '', documentsCategoryId: 0, projectUpdateId: 0
@@ -170,10 +169,7 @@ export class ProjectUpdateComponent implements OnInit {
     this.costObj = {
       id: 0, cost: 0, currency: ''
     }
-    // this.projectdocumentService.GetAllDocumentsByProjectID(this.projectId).subscribe(e=>{
-    //   this.lstProjDocuments=e
-    //   console.log("lstProjDocuments",this.lstProjDocuments)
-    // })
+
     this.OfferStatusService.GetAllOfferStatuses().subscribe(e => {
       this.LstOfferStatus = e
       console.log("offerStatus", this.LstOfferStatus)
@@ -214,7 +210,7 @@ export class ProjectUpdateComponent implements OnInit {
 
         console.log("LstProjectUpdateDescription", e)
       })
-      
+
       this.docproject = {
         documentsCategoryId: 0, projectUpdateId: 0, id: 0, documentFile: '', projectId: this.projectId, documentsCategoryName: ''
       };
@@ -230,7 +226,7 @@ export class ProjectUpdateComponent implements OnInit {
     this.lstoddocproj = []
     this.lstdocOffer = []
     this.offerDescription = {
-      offersId: 0, id: 0, description: '', descriptionDate: new Date, projectId: this.projectId, projectName: '', userId: this.userId, userName: ''
+      offersId: 0, id: 0, description: '', projectUpdateId: 0, descriptionDate: new Date, projectId: this.projectId, projectName: '', userId: this.userId, userName: ''
     }
     this.offer = {
       dataSheet: '', id: 0, offerCreationDate: new Date(), offerStatusId: 0, projectCostsId: 0, projectsId: this.projectId
@@ -241,6 +237,31 @@ export class ProjectUpdateComponent implements OnInit {
     }
   }
 
+  confirm(id) {
+    console.log("desc", id)
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      accept: () => {
+        this.offerService.deleteOffer(id).subscribe(
+          data => {
+            this.ngOnInit(),
+              this.messageService.add({ severity: 'info', summary: 'Record Deleted!', detail: 'Record Deleted!' });
+          }
+        )
+      }
+    });
+  }
+  showSuccess() {
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
+  }
+
+  showInfo() {
+    this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Message Content' });
+  }
+
+  showWarn() {
+    this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Message Content' });
+  }
 
   SaveProjectUpdate() {
     let promise = new Promise((resolve, reject) => {
@@ -413,8 +434,13 @@ export class ProjectUpdateComponent implements OnInit {
   handleFileInput(files: FileList) {
     var fil = document.getElementById("myFile");
   }
-  SaveOffer() {
+  ShowOfferDialog(projectUpdateId) {
+    console.log("updateId", projectUpdateId)
+    this.projectUpdateIdForOffer = projectUpdateId
     // this.dataSheetObj
+    this.MakeOfferFlag = true
+  }
+  SaveOffer() {
     let promise = new Promise((resolve, reject) => {
       this.costService.insertProjectCost(this.costObj).toPromise()
         .then(
@@ -431,6 +457,8 @@ export class ProjectUpdateComponent implements OnInit {
               this.datasheetService.insertOfferDocuments(this.lstdocOffer).toPromise()
 
               this.offerDescription.offersId = this.offerId
+              this.offerDescription.projectUpdateId = Number(this.projectUpdateIdForOffer) 
+              console.log("offerBefore",this.offerDescription)
               this.offerdescriptionService.insertOfferDescription(this.offerDescription).toPromise()
               this.MakeOfferFlag = false
 
@@ -477,6 +505,7 @@ export class ProjectUpdateComponent implements OnInit {
     })
   }
   showOffers(projectUpdateId) {
+    console.log("projUpdateId", projectUpdateId)
     this.ViewOffersFlag = true
     // this.offerService.GetAllOffers().subscribe(
     //   res => {
@@ -487,6 +516,7 @@ export class ProjectUpdateComponent implements OnInit {
     //   err => console.log(err)
     this.offerdescriptionService.GetAllOfferByProjectUpdateId(projectUpdateId).subscribe(
       res => {
+        console.log("lstOfferDescription", this.lstOfferDescription)
         this.lstOfferDescription = res
       }
     ),
@@ -495,20 +525,20 @@ export class ProjectUpdateComponent implements OnInit {
 
   changeStatus(offerDescription) {
     console.log("teeeeeeeeeeeeeeeeet", offerDescription)
-    console.log("obj before",offerDescription)
+    console.log("obj before", offerDescription)
     this.offerService.GetOfferById(offerDescription.offersId).subscribe(
       res1 => {
         this.offer = res1,
-        this.offer.offerStatusId=offerDescription.offerStatusId
-          this.offerService.updateOffer(offerDescription.offersId, this.offer).subscribe(
-            res => {
-              this.offer = res,
-                console.log("obj after", this.offer),
-                this.ViewOffersFlag = false
-                this.messageService.add({ severity: 'warn', key: "tc", summary: 'Updated', detail: 'Status Updated Successfully' });
+          this.offer.offerStatusId = offerDescription.offerStatusId
+        this.offerService.updateOffer(offerDescription.offersId, this.offer).subscribe(
+          res => {
+            this.offer = res,
+              console.log("obj after", this.offer),
+              this.ViewOffersFlag = false
+            this.messageService.add({ severity: 'warn', key: "tc", summary: 'Updated', detail: 'Status Updated Successfully' });
 
-              }
-          ),
+          }
+        ),
           err => console.log(err)
       }
     )
