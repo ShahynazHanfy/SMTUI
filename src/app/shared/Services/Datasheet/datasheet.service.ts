@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Datasheet } from 'app/shared/Models/Datasheet';
+import { OfferDocuments } from 'app/shared/Models/OfferDocuments';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
@@ -16,11 +17,11 @@ export class DatasheetService {
     'content-type':'application/json',
     'Accept': '*/*'  
   })};
-  GetAllDatasheet(): Observable <Datasheet[]>{
-    return this.httpClient.get<Datasheet[]> (`${environment.Datasheet}`,this.httpHeader) ;
+  GetAllOfferDocuments(): Observable <OfferDocuments[]>{
+    return this.httpClient.get<OfferDocuments[]> (`${environment.OfferDocuments}`,this.httpHeader) ;
   }
-  insertDatasheet(Datasheet:Datasheet): Observable <Datasheet>{
-    return this.httpClient.post<Datasheet> (`${environment.Datasheet}`,Datasheet,this.httpHeader) ;
+  insertOfferDocuments(offerDocuments:OfferDocuments[]): Observable <OfferDocuments[]>{
+    return this.httpClient.post<OfferDocuments[]> (`${environment.OfferDocuments}`,offerDocuments,this.httpHeader) ;
   }
   GetDocumentByName(docName:string): Observable <string>{
     console.log("path",docName)

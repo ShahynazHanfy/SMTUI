@@ -22,15 +22,15 @@ export class OfferService {
   // insertOffer(Offer: Offer): Observable<number> {
   //   return this.httpClient.post<number>(`${environment.Offer}`, Offer, this.httpHeader);
   // }
-  insertOffer(offer: Offer): Observable <Offer>{
-    return this.httpClient.post<Offer> (`${environment.Offer}`,offer,this.httpHeader) ;
+  insertOffer(offer: Offer): Observable <number>{
+    return this.httpClient.post<number> (`${environment.Offer}`,offer,this.httpHeader) ;
   }
   deleteOffer(id: number): Observable<Offer> {
-    return this.httpClient.delete<Offer>(`${environment.Offer}/` + id, this.httpHeader);
+    return this.httpClient.delete<Offer>(`${environment.Offer}` + id, this.httpHeader);
   }
   updateOffer(id: Number, Offer: Offer): Observable<Offer> {
-    return this.httpClient.put<Offer>(`${environment.Offer}/` + id, Offer, this.httpHeader);
+    return this.httpClient.put<Offer>(`${environment.Offer}` + id, Offer, this.httpHeader);
   }
   GetOfferById(OfferID: number): Observable<Offer> {
-    return this.httpClient.get<Offer>(`${environment.Offer}/` + OfferID, this.httpHeader)
+    return this.httpClient.get<Offer>(`${environment.Offer}` + OfferID, this.httpHeader)
   }}
