@@ -5,6 +5,9 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 
 export const AppRoutes: Routes = [
   {
+    path: '',component:LoginComponent
+  },
+  {
     path: 'admin',
     redirectTo: 'dashboard',
     pathMatch: 'full',

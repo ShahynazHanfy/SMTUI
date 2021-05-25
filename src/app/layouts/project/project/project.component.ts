@@ -143,7 +143,7 @@ export class ProjectComponent implements OnInit {
         this.projectList = e
       })
 
-    } else if (this.role == 'SalesManager') {
+    } else if (this.role == 'Admin') {
       this.projectService.GetAllProjects().subscribe(e => {
         this.projectList = e,
           this.projectList.forEach(customer => customer.projectCreationDate = new Date(customer.projectCreationDate));
