@@ -72,11 +72,11 @@
                 <td>{{endUser.phone}}</td>
                 <td>{{endUser.relevantPhone}}</td>
                 <td>
-                    <span class="pi pi-compass btn" aria-hidden="true"
+                    <span class="pi pi-compass" style="cursor: pointer;" aria-hidden="true"
                         (click)="showBasicDialog(endUser.id)"></span>
-                    <button class="btn pi pi-pencil" aria-hidden="true"
-                        (click)="EditDialog(endUser.id)"></button>
-                    <button class="btn pi pi-times" (click)="confirm(endUser.id)" aria-hidden="true"></button>
+                    <span class="pi pi-pencil" style="cursor: pointer;margin-left: 15px;" aria-hidden="true"
+                        (click)="EditDialog(endUser.id)"></span>
+                    <span class="pi pi-times" style="cursor: pointer;margin-left: 15px;" (click)="confirm(endUser.id)" aria-hidden="true"></span>
                 </td>
             </tr>
         </ng-template>

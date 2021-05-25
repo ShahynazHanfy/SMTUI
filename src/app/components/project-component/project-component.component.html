@@ -27,7 +27,7 @@
 <div class="container">
     <p-table id="my-table" class="container card" #dt dataKey="id" [rows]="5" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[5,10,50]" styleClass="p-datatable-customers" [paginator]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0" #dt
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0" 
         [globalFilterFields]="['projectComponentName']" [value]="lstProjectComponents">
         <ng-template pTemplate="caption">
             <h1 style="margin-bottom: 20px; font-size: 2em;color: #2674a8;">Project Components</h1>
@@ -56,11 +56,11 @@
             <tr style="height: 5px !important;font-size: 17px;">
                 <td>{{projectComponent.projectComponentName}}</td>
                 <td>
-                    <span class="pi pi-compass btn" aria-hidden="true"
+                    <span class="pi pi-compass" style="cursor: pointer;margin-left: 15px;" aria-hidden="true"
                         (click)="showBasicDialog(projectComponent.id)"></span>
-                    <button class="btn pi pi-pencil" aria-hidden="true"
-                        (click)="EditDialog(projectComponent.id)"></button>
-                    <button class="btn pi pi-times" (click)="confirm(projectComponent.id)" aria-hidden="true"></button>
+                    <span class="pi pi-pencil" style="cursor: pointer;margin-left: 15px;" aria-hidden="true"
+                        (click)="EditDialog(projectComponent.id)"></span>
+                    <span class="pi pi-times" style="cursor: pointer;margin-left: 15px;" (click)="confirm(projectComponent.id)" aria-hidden="true"></span>
                 </td>
             </tr>
         </ng-template>
