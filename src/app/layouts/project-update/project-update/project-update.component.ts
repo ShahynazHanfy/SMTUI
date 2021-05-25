@@ -235,17 +235,35 @@ export class ProjectUpdateComponent implements OnInit {
     this.costObj = {
       id: 0, cost: 0, currency: ''
     }
+    this.costObj = {
+      cost:0,id:0,currency:''
+    }
   }
 
-  confirm(id) {
-    console.log("desc", id)
+  confirm(offerDesc) {
+
+    console.log("offerDesc", offerDesc)
     this.confirmationService.confirm({
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
-        this.offerService.deleteOffer(id).subscribe(
+        this.offerService.deleteOffer(offerDesc.offersId).subscribe(
           data => {
-            this.ngOnInit(),
-              this.messageService.add({ severity: 'info', summary: 'Record Deleted!', detail: 'Record Deleted!' });
+            // this.projectDescriptionService.GetDescriptionsByProjectUpdateId(offerDesc.projectUpdateId).subscribe(e => {
+            //   this.LstProjectUpdateDescriptionByUpdateId = e
+            //   this.LstProjectUpdateDescription.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
+            //   console.log("LstProjectUpdateDescriptionByUpdateId", e)
+            // })
+            this.messageService.add({ severity: 'info', summary: 'Record Deleted!', detail: 'Record Deleted!' });
+
+            this.lstOfferDescription = []
+            console.log("offerProjectUpdateId",offerDesc.projectUpdateId)
+            this.offerdescriptionService.GetAllOfferByProjectUpdateId(offerDesc.projectUpdateId).subscribe(
+              res => {
+                console.log("lstOfferDescriptionversion2", this.lstOfferDescription)
+                this.lstOfferDescription = res
+              }
+            ),
+              err => console.log(err)
           }
         )
       }
@@ -437,7 +455,6 @@ export class ProjectUpdateComponent implements OnInit {
   ShowOfferDialog(projectUpdateId) {
     console.log("updateId", projectUpdateId)
     this.projectUpdateIdForOffer = projectUpdateId
-    // this.dataSheetObj
     this.MakeOfferFlag = true
   }
   SaveOffer() {
@@ -453,14 +470,12 @@ export class ProjectUpdateComponent implements OnInit {
               this.lstdocOffer.forEach(element => {
                 element.offerId = this.offerId
               });
-              console.log("lstDoc", this.lstdocOffer)
               this.datasheetService.insertOfferDocuments(this.lstdocOffer).toPromise()
-
               this.offerDescription.offersId = this.offerId
-              this.offerDescription.projectUpdateId = Number(this.projectUpdateIdForOffer) 
-              console.log("offerBefore",this.offerDescription)
+              this.offerDescription.projectUpdateId = Number(this.projectUpdateIdForOffer)
               this.offerdescriptionService.insertOfferDescription(this.offerDescription).toPromise()
               this.MakeOfferFlag = false
+              this.RloadPage()
 
             })
           },
@@ -468,29 +483,6 @@ export class ProjectUpdateComponent implements OnInit {
             reject(msg);
           }
         )
-      // .then(
-      //   response => { // Success The id of offer
-      //     console.log("resp", response)
-
-      //     resolve('cons');
-      //   },
-      //   msg => { // Error
-      //     reject(msg);
-      //   }
-      // )
-      // .then(
-      //   response => { // Success
-
-      //     this.RloadPage()
-      //     resolve('cons');
-      //     console.log("Roshdy ebnna ng7")
-      //     this.RloadPage()
-      //     this.MakeOfferFlag=false
-      //   },
-      //   msg => { // Error
-      //     reject(msg);
-      //   }
-      // );
     }
     );
 

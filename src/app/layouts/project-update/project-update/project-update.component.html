@@ -557,26 +557,26 @@
 					</th>
 				</tr>
 			</ng-template>
-			<ng-template pTemplate="body" let-customer>
+			<ng-template pTemplate="body" let-offerDesc>
 				<tr>
 					<td>
-						<span style="font-weight: bold;">{{customer.projectName}}</span>
+						<span style="font-weight: bold;">{{offerDesc.projectName}}</span>
 					</td>
-					<td>{{customer.offerCreationDate | date: 'MM/dd/yyyy'}}</td>
+					<td>{{offerDesc.offerCreationDate | date: 'MM/dd/yyyy'}}</td>
 
 					<td>
-						{{customer.cost}}
+						{{offerDesc.cost}}
 					</td>
 
 					<td style="width: 10px;">
 						<p-dropdown [options]="LstOfferStatus" [style]="{'maxWidth':'150px'}"
-							(onChange)="changeStatus(customer)" [readonly]="false" [(ngModel)]="customer.offerStatusId"
+							(onChange)="changeStatus(offerDesc)" [readonly]="false" [(ngModel)]="offerDesc.offerStatusId"
 							optionLabel="offerStatusName" optionValue="id">
 						</p-dropdown>
 
 					</td>
 					<td>
-						<span class="pi pi-times" (click)="confirm(customer.offersId)" style="cursor: pointer;margin-left: 15px;"
+						<span class="pi pi-times" (click)="confirm(offerDesc)" style="cursor: pointer;margin-left: 15px;"
 							aria-hidden="true"></span>
 					</td>
 				</tr>
