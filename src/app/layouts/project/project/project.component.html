@@ -256,7 +256,7 @@
                     <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
                         placeholder="Search keyword" />
 
-                    <button class="btn btn-primary" *ngIf="role=='Sales'" style="margin-left: 20px;" (click)="showTheFirstStepDialog=true">Add
+                    <button class="btn btn-primary" *ngIf="role=='Admin'" style="margin-left: 20px;" (click)="showTheFirstStepDialog=true">Add
                         New
                         Project</button>
                     <!-- <a class="btn btn-secondary" style="background-color: rgb(180, 187, 83);"
@@ -371,7 +371,7 @@
                 <td>
                     <span class="pi pi-compass" aria-hidden="true" style="cursor: pointer;"
                         (click)="showBasicDialog(customer.id)"></span>
-                        <button class="btn btn-info" *ngIf="role=='SalesManager'" [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)">Accept</button>
+                        <button class="btn btn-info" *ngIf="role=='Admin'" [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)">Accept</button>
                     <!-- <span class="pi pi-pencil" aria-hidden="true" style="cursor: pointer;margin-left: 15px;"
                         (click)="EditDialog(customer.id)"></span> -->
                     <!-- <span class="pi pi-times" (click)="confirm(customer.id)" style="cursor: pointer;margin-left: 15px;"
