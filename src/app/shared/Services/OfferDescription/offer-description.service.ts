@@ -15,6 +15,10 @@ export class OfferDescriptionService {
     'content-type':'application/json',
     'Accept': '*/*'  
   })};
+  GetAllOfferByProjectUpdateId(projectUpdateId:number): Observable <OfferDescription[]>{
+    return this.httpClient.get<OfferDescription[]> (`${environment.GetAllOfferByProjectUpdateId}`+ projectUpdateId,this.httpHeader) ;
+  }
+
   GetAllOfferDescriptions(): Observable <OfferDescription[]>{
     return this.httpClient.get<OfferDescription[]> (`${environment.OfferDescription}`,this.httpHeader) ;
   }

@@ -67,6 +67,7 @@ export class ProjectUpdateComponent implements OnInit {
   lstOfLatestProjDocuments: ProjectDocuments[]
   offer: Offer
   lstOffer: Offer[]
+  lstOfferDescription: OfferDescription[]
   costObj: ProjectCost
   stateOptions: any[];
   LstOfferStatus: OfferStatus[]
@@ -104,6 +105,7 @@ export class ProjectUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.lstOffer = []
+    this.lstOfferDescription=[]
     this.lstdocOffer = []
     this.lstoddocproj = []
     this.lstDocumentCategory = []
@@ -176,6 +178,8 @@ export class ProjectUpdateComponent implements OnInit {
       this.LstOfferStatus = e
       console.log("offerStatus", this.LstOfferStatus)
     })
+
+
     this.RloadPage()
   }
   viewSingleDoc(fileObj) {
@@ -210,6 +214,7 @@ export class ProjectUpdateComponent implements OnInit {
 
         console.log("LstProjectUpdateDescription", e)
       })
+      
       this.docproject = {
         documentsCategoryId: 0, projectUpdateId: 0, id: 0, documentFile: '', projectId: this.projectId, documentsCategoryName: ''
       };
@@ -471,25 +476,31 @@ export class ProjectUpdateComponent implements OnInit {
       // window.open(e);
     })
   }
-  showOffers() {
+  showOffers(projectUpdateId) {
     this.ViewOffersFlag = true
-    this.offerService.GetAllOffers().subscribe(
+    // this.offerService.GetAllOffers().subscribe(
+    //   res => {
+    //     this.lstOffer = res,
+    //       this.lstOffer.forEach(customer => customer.offerCreationDate = new Date(customer.offerCreationDate));
+    //   }
+    // ),
+    //   err => console.log(err)
+    this.offerdescriptionService.GetAllOfferByProjectUpdateId(projectUpdateId).subscribe(
       res => {
-        this.lstOffer = res,
-          this.lstOffer.forEach(customer => customer.offerCreationDate = new Date(customer.offerCreationDate));
+        this.lstOfferDescription = res
       }
     ),
       err => console.log(err)
   }
 
-  changeStatus(cst) {
-    console.log("teeeeeeeeeeeeeeeeet", cst)
-    console.log("obj before",cst)
-    this.offerService.GetOfferById(cst.id).subscribe(
+  changeStatus(offerDescription) {
+    console.log("teeeeeeeeeeeeeeeeet", offerDescription)
+    console.log("obj before",offerDescription)
+    this.offerService.GetOfferById(offerDescription.offersId).subscribe(
       res1 => {
         this.offer = res1,
-        this.offer.offerStatusId=cst.offerStatusId
-          this.offerService.updateOffer(cst.id, this.offer).subscribe(
+        this.offer.offerStatusId=offerDescription.offerStatusId
+          this.offerService.updateOffer(offerDescription.offersId, this.offer).subscribe(
             res => {
               this.offer = res,
                 console.log("obj after", this.offer),

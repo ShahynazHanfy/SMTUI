@@ -502,7 +502,7 @@
 					</button>
 				</td>
 				<td>
-					<button class="btn btn-primary" (click)="showOffers()">
+					<button class="btn btn-primary" (click)="showOffers(customer.id)">
 						Offers
 					</button>
 				</td>
@@ -521,7 +521,7 @@
 <p-dialog header=" View Offers " [(visible)]="ViewOffersFlag" [style]="{width: '60vw'}" [baseZIndex]="10000">
 
 	<div class="card">
-		<p-table #dt2 [value]="lstOffer" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+		<p-table #dt2 [value]="lstOfferDescription" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
 			[rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-customers container-fluid" [paginator]="true"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
 			[globalFilterFields]="['projectName','OfferCreationDate','OfferStatusName','Cost']">
