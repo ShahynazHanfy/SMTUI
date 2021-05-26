@@ -484,7 +484,7 @@
 				<td>
 					<div class="row">
 						<span style="font-weight: bold;" class="col-9">{{projectUpdateDesc.userName}}</span>
-						<div class="pi pi-chart-line col-3" (click)="AssignProjectUpdate(projectUpdateDesc)"
+						<div class="pi pi-chart-line col-3" (click)="AssignProjectUpdateFlag(projectUpdateDesc)"
 							style="cursor: pointer;color: rgb(92, 92, 25);" aria-hidden="true"></div>
 					</div>
 
@@ -682,11 +682,17 @@
 
 		<div class="col-6">
 			<label for="inputState">Employees</label>
-			<select id="inputState" [(ngModel)]="selecteProfessiondVal" class="form-control">
+			<select id="inputState" [(ngModel)]="AssignProject.employeeId" class="form-control">
 				<option *ngFor="let i of lstEmployees" value="{{i.id}}">{{i.name}}</option>
 			</select>
 		</div>
-
 	</div>
+	<ng-template pTemplate="footer">
+		<p-button type="submit" (click)="AssignProjectUpdate()" icon="pi pi-check" label="" styleClass="p-button-text">
+			<span>Save</span>
+		</p-button>
+		<p-button icon="pi pi-times" (click)="AssignOffersFlag=false" label="" class="p-button-secondary">NO
+		</p-button>
+	</ng-template>
 
 </p-dialog>

@@ -1,7 +1,7 @@
 export class AssigneProject
 {
     id:number;
-    IsAssigned:boolean
-    ProjectUpdateId:number
-    EmployeeId:number
+    isAssigned:boolean
+    projectUpdateId:number
+    employeeId:number
 }

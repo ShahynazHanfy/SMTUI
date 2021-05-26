@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AssigneProject } from 'app/shared/Models/AssignedProject';
 import { Datasheet } from 'app/shared/Models/Datasheet';
 import { Employee } from 'app/Shared/Models/Employee';
 import { Offer } from 'app/shared/Models/Offer';
@@ -10,6 +11,7 @@ import { OfferStatus } from 'app/shared/Models/OfferStatus';
 import { Profession } from 'app/shared/Models/Profession';
 import { ProjectCost } from 'app/shared/Models/ProjectCost';
 import { ProjectStatus } from 'app/Shared/Models/ProjectStatus';
+import { AssignProjectService } from 'app/shared/Services/AssignProject/assign-project.service';
 import { CostService } from 'app/shared/Services/Cost/cost.service';
 import { DatasheetService } from 'app/shared/Services/Datasheet/datasheet.service';
 import { EmployeeService } from 'app/Shared/Services/Employees/employee.service';
@@ -43,7 +45,7 @@ export class ProjectUpdateComponent implements OnInit {
   ProjectUpdateDescription: ProjectDescription
   LstProjectUpdateDescription: ProjectDescription[]
   LstProjectUpdateDescriptionByUpdateId: ProjectDescription[]
-
+  projectUpdateIdForAssign:number
   projectUpdate: ProjectUpdate
   NewLeaveDialogbool: boolean
   docproject: ProjectDocuments
@@ -66,6 +68,7 @@ export class ProjectUpdateComponent implements OnInit {
   lstOfCurrency: string[]
   documentObj: ProjectDocuments
   ViewDocsFlag: boolean = false
+  AssignProject:AssigneProject
   ViewLatestDocsFlag: boolean = false
   ViewDocsUpadteFlag: boolean = false
   AssignOffersFlag: boolean = false
@@ -113,7 +116,8 @@ export class ProjectUpdateComponent implements OnInit {
     private offerService: OfferService,
     private offerdescriptionService: OfferDescriptionService,
     private offerDocumentsService: OfferDocumentsService,
-    private employeeService:EmployeeService
+    private employeeService:EmployeeService,
+    private assignProject:AssignProjectService
 
   ) { }
 
@@ -139,7 +143,9 @@ export class ProjectUpdateComponent implements OnInit {
     this.stateOptions = [{ label: 'EGP', value: 'EGP' }, { label: 'USD', value: 'USD' }, { label: 'EUR', value: 'EUR' }];
     this.projectId = this.activeRoute.snapshot.params['projectId'];
     console.log("projectId", this.projectId)
-
+    this.AssignProject = {
+      employeeId:0,id:0,isAssigned:false,projectUpdateId:0
+    }
     this.docOffer = { id: 0, offerId: 0, documentFile: '' }
     this.project = {
       lstprojectSystems: [],
@@ -584,7 +590,10 @@ export class ProjectUpdateComponent implements OnInit {
       this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Deleted Successfully' });
     })
   }
-  AssignProjectUpdate() {
+  AssignProjectUpdateFlag(projectUpdateDesc) {
+    // this.projectUpdateId = 
+    this.projectUpdateIdForAssign = projectUpdateDesc.projectUpdateId
+    console.log("projectUpdateDesc",projectUpdateDesc)
     this.AssignOffersFlag = true
   }
   PickProfessionId(){
@@ -595,4 +604,10 @@ export class ProjectUpdateComponent implements OnInit {
       console.log("emps",this.lstEmployees)
     })
   }
+  AssignProjectUpdate(){
+    this.AssignProject.projectUpdateId=this.projectUpdateIdForAssign
+    this.assignProject.insertAssignProject(this.AssignProject).subscribe(e=>{
+      console.log("assigned")
+    })
+    }
 }
