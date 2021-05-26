@@ -516,11 +516,8 @@
 	</p-table>
 </div>
 
-
-
 <p-dialog header=" View Offers " [(visible)]="ViewOffersFlag" [style]="{width: '70vw'}" [baseZIndex]="10000">
 	<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
-
 	<div class="card">
 		<p-table #dt2 [value]="lstOfferDescription" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
 			[rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-customers container-fluid" [paginator]="true"
@@ -578,6 +575,8 @@
 					<td>
 						<span class="pi pi-times" (click)="confirm(offerDesc)" style="cursor: pointer;margin-left: 15px;"
 							aria-hidden="true"></span>
+							<span class="pi pi-file-o" (click)="viewOfferDocuments(offerDesc)" style="cursor: pointer;margin-left: 15px;"
+							aria-hidden="true"></span>
 					</td>
 				</tr>
 			</ng-template>
@@ -589,4 +588,67 @@
 			</ng-template>
 		</p-table>
 	</div>
+</p-dialog>
+
+
+<p-dialog header=" View All Offer Documents " [(visible)]="ViewOffersDocumentFlag" [style]="{width: '45vw'}" [baseZIndex]="10000">
+	<p-toast position="top-left" key="tl"></p-toast>
+	<p-toast position="top-center" key="tc"></p-toast>
+	<p-toast position="bottom-center" key="bc"></p-toast>
+	<br>
+	<div class="row">
+		<div style="margin-top: 30px;">
+			<!-- <h4>Upload Documents</h4> -->
+			<div class="row container">
+
+				<div style="margin-left: 10px;">
+					<br>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>File Name</th>
+								<th><i>View</i></th>
+								<th><i>Delete</i></th>
+
+							</tr>
+						</thead>
+						<tbody>
+
+							<tr *ngFor="let doc of lstOfferDocuments">
+								<td>
+									{{doc.documentFile}}
+								</td>
+								<td>
+									<div class="col"><button class="btn btn-primary"
+											(click)="viewSingleOfferDoc(doc)">View</button></div>
+								</td>
+								<td>
+									<div class="col"><button class="btn btn-danger"
+											(click)="deleteOfferDoc(doc)">Delete</button></div>
+								</td>
+
+							</tr>
+
+							<tr *ngIf="lstOfferDocuments.length == 0">
+								<td colspan="4" style="color: rgb(102, 97, 23);">No Documents found.</td>
+							</tr>
+
+						</tbody>
+
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- </div> -->
+	<br>
+	<ng-template pTemplate="footer">
+		<p-button type="submit" (click)="SaveProjectUpdate()" icon="pi pi-check" label=""
+			styleClass="p-button-text">
+			<span>Save</span>
+		</p-button>
+		<p-button icon="pi pi-times" (click)="ViewDocsFlag=false" label="" class="p-button-secondary">NO
+		</p-button>
+	</ng-template>
+
 </p-dialog>

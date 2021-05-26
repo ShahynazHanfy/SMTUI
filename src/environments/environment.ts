@@ -36,7 +36,8 @@ export const environment = {
   AcceptProject:'http://localhost:57910/api/Projects/AcceptProject/',
   GetAllAcceptedProjects:'http://localhost:57910/api/Projects/GetAllAcceptedProjects',
   OfferDescription:'http://localhost:57910/api/OfferDescriptions',
-  GetAllOfferByProjectUpdateId:'http://localhost:57910/api/OfferDescriptions/GetAllOfferByProjectUpdateId/'
+  GetAllOfferByProjectUpdateId:'http://localhost:57910/api/OfferDescriptions/GetAllOfferByProjectUpdateId/',
+  GetAllOfferDocumentsByOfferId:'http://localhost:57910/api/OfferDocuments/GetAllOfferDocumentsByOfferId/'
 
 };
 

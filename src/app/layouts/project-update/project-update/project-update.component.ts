@@ -12,6 +12,7 @@ import { CostService } from 'app/shared/Services/Cost/cost.service';
 import { DatasheetService } from 'app/shared/Services/Datasheet/datasheet.service';
 import { OfferService } from 'app/shared/Services/Offer/offer.service';
 import { OfferDescriptionService } from 'app/shared/Services/OfferDescription/offer-description.service';
+import { OfferDocumentsService } from 'app/shared/Services/OfferDocuments/offer-documents.service';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { DocumentCategory } from '../../../../../src/app/Shared/Models/DocumentCategory';
 import { Project } from '../../../../../src/app/Shared/Models/Project';
@@ -51,6 +52,7 @@ export class ProjectUpdateComponent implements OnInit {
   LstpProjectUpdates: ProjectUpdate[]
   lstDocumentCategory: DocumentCategory[]
   dataSheetObj: Datasheet
+  TempOfferId:number
   userId: string = localStorage.getItem('userId')
   projectUpdateId: number
   projectUpdateIdForOffer: number
@@ -62,12 +64,14 @@ export class ProjectUpdateComponent implements OnInit {
   ViewDocsFlag: boolean = false
   ViewLatestDocsFlag: boolean = false
   ViewDocsUpadteFlag: boolean = false
+  ViewOffersDocumentFlag: boolean = false
   MakeOfferFlag: boolean = false
   ViewOffersFlag: boolean = false
   lstProjDocuments: ProjectDocuments[]
   lstOfLatestProjDocuments: ProjectDocuments[]
   offer: Offer
   lstOffer: Offer[]
+  lstOfferDocuments: OfferDocuments[]
   lstOfferDescription: OfferDescription[]
   costObj: ProjectCost
   stateOptions: any[];
@@ -100,7 +104,8 @@ export class ProjectUpdateComponent implements OnInit {
     private statusService: OfferStatusNameService,
     private costService: CostService,
     private offerService: OfferService,
-    private offerdescriptionService: OfferDescriptionService
+    private offerdescriptionService: OfferDescriptionService,
+    private offerDocumentsService: OfferDocumentsService
 
   ) { }
 
@@ -112,6 +117,7 @@ export class ProjectUpdateComponent implements OnInit {
     this.lstDocumentCategory = []
     this.lstoddocprojOff = []
     this.lstProjDocuments = []
+    this.lstOfferDocuments = []
     this.lstOfLatestProjDocuments = []
     this.LstProjectUpdateDescription = []
     this.LstProjectUpdateDescriptionByUpdateId = []
@@ -236,7 +242,7 @@ export class ProjectUpdateComponent implements OnInit {
       id: 0, cost: 0, currency: ''
     }
     this.costObj = {
-      cost:0,id:0,currency:''
+      cost: 0, id: 0, currency: ''
     }
   }
 
@@ -256,7 +262,7 @@ export class ProjectUpdateComponent implements OnInit {
             this.messageService.add({ severity: 'info', summary: 'Record Deleted!', detail: 'Record Deleted!' });
 
             this.lstOfferDescription = []
-            console.log("offerProjectUpdateId",offerDesc.projectUpdateId)
+            console.log("offerProjectUpdateId", offerDesc.projectUpdateId)
             this.offerdescriptionService.GetAllOfferByProjectUpdateId(offerDesc.projectUpdateId).subscribe(
               res => {
                 console.log("lstOfferDescriptionversion2", this.lstOfferDescription)
@@ -514,7 +520,6 @@ export class ProjectUpdateComponent implements OnInit {
     ),
       err => console.log(err)
   }
-
   changeStatus(offerDescription) {
     console.log("teeeeeeeeeeeeeeeeet", offerDescription)
     console.log("obj before", offerDescription)
@@ -534,5 +539,33 @@ export class ProjectUpdateComponent implements OnInit {
           err => console.log(err)
       }
     )
+  }
+  viewOfferDocuments(offerDoc) {
+    console.log("offDoc", offerDoc)
+    this.TempOfferId=offerDoc.offersId
+    this.offerDocumentsService.GetAllOfferDocumentsByOfferId(offerDoc.offersId).subscribe(e => {
+      this.lstOfferDocuments = e
+
+    })
+    this.ViewOffersDocumentFlag = true
+  }
+  viewSingleOfferDoc(doc) {
+    console.log(doc)
+    var filePath = `${environment.Domain}wwwroot/DataSheets/${doc.documentFile}`;
+    window.open(filePath);
+  }
+  deleteOfferDoc(doc) {
+    this.offerDocumentsService.deleteOfferDocument(doc.id).subscribe(e => {
+      // this.lstProjDocuments.forEach((element, index) => {
+      //   if (element.id == doc.id)
+      //     this.lstProjDocuments.splice(index, 1);
+      // });
+      this.lstOfferDocuments = []
+      this.offerDocumentsService.GetAllOfferDocumentsByOfferId(this.TempOfferId).subscribe(e => {
+        this.lstOfferDocuments = e
+  
+      })
+      this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Deleted Successfully' });
+    })
   }
 }
