@@ -2,14 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Datasheet } from 'app/shared/Models/Datasheet';
+import { Employee } from 'app/Shared/Models/Employee';
 import { Offer } from 'app/shared/Models/Offer';
 import { OfferDescription } from 'app/shared/Models/OfferDescriptions';
 import { OfferDocuments } from 'app/shared/Models/OfferDocuments';
 import { OfferStatus } from 'app/shared/Models/OfferStatus';
+import { Profession } from 'app/shared/Models/Profession';
 import { ProjectCost } from 'app/shared/Models/ProjectCost';
 import { ProjectStatus } from 'app/Shared/Models/ProjectStatus';
 import { CostService } from 'app/shared/Services/Cost/cost.service';
 import { DatasheetService } from 'app/shared/Services/Datasheet/datasheet.service';
+import { EmployeeService } from 'app/Shared/Services/Employees/employee.service';
 import { OfferService } from 'app/shared/Services/Offer/offer.service';
 import { OfferDescriptionService } from 'app/shared/Services/OfferDescription/offer-description.service';
 import { OfferDocumentsService } from 'app/shared/Services/OfferDocuments/offer-documents.service';
@@ -51,8 +54,9 @@ export class ProjectUpdateComponent implements OnInit {
   lstOfferDataSheet: Datasheet[]
   LstpProjectUpdates: ProjectUpdate[]
   lstDocumentCategory: DocumentCategory[]
+  lstProfessions:Profession[]
   dataSheetObj: Datasheet
-  TempOfferId:number
+  TempOfferId: number
   userId: string = localStorage.getItem('userId')
   projectUpdateId: number
   projectUpdateIdForOffer: number
@@ -64,13 +68,16 @@ export class ProjectUpdateComponent implements OnInit {
   ViewDocsFlag: boolean = false
   ViewLatestDocsFlag: boolean = false
   ViewDocsUpadteFlag: boolean = false
+  AssignOffersFlag: boolean = false
   ViewOffersDocumentFlag: boolean = false
   MakeOfferFlag: boolean = false
   ViewOffersFlag: boolean = false
   lstProjDocuments: ProjectDocuments[]
   lstOfLatestProjDocuments: ProjectDocuments[]
+  lstEmployees:Employee[]
   offer: Offer
   lstOffer: Offer[]
+  selecteProfessiondVal:number
   lstOfferDocuments: OfferDocuments[]
   lstOfferDescription: OfferDescription[]
   costObj: ProjectCost
@@ -105,19 +112,22 @@ export class ProjectUpdateComponent implements OnInit {
     private costService: CostService,
     private offerService: OfferService,
     private offerdescriptionService: OfferDescriptionService,
-    private offerDocumentsService: OfferDocumentsService
+    private offerDocumentsService: OfferDocumentsService,
+    private employeeService:EmployeeService
 
   ) { }
 
   ngOnInit(): void {
     this.lstOffer = []
     this.lstOfferDescription = []
+    this.lstProfessions = []
     this.lstdocOffer = []
     this.lstoddocproj = []
     this.lstDocumentCategory = []
     this.lstoddocprojOff = []
     this.lstProjDocuments = []
     this.lstOfferDocuments = []
+    this.lstEmployees = []
     this.lstOfLatestProjDocuments = []
     this.LstProjectUpdateDescription = []
     this.LstProjectUpdateDescriptionByUpdateId = []
@@ -180,7 +190,13 @@ export class ProjectUpdateComponent implements OnInit {
       this.LstOfferStatus = e
       console.log("offerStatus", this.LstOfferStatus)
     })
-
+    this.employeeService.GetAllProfessions().subscribe(e=>{
+      this.lstProfessions = e
+      console.log("prof",this.lstProfessions)
+    })
+    // this.employeeService.GetAllEmployeesByProfessionId().subscribe(e=>{
+    //   this.lstEmployees = e
+    // })
 
     this.RloadPage()
   }
@@ -542,7 +558,7 @@ export class ProjectUpdateComponent implements OnInit {
   }
   viewOfferDocuments(offerDoc) {
     console.log("offDoc", offerDoc)
-    this.TempOfferId=offerDoc.offersId
+    this.TempOfferId = offerDoc.offersId
     this.offerDocumentsService.GetAllOfferDocumentsByOfferId(offerDoc.offersId).subscribe(e => {
       this.lstOfferDocuments = e
 
@@ -563,9 +579,20 @@ export class ProjectUpdateComponent implements OnInit {
       this.lstOfferDocuments = []
       this.offerDocumentsService.GetAllOfferDocumentsByOfferId(this.TempOfferId).subscribe(e => {
         this.lstOfferDocuments = e
-  
+
       })
       this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Deleted Successfully' });
+    })
+  }
+  AssignProjectUpdate() {
+    this.AssignOffersFlag = true
+  }
+  PickProfessionId(){
+    console.log("selecteProfessiondVal",this.selecteProfessiondVal)
+
+      this.employeeService.GetAllEmployeesByProfessionId(this.selecteProfessiondVal).subscribe(e=>{
+      this.lstEmployees = e
+      console.log("emps",this.lstEmployees)
     })
   }
 }

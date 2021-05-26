@@ -461,6 +461,7 @@
 				<th>Show Documents</th>
 				<th>Make Offer</th>
 				<th>Offers</th>
+
 			</tr>
 			<!-- <tr>
 				<th>Name
@@ -476,34 +477,42 @@
 
 			</tr> -->
 		</ng-template>
-		<ng-template pTemplate="body" let-customer>
+		<ng-template pTemplate="body" let-projectUpdateDesc>
 
 			<tr>
 
 				<td>
-					<span style="font-weight: bold;">{{customer.userName}}</span>
+					<div class="row">
+						<span style="font-weight: bold;" class="col-9">{{projectUpdateDesc.userName}}</span>
+						<div class="pi pi-chart-line col-3" (click)="AssignProjectUpdate(projectUpdateDesc)"
+							style="cursor: pointer;color: rgb(92, 92, 25);" aria-hidden="true"></div>
+					</div>
+
 				</td>
-				<td>{{customer.descriptionDate | date: 'short'}}</td>
+				<td>{{projectUpdateDesc.descriptionDate | date: 'short'}}</td>
 				<td>
-					<button class="btn btn-primary" (click)="ViewDescrption(customer.id)">
+					<button class="btn btn-primary" (click)="ViewDescrption(projectUpdateDesc.id)">
 						Description
 					</button>
 				</td>
 				<td>
-					<button class="btn btn-primary" (click)="ViewDocs(customer)">
+					<button class="btn btn-primary" (click)="ViewDocs(projectUpdateDesc)">
 						Documents
 					</button>
 				</td>
 				<td>
-					<button class="btn btn-primary" (click)="ShowOfferDialog(customer.projectUpdateId)">
+					<button class="btn btn-primary" (click)="ShowOfferDialog(projectUpdateDesc.projectUpdateId)">
 						Make Offer
 					</button>
 				</td>
 				<td>
-					<button class="btn btn-primary" (click)="showOffers(customer.projectUpdateId)">
-						Offers
-					</button>
-
+					<div class="row">
+						<button class="btn btn-primary col-8" (click)="showOffers(projectUpdateDesc.projectUpdateId)">
+							Offers
+						</button>
+						<!-- <span class="pi pi-times col-4" (click)="confirm(offerDesc)"
+							style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span> -->
+					</div>
 
 				</td>
 			</tr>
@@ -567,16 +576,16 @@
 
 					<td style="width: 10px;">
 						<p-dropdown [options]="LstOfferStatus" [style]="{'maxWidth':'150px'}"
-							(onChange)="changeStatus(offerDesc)" [readonly]="false" [(ngModel)]="offerDesc.offerStatusId"
-							optionLabel="offerStatusName" optionValue="id">
+							(onChange)="changeStatus(offerDesc)" [readonly]="false"
+							[(ngModel)]="offerDesc.offerStatusId" optionLabel="offerStatusName" optionValue="id">
 						</p-dropdown>
 
 					</td>
 					<td>
-						<span class="pi pi-times" (click)="confirm(offerDesc)" style="cursor: pointer;margin-left: 15px;"
-							aria-hidden="true"></span>
-							<span class="pi pi-file-o" (click)="viewOfferDocuments(offerDesc)" style="cursor: pointer;margin-left: 15px;"
-							aria-hidden="true"></span>
+						<span class="pi pi-times" (click)="confirm(offerDesc)"
+							style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>
+						<span class="pi pi-file-o" (click)="viewOfferDocuments(offerDesc)"
+							style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>
 					</td>
 				</tr>
 			</ng-template>
@@ -591,7 +600,8 @@
 </p-dialog>
 
 
-<p-dialog header=" View All Offer Documents " [(visible)]="ViewOffersDocumentFlag" [style]="{width: '45vw'}" [baseZIndex]="10000">
+<p-dialog header=" View All Offer Documents " [(visible)]="ViewOffersDocumentFlag" [style]="{width: '45vw'}"
+	[baseZIndex]="10000">
 	<p-toast position="top-left" key="tl"></p-toast>
 	<p-toast position="top-center" key="tc"></p-toast>
 	<p-toast position="bottom-center" key="bc"></p-toast>
@@ -643,12 +653,40 @@
 	<!-- </div> -->
 	<br>
 	<ng-template pTemplate="footer">
-		<p-button type="submit" (click)="SaveProjectUpdate()" icon="pi pi-check" label=""
-			styleClass="p-button-text">
+		<p-button type="submit" (click)="SaveProjectUpdate()" icon="pi pi-check" label="" styleClass="p-button-text">
 			<span>Save</span>
 		</p-button>
 		<p-button icon="pi pi-times" (click)="ViewDocsFlag=false" label="" class="p-button-secondary">NO
 		</p-button>
 	</ng-template>
+
+</p-dialog>
+
+<p-dialog header=" Assign Project Update " [(visible)]="AssignOffersFlag" [style]="{width: '50vw'}"
+	[baseZIndex]="10000">
+	<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+	<!-- <div class="card">
+		<p-multiSelect [options]="lstProjComponent" (onChange)="colChanges()"
+		[ngModelOptions]="{standalone: true}" [(ngModel)]="selectedColumns"
+		optionLabel="projectComponentName" selectedItemsLabel="{0} columns selected"
+		[style]="{minWidth: '500px'}" placeholder="Choose Components"></p-multiSelect>
+	</div> -->
+	<div class="row">
+		<div class="col-6">
+			<label for="inputState">Department</label>
+			<select id="inputState" [(ngModel)]="selecteProfessiondVal" (change)="PickProfessionId()"
+				class="form-control">
+				<option *ngFor="let i of lstProfessions" value="{{i.id}}">{{i.name}}</option>
+			</select>
+		</div>
+
+		<div class="col-6">
+			<label for="inputState">Employees</label>
+			<select id="inputState" [(ngModel)]="selecteProfessiondVal" class="form-control">
+				<option *ngFor="let i of lstEmployees" value="{{i.id}}">{{i.name}}</option>
+			</select>
+		</div>
+
+	</div>
 
 </p-dialog>
