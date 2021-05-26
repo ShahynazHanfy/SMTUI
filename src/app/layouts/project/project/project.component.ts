@@ -138,7 +138,7 @@ export class ProjectComponent implements OnInit {
       id: 0, projectStatusName: '', companyName: '', contractorName: '', contractorContactName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
       projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date, projectName: '', projectStatusId: 0, rank: 0, governorateId: 0, governorateName: ''
     }
-    if (this.role == 'Sales') {
+    if (this.role == 'PreSales') {
       this.projectService.GetAllAcceptedProjects().subscribe(e=>{
         this.projectList = e
       })

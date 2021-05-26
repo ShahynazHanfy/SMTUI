@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup,FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PasswordConfirmationValidatorService } from '../../Customvalidators/password-confirmation-validator.service';
 import { ResetPasswordDTO } from '../../../../src/app/Shared/Models/ResetPasswordDTO';
@@ -21,10 +21,11 @@ export class ResetPasswordComponent implements OnInit {
   public _email: string;
   fieldTextType: boolean;
   repeatFieldTextType: boolean;
-  constructor(private _authService: AuthenticateService, private _passConfValidator: PasswordConfirmationValidatorService, 
+  constructor(fb: FormBuilder,private _authService: AuthenticateService, private _passConfValidator: PasswordConfirmationValidatorService, 
     private _route: ActivatedRoute) { }
  
     ngOnInit(): void {
+      
       this.resetPasswordForm = new FormGroup({
         password: new FormControl('', [Validators.required]),
         confirm: new FormControl('')
