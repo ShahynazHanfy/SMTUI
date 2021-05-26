@@ -40,7 +40,7 @@ export const environment = {
   GetAllOfferDocumentsByOfferId:'http://localhost:57910/api/OfferDocuments/GetAllOfferDocumentsByOfferId/',
   GetAllEmployeesByProfessionId:'http://localhost:57910/api/Employees/GetAllEmployeesByProfessionId/',
   GetAllProfessions:'http://localhost:57910/api/Employees/GetAllProfessions',
-  AssigneProject:'http://localhost:57910/api/AssignedProjects/AssigneProject/',
+  AssigneProject:'http://localhost:57910/api/AssignedProjects/',
 };
 
 /*
