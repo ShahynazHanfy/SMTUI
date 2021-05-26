@@ -7,11 +7,11 @@ export const AppRoutes: Routes = [
   {
     path: '',component:LoginComponent
   },
-  {
-    path: 'admin',
-    redirectTo: 'dashboard',
-    pathMatch: 'full',
-  }, 
+  // {
+  //   path: 'admin',
+  //   redirectTo: 'dashboard',
+  //   pathMatch: 'full',
+  // }, 
   { path: 'login', component: LoginComponent },
   
   {
@@ -23,9 +23,9 @@ export const AppRoutes: Routes = [
         loadChildren: './layouts/admin-layout/admin-layout.module#AdminLayoutModule'
       }]
   }
-  ,
-  {
-    path: '**',
-    redirectTo: 'login'
-  }
+  // ,
+  // {
+  //   path: '**',
+  //   redirectTo: 'login'
+  // }
 ]

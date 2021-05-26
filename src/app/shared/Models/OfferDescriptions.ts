@@ -5,6 +5,7 @@ export class OfferDescription
     descriptionDate:Date
     userId:string
     projectId:number
+    projectUpdateId:number
     offersId:number
     projectName:string
     userName:string
