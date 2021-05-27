@@ -47,7 +47,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     AccordionModule,
     DialogModule,
     ButtonModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+
   ],
   declarations: [
     DashboardComponent,
@@ -64,6 +65,11 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     GovernoratesComponent,
     ContractorsComponent,
     EndUsersComponent
+  ],
+  exports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers:[ConfirmationService,MessageService]
 })

@@ -32,5 +32,7 @@ export const environment = {
   AcceptProject:'http://10.10.0.129/SMTAPI/api/Projects/AcceptProject/',
   GetAllAcceptedProjects:'http://10.10.0.129/SMTAPI/api/Projects/GetAllAcceptedProjects',
   OfferDescription:'http://10.10.0.129/SMTAPI/api/OfferDescriptions',
-  GetAllOfferByProjectUpdateId:'http://10.10.0.129/SMTAPI/api/OfferDescriptions/GetAllOfferByProjectUpdateId/'
+  GetAllOfferByProjectUpdateId:'http://10.10.0.129/SMTAPI/api/OfferDescriptions/GetAllOfferByProjectUpdateId/',
+  GetAllOfferDocumentsByOfferId:'http://10.10.0.129/SMTAPI/api/OfferDocuments/GetAllOfferDocumentsByOfferId/'
+
 };

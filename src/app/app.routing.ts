@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 
@@ -13,6 +14,8 @@ export const AppRoutes: Routes = [
   //   pathMatch: 'full',
   // }, 
   { path: 'login', component: LoginComponent },
+  { path: 'Resetpassword', component: ResetPasswordComponent },
+
   
   {
     path: 'admin',
