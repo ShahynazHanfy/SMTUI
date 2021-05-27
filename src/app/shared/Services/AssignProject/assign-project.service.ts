@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AssignProjectService {
+export class  AssignProjectService {
 
   constructor(private httpClient: HttpClient) { }
   httpHeader = {
@@ -22,6 +22,9 @@ export class AssignProjectService {
   // insertOffer(Offer: Offer): Observable<number> {
   //   return this.httpClient.post<number>(`${environment.Offer}`, Offer, this.httpHeader);
   // }
+  GetAllAssignedProjectsByEmployeeId(EmpId:number): Observable<AssigneProject[]> {
+    return this.httpClient.get<AssigneProject[]>(`${environment.GetAllAssignedProjectsByEmployeeId}`+ EmpId, this.httpHeader);
+  }
   insertAssignProject(assignedProjects: AssigneProject): Observable<number> {
     return this.httpClient.post<number>(`${environment.AssigneProject}`, assignedProjects, this.httpHeader);
   }
@@ -31,7 +34,7 @@ export class AssignProjectService {
   updateAssigneProject(id: Number, AssigneProject: AssigneProject): Observable<AssigneProject> {
     return this.httpClient.put<AssigneProject>(`${environment.AssigneProject}` + id, AssigneProject, this.httpHeader);
   }
-  GetassignedProjectsById(AssigneProjectID: number): Observable<AssigneProject> {
-    return this.httpClient.get<AssigneProject>(`${environment.AssigneProject}` + AssigneProjectID, this.httpHeader)
+  GetassignedProjectsById(AssigneProjectID: number): Observable<AssigneProject[]> {
+    return this.httpClient.get<AssigneProject[]>(`${environment.AssigneProject}` + AssigneProjectID, this.httpHeader)
   }
 }

@@ -18,6 +18,8 @@ export class NavbarComponent implements OnInit{
 
     public isCollapsed = true;
     @ViewChild("navbar-cmp", {static: false}) button;
+  role: string;
+  userName: string;
 
     constructor(location:Location, private renderer : Renderer2, private element : ElementRef, private router: Router) {
         this.location = location;
@@ -26,6 +28,9 @@ export class NavbarComponent implements OnInit{
     }
 
     ngOnInit(){
+      this.role= localStorage.getItem('roles');
+      this.userName= localStorage.getItem('userName')
+
         this.listTitles = ROUTES.filter(listTitle => listTitle);
         var navbar : HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];

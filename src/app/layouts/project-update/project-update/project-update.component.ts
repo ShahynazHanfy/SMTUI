@@ -39,13 +39,15 @@ import { environment } from '../../../../../src/environments/environment';
 })
 export class ProjectUpdateComponent implements OnInit {
 
+
   project: Project
   activeIndex: number = 0;
   items: MenuItem[];
+  lstAssignedProjectsForEmployee:AssigneProject[]
   ProjectUpdateDescription: ProjectDescription
   LstProjectUpdateDescription: ProjectDescription[]
   LstProjectUpdateDescriptionByUpdateId: ProjectDescription[]
-  projectUpdateIdForAssign:number
+  projectUpdateIdForAssign: number
   projectUpdate: ProjectUpdate
   NewLeaveDialogbool: boolean
   docproject: ProjectDocuments
@@ -56,10 +58,11 @@ export class ProjectUpdateComponent implements OnInit {
   lstOfferDataSheet: Datasheet[]
   LstpProjectUpdates: ProjectUpdate[]
   lstDocumentCategory: DocumentCategory[]
-  lstProfessions:Profession[]
+  lstProfessions: Profession[]
   dataSheetObj: Datasheet
   TempOfferId: number
   userId: string = localStorage.getItem('userId')
+  EmpId: string = localStorage.getItem('empId')
   projectUpdateId: number
   projectUpdateIdForOffer: number
   result: ProjectUpdateExtraData[]
@@ -68,7 +71,7 @@ export class ProjectUpdateComponent implements OnInit {
   lstOfCurrency: string[]
   documentObj: ProjectDocuments
   ViewDocsFlag: boolean = false
-  AssignProject:AssigneProject
+  AssignProject: AssigneProject
   ViewLatestDocsFlag: boolean = false
   ViewDocsUpadteFlag: boolean = false
   AssignOffersFlag: boolean = false
@@ -77,10 +80,10 @@ export class ProjectUpdateComponent implements OnInit {
   ViewOffersFlag: boolean = false
   lstProjDocuments: ProjectDocuments[]
   lstOfLatestProjDocuments: ProjectDocuments[]
-  lstEmployees:Employee[]
+  lstEmployees: Employee[]
   offer: Offer
   lstOffer: Offer[]
-  selecteProfessiondVal:number
+  selecteProfessiondVal: number
   lstOfferDocuments: OfferDocuments[]
   lstOfferDescription: OfferDescription[]
   costObj: ProjectCost
@@ -100,7 +103,9 @@ export class ProjectUpdateComponent implements OnInit {
   ProjectCostId: number
   CurrencyValue: string
   offerId: number
+  indexDesc: ProjectDescription
   offerDescription: OfferDescription
+  role: string;
   constructor(private activeRoute: ActivatedRoute,
     private projectService: ProjectService,
     private ProjectUpdateService: ProjectUpdateService,
@@ -116,8 +121,8 @@ export class ProjectUpdateComponent implements OnInit {
     private offerService: OfferService,
     private offerdescriptionService: OfferDescriptionService,
     private offerDocumentsService: OfferDocumentsService,
-    private employeeService:EmployeeService,
-    private assignProject:AssignProjectService
+    private employeeService: EmployeeService,
+    private assignProjectService: AssignProjectService
 
   ) { }
 
@@ -139,12 +144,13 @@ export class ProjectUpdateComponent implements OnInit {
     this.lstOfferDataSheet = []
     this.LstOfferStatus = []
     console.log("ds", this.value1)
+    this.role= localStorage.getItem('roles');
     this.lstOfCurrency = ['$', 'U', 'EGP']
     this.stateOptions = [{ label: 'EGP', value: 'EGP' }, { label: 'USD', value: 'USD' }, { label: 'EUR', value: 'EUR' }];
     this.projectId = this.activeRoute.snapshot.params['projectId'];
     console.log("projectId", this.projectId)
     this.AssignProject = {
-      employeeId:0,id:0,isAssigned:false,projectUpdateId:0
+      employeeId: 0, id: 0, isAssigned: false, projectUpdateId: 0, description: '', AssignedProjectDate: new Date
     }
     this.docOffer = { id: 0, offerId: 0, documentFile: '' }
     this.project = {
@@ -196,13 +202,14 @@ export class ProjectUpdateComponent implements OnInit {
       this.LstOfferStatus = e
       console.log("offerStatus", this.LstOfferStatus)
     })
-    this.employeeService.GetAllProfessions().subscribe(e=>{
+    this.employeeService.GetAllProfessions().subscribe(e => {
       this.lstProfessions = e
-      console.log("prof",this.lstProfessions)
+      console.log("prof", this.lstProfessions)
     })
     // this.employeeService.GetAllEmployeesByProfessionId().subscribe(e=>{
     //   this.lstEmployees = e
     // })
+
 
     this.RloadPage()
   }
@@ -234,6 +241,8 @@ export class ProjectUpdateComponent implements OnInit {
 
       this.projectDescriptionService.GetDescriptionsByProjectId(this.projectId).subscribe(e => {
         this.LstProjectUpdateDescription = e
+        this.indexDesc = this.LstProjectUpdateDescription[0]
+        console.log("hh")
         this.LstProjectUpdateDescription.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
 
         console.log("LstProjectUpdateDescription", e)
@@ -267,7 +276,6 @@ export class ProjectUpdateComponent implements OnInit {
       cost: 0, id: 0, currency: ''
     }
   }
-
   confirm(offerDesc) {
 
     console.log("offerDesc", offerDesc)
@@ -300,15 +308,12 @@ export class ProjectUpdateComponent implements OnInit {
   showSuccess() {
     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
   }
-
   showInfo() {
     this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Message Content' });
   }
-
   showWarn() {
     this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Message Content' });
   }
-
   SaveProjectUpdate() {
     let promise = new Promise((resolve, reject) => {
       this.ProjectUpdateService.insertProjectUpdate(this.projectUpdate).toPromise()
@@ -351,11 +356,19 @@ export class ProjectUpdateComponent implements OnInit {
           }
         );
     });
+    this.projectDescriptionService.GetDescriptionsByProjectId(this.projectId).subscribe(e => {
+      this.LstProjectUpdateDescription = e
+      this.indexDesc = this.LstProjectUpdateDescription[0]
+      console.log("hhhhhhhhhhhhh")
+      this.LstProjectUpdateDescription.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
 
+      console.log("LstProjectUpdateDescription", e)
+    })
     return promise;
     // this.ProjectUpdateService.insertProjectUpdate(this.projectUpdate).subscribe(e => {
     //   console.log("projectUpdate inserted Successfully")
     // })
+    
   }
   fullPath() {
     this.FullPath = this.path + '\\' + this.SelectionFileName
@@ -380,7 +393,6 @@ export class ProjectUpdateComponent implements OnInit {
 
     }
   }
-
   SavedocOffertolist() {
 
 
@@ -393,7 +405,6 @@ export class ProjectUpdateComponent implements OnInit {
   SaveDatasheetToList() {
     this.lstOfferDataSheet.push(this.dataSheetObj)
   }
-
   uploadFile = (files) => {
     if (files.length === 0) {
       return;
@@ -448,12 +459,11 @@ export class ProjectUpdateComponent implements OnInit {
     this.lstdocOffer = this.lstdocOffer.filter(v => v != doc);
     this.messageService.add({ severity: 'warn', key: "tc", summary: 'Removed', detail: 'Removed Successfully' });
   }
-
   ViewDescrption(projectUpdateId) {
     this.ViewDocsUpadteFlag = true;
     this.projectDescriptionService.GetDescriptionsByProjectUpdateId(projectUpdateId).subscribe(e => {
       this.LstProjectUpdateDescriptionByUpdateId = e
-      this.LstProjectUpdateDescription.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
+      this.LstProjectUpdateDescriptionByUpdateId.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
       console.log("LstProjectUpdateDescriptionByUpdateId", e)
     })
   }
@@ -475,8 +485,6 @@ export class ProjectUpdateComponent implements OnInit {
       console.log("lstOfLatestProjDocuments", this.lstOfLatestProjDocuments)
     })
   }
-
-
   handleFileInput(files: FileList) {
     var fil = document.getElementById("myFile");
   }
@@ -593,21 +601,30 @@ export class ProjectUpdateComponent implements OnInit {
   AssignProjectUpdateFlag(projectUpdateDesc) {
     // this.projectUpdateId = 
     this.projectUpdateIdForAssign = projectUpdateDesc.projectUpdateId
-    console.log("projectUpdateDesc",projectUpdateDesc)
+    console.log("projectUpdateDesc", projectUpdateDesc)
     this.AssignOffersFlag = true
   }
-  PickProfessionId(){
-    console.log("selecteProfessiondVal",this.selecteProfessiondVal)
+  PickProfessionId() {
+    console.log("selecteProfessiondVal", this.selecteProfessiondVal)
 
-      this.employeeService.GetAllEmployeesByProfessionId(this.selecteProfessiondVal).subscribe(e=>{
+    this.employeeService.GetAllEmployeesByProfessionId(this.selecteProfessiondVal).subscribe(e => {
       this.lstEmployees = e
-      console.log("emps",this.lstEmployees)
+      console.log("emps", this.lstEmployees)
     })
   }
-  AssignProjectUpdate(){
-    this.AssignProject.projectUpdateId=this.projectUpdateIdForAssign
-    this.assignProject.insertAssignProject(this.AssignProject).subscribe(e=>{
+  AssignProjectUpdate() {
+    this.AssignProject.projectUpdateId = this.projectUpdateIdForAssign
+    this.assignProjectService.insertAssignProject(this.AssignProject).subscribe(e => {
       console.log("assigned")
+      this.AssignOffersFlag = false
     })
-    }
+  }
+  ViewAllAsignedProjects(){
+    this.assignProjectService.GetAllAssignedProjectsByEmployeeId(Number(this.EmpId)).subscribe(e=>{
+
+    })
+  }
+  ViewAllOfferedOffers(){
+    
+  }
 }

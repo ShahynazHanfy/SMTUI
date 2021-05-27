@@ -27,4 +27,7 @@ export class ProjectDescriptionService {
   GetDescriptionsByProjectUpdateId(projectUpdateId:number): Observable <ProjectDescription[]>{
     return this.httpClient.get<ProjectDescription[]> (`${environment.GetDescriptionsByProjectUpdateId}${projectUpdateId}`,this.httpHeader) ;
   }
+  GetAllProjectByUserId(UserId:string): Observable <ProjectDescription[]>{
+    return this.httpClient.get<ProjectDescription[]> (`${environment.GetAllProjectByUserId}${UserId}`,this.httpHeader) ;
+  }
 }

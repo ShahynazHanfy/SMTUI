@@ -45,6 +45,7 @@ export class ProjectComponent implements OnInit {
   message: string;
   ProjectDescriptionObj: ProjectDescription
   projectList: Project[]
+  projectDescriptionList: ProjectDescription[]
   projectObj: Project
   lstEndUsers: EndUsers[]
   lstProjStatus: ProjectStatus[]
@@ -53,7 +54,7 @@ export class ProjectComponent implements OnInit {
   lstContractors: Contractors[]
   userId: string = localStorage.getItem('userId')
   userName: string = localStorage.getItem('userName')
-  role: string = localStorage.getItem('roles')
+  role: string;
   project: Project
   showTheFirstStepDialog: boolean;
   uploadDocuments: boolean;
@@ -87,7 +88,9 @@ export class ProjectComponent implements OnInit {
   activityValues: number[] = [0, 100];
 
   ngOnInit(): void {
-
+    
+this.role= localStorage.getItem('roles');
+console.log("this.role",this.role)
     this.items = [{
       label: 'Details',
       command: (event: any) => {
@@ -114,8 +117,8 @@ export class ProjectComponent implements OnInit {
     this.lstGovn = []
     this.lstDocumentCategory = []
     this.lstContractors = []
-
-
+    this.projectDescriptionList = []
+    this.projectList = []
     this.ProjectDescriptionObj =
     {
       id: 0, projectName: '', description: '', userName: this.userName,
@@ -139,14 +142,21 @@ export class ProjectComponent implements OnInit {
       projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date, projectName: '', projectStatusId: 0, rank: 0, governorateId: 0, governorateName: ''
     }
     if (this.role == 'PreSales') {
-      this.projectService.GetAllAcceptedProjects().subscribe(e=>{
+      this.projectService.GetAllAcceptedProjects().subscribe(e => {
         this.projectList = e
       })
 
-    } else if (this.role == 'Admin') {
+    } if (this.role == 'Admin' || 'SalesManager') {
       this.projectService.GetAllProjects().subscribe(e => {
         this.projectList = e,
           this.projectList.forEach(customer => customer.projectCreationDate = new Date(customer.projectCreationDate));
+      })
+    }
+    if (this.role == 'Sales') {
+      this.projectDescriptionService.GetAllProjectByUserId(this.userId).subscribe(e => {
+        this.projectDescriptionList = e,
+          console.log("projDesscSales", this.projectDescriptionList)
+        this.projectDescriptionList.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
       })
     }
 

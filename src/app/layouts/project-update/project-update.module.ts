@@ -42,7 +42,7 @@ import { StepsModule } from 'primeng/steps';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import {RatingModule} from 'primeng/rating';
-
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   declarations: [ProjectUpdateComponent],
@@ -50,6 +50,7 @@ import {RatingModule} from 'primeng/rating';
     CommonModule,
     ProjectUpdateRoutingModule,
     RatingModule,
+    TooltipModule,
     // MatButtonModule,
     // MatCardModule,
     FormsModule,

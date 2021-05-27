@@ -1,64 +1,5 @@
-<!-- <div class="container-fluid">
-    <div class="table-responsive container">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-5">
-                        <h2>Project <b>Management</b></h2>
-                    </div>
-                    <div class="col-sm-7">
-                        <a class="btn btn-secondary" style="background-color: rgb(180, 187, 83);"
-                            (click)="showTheFirstStepDialog=true"><i class="material-icons">&#xE147;</i> <span>Add New
-                                Project</span></a>
 
-                    </div>
-                </div>
-            </div>
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>ProjectName</th>
-                        <th>Rank</th>
-                        <th>Date Created</th>
-                        <th>Project Status</th>
-                        <th>Contractor</th>
-                        <th>End User</th>
-                        <th>Project Component</th>
-                        <th>Governorate Name</th>
-                        <th>Operations</th>
-                    </tr>
-                </thead>
-                <tbody *ngFor="let i of projectList">
-                    <tr>
-                        <td>{{i.projectName}}</td>
-                        <td>{{i.rank}}</td>
-                        <td>{{i.projectCreationDate | date:'short'}}</td>
-                        <td>{{i.projectStatusName}}</td>
-                        <td>{{i.contractorContactName}}</td>
-                        <td>{{i.endUserContactName}}</td>
-                        <td>{{i.projectComponentName}}</td>
-                        <td>{{i.governorateName}}</td>
-                        <td><button class="btn btn-success" [routerLink]="['projectUpdate',i.id]">Add
-                                Update</button></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                <ul class="pagination">
-                    <li class="page-item disabled"><a href="#">Previous</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-   
-</div> -->
+
 <p-dialog [(visible)]="showTheFirstStepDialog" [style]="{width: '80vw'}" [contentStyle]="{minHeight: '470px'}"
     [resizable]="true" [baseZIndex]="10000">
     <p-toast position="top-left" key="tl"></p-toast>
@@ -245,7 +186,7 @@
 </p-dialog>
 
 <div class="card">
-    <p-table #dt2 [value]="projectList" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+    <p-table #dt2 [value]="projectList" *ngIf="role!='Sales'"  dataKey="id" [rows]="10" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-customers container-fluid" [paginator]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [globalFilterFields]="['projectName','projectCreationDate','rank','projectStatusName']">
@@ -256,7 +197,7 @@
                     <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
                         placeholder="Search keyword" />
 
-                    <button class="btn btn-primary" *ngIf="role=='Admin'" style="margin-left: 20px;" (click)="showTheFirstStepDialog=true">Add
+                    <button class="btn btn-primary" style="margin-left: 20px;" (click)="showTheFirstStepDialog=true">Add
                         New
                         Project</button>
                     <!-- <a class="btn btn-secondary" style="background-color: rgb(180, 187, 83);"
@@ -269,7 +210,7 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th>Emloyee Image</th>
+                <th>Emloyee Name</th>
                 <th>Project Name
                     <p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
                 </th>
@@ -385,6 +326,131 @@
             </tr>
         </ng-template>
     </p-table>
+
+    <p-table #dt2 [value]="projectDescriptionList" *ngIf="role=='Sales'"  dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-customers container-fluid" [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['projectName','projectCreationDate','rank','projectStatusName']">
+    <ng-template pTemplate="caption">
+        <div class="p-d-flex">
+            <span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search keyword" />
+
+                <button class="btn btn-primary" *ngIf="role=='Sales'||role=='SalesManager'||role=='Admin'" style="margin-left: 20px;" (click)="showTheFirstStepDialog=true">Add
+                    New
+                    Project</button>
+                <!-- <a class="btn btn-secondary" style="background-color: rgb(180, 187, 83);"
+                    ><i class="material-icons">&#xE147;</i> <span>Add New
+                        Project</span></a> -->
+
+
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Emloyee Name</th>
+            <th>Project Name
+                <p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
+            </th>
+            <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                    Date
+                    <p-columnFilter type="date" field="projectCreationDate" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                    Activity
+                    <p-columnFilter field="rank" matchMode="between" display="menu" [showMatchModes]="false"
+                        [showOperator]="false" [showAddButton]="false">
+                        <ng-template pTemplate="filter" let-filter="filterCallback">
+                            <p-slider [ngModel]="activityValues" [range]="true" (onSlideEnd)="filter($event.values)"
+                                styleClass="p-m-3"></p-slider>
+                            <div class="p-d-flex p-ai-center p-jc-between p-px-2">
+                                <span>{{activityValues[0]}}</span>
+                                <span style="float: right;">{{activityValues[1]}}</span>
+                            </div>
+                        </ng-template>
+                    </p-columnFilter>
+                </div>
+            </th>
+            <th>Status
+                <p-columnFilter type="text" field="projectStatusName" display="menu"></p-columnFilter>
+            </th>
+            <th>Update</th>
+            <th>Controls</th>
+
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-customer>
+        <tr>
+            <td>
+                <img src="../../../../assets/img/sales.png" style="border-radius: 50%;margin-right: 10px;"
+                    [class]="'flag flag-' + customer.endUserContactName" width="40">
+            </td>
+            <td>
+                <span style="font-weight: bold;">{{customer.projectName}}</span>
+            </td>
+            <td>{{customer.projectCreationDate | date: 'MM/dd/yyyy'}}</td>
+            <td>
+                <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar>
+
+            </td>
+            <td *ngIf="customer.projectStatusName =='New'">
+                <div
+                    style="background-color: #d8cdff;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
+                    <span
+                        style="font-weight: bold;color: #8c17da;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;padding: .25em .5rem;border-radius: 2px;"
+                        [class]="'customer-badge status-' + customer.projectStatusName">{{customer.projectStatusName}}</span>
+
+                </div>
+
+            </td>
+            <td *ngIf="customer.projectStatusName=='Offered'">
+                <div
+                    style="background-color: #ffcdd2;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
+                    <span [class]="'customer-badge status-' + customer.projectStatusName"
+                        style="font-weight: bold; color: #f14b09;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;font-weight: 700;padding: .25em .5rem;border-radius: 2px;">{{customer.projectStatusName}}</span>
+
+                </div>
+
+
+            </td>
+            <td *ngIf="customer.projectStatusName=='Hold'">
+                <div
+                    style="background-color: #c8e6c9;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
+                    <span
+                        style="font-weight: bold; text-transform: uppercase; color: #256029; font-size: 12px;letter-spacing: .3px;font-weight: 700;font-weight: 700;padding: .25em .5rem;border-radius: 2px;"
+                        [class]="'customer-badge status-' + customer.projectStatusName">{{customer.projectStatusName}}</span>
+
+                </div>
+
+            </td>
+            <td>
+                <i class="pi" style="font-size: small;">
+
+                    <button class="btn btn-success" [routerLink]="['projectUpdate',customer.projectId]">
+                        Update</button>
+                </i>
+            </td>
+            <td>
+                <span class="pi pi-compass" aria-hidden="true" style="cursor: pointer;"
+                    (click)="showBasicDialog(customer.projectId)"></span>
+
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="5">No customers found.</td>
+        </tr>
+    </ng-template>
+</p-table>
+
 </div>
 
 <span data-notify="icon" class="nc-icon nc-chart-pie-36"></span>

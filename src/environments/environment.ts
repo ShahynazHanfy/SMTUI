@@ -25,6 +25,7 @@ export const environment = {
   GetLatestDocuments:'http://localhost:57910/api/ProjectDocuments/GetLatestDocuments/',
   GetDescriptionsByProjectId:'http://localhost:57910/api/ProjectDescriptions/GetDescriptionsByProjectId/',
   GetDescriptionsByProjectUpdateId:'http://localhost:57910/api/ProjectDescriptions/GetDescriptionsByProjectUpdateId/',
+  GetAllProjectByUserId:'http://localhost:57910/api/ProjectDescriptions/GetAllProjectByUserId/',
   ProjectDocumentByProjectID:'http://localhost:57910/api/ProjectDocuments/GetProjectDocumentByProjectId/',
   ProjectSystem:'http://localhost:57910/api/ProjectSystems/',
   OfferStatus:'http://localhost:57910/api/OfferStatus/',
@@ -41,6 +42,8 @@ export const environment = {
   GetAllEmployeesByProfessionId:'http://localhost:57910/api/Employees/GetAllEmployeesByProfessionId/',
   GetAllProfessions:'http://localhost:57910/api/Employees/GetAllProfessions',
   AssigneProject:'http://localhost:57910/api/AssignedProjects/',
+  GetAllAssignedProjectsByEmployeeId:'http://localhost:57910/api/AssignedProjects/GetAllAssignedProjectsByEmployeeId/',
+  GetAllOfferOfferedByUserId:'http://localhost:57910/api/OfferDescriptions/'
 };
 
 /*

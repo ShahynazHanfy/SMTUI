@@ -4,4 +4,6 @@ export class AssigneProject
     isAssigned:boolean
     projectUpdateId:number
     employeeId:number
+    description:string
+    AssignedProjectDate:Date
 }
