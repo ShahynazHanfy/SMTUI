@@ -39,4 +39,8 @@ export class LoginComponent implements OnInit {
   public onKeyPass(event: any) {
     this.password = event.target.value
   }
+  clickBtn(){
+    this.route.navigate(['/Forgotpassword']);
+
+  }
 }

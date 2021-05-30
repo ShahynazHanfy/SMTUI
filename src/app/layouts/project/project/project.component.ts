@@ -88,9 +88,9 @@ export class ProjectComponent implements OnInit {
   activityValues: number[] = [0, 100];
 
   ngOnInit(): void {
-    
-this.role= localStorage.getItem('roles');
-console.log("this.role",this.role)
+
+    this.role = localStorage.getItem('roles');
+    console.log("this.role", this.role)
     this.items = [{
       label: 'Details',
       command: (event: any) => {
@@ -106,7 +106,7 @@ console.log("this.role",this.role)
     {
       label: 'Confirmation',
       command: (event: any) => {
-        this.activeIndex = 3;
+        this.activeIndex = 2;
       }
     }
     ];
@@ -222,6 +222,8 @@ console.log("this.role",this.role)
             resolve('cons');
           },
           msg => { // Error
+            this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Correct Category and File' });
+
             reject(msg);
           }
         ).then(
@@ -232,6 +234,8 @@ console.log("this.role",this.role)
             resolve('cons');
           },
           msg => { // Error
+            this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Correct Category and File' });
+
             reject(msg);
           }
         )
@@ -244,6 +248,8 @@ console.log("this.role",this.role)
             resolve('cons');
           },
           msg => { // Error
+            this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Correct Category and File' });
+
             reject(msg);
           }
         );

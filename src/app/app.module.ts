@@ -40,12 +40,14 @@ import { DragDropModule } from "primeng/dragdrop";
 import { PickListModule } from "primeng/picklist";
 import { ProjectRouting } from "./layouts/project/project-routing";
 import { RatingModule } from "primeng/rating";
+import { ForgotPasswordComponent } from "../app/components/forgot-password/forgot-password.component";
 // import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminLayoutComponent,
+    ForgotPasswordComponent
     // ProjectStatusComponent
   ],
   imports: [

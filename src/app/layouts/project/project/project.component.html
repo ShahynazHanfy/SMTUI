@@ -1,22 +1,21 @@
 
 
-<p-dialog [(visible)]="showTheFirstStepDialog" [style]="{width: '80vw'}" [contentStyle]="{minHeight: '470px'}"
+<p-dialog [(visible)]="showTheFirstStepDialog" [style]="{width: '80vw'}" 
     [resizable]="true" [baseZIndex]="10000">
-    <p-toast position="top-left" key="tl"></p-toast>
+    <p-toast position="top-left" key="tc"></p-toast>
     <p-toast position="top-center" key="tc"></p-toast>
-    <p-toast position="bottom-center" key="bc"></p-toast>
+    <p-toast position="bottom-center" key="tc"></p-toast>
     <div class="row">
         <h1 class="col-4" style="font-size: 40px;">Create Project</h1><span class="col-8"
             style="color: green;margin-top: 5px;">(NEW)</span>
     </div>
 
     <!-- Handle Steps Details,Documents,Desc,Confirmation -->
-    <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
+    <p-steps  [model]="items" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
 
 
     <!-- Details Step -->
     <form *ngIf="activeIndex==0">
-
         <div class="form-row" style="margin-top: 20px;">
             <div class="form-group col-md-6">
                 <label for="inputState">Project Name</label>
@@ -25,26 +24,12 @@
             </div>
             <div class="form-group col-md-6">
                 <label for="inputState">Project Components Name</label>
-                <!-- <select id="inputState" [ngModelOptions]="{standalone: true}"
-                        [(ngModel)]="projectObj.projectComponentsId" class="form-control">
-                        <option *ngFor="let i of lstProjComponent" value="{{i.id}}">
-                            {{i.projectComponentName}}</option>
-                    </select> -->
                 <br>
                 <p-multiSelect [options]="lstProjComponent" (onChange)="colChanges()"
                     [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedColumns"
                     optionLabel="projectComponentName" selectedItemsLabel="{0} columns selected"
-                    [style]="{minWidth: '500px'}" placeholder="Choose Components"></p-multiSelect>
+                    [style]="{minWidth: '556px'}" placeholder="Choose Components"></p-multiSelect>
             </div>
-            <!-- <div class="form-group col-md-4">
-                    <input type="text" class="form-control" [ngModelOptions]="{standalone: true}"
-                        [(ngModel)]="projectObj.companyName" name="companyName" id="Company" placeholder="Company Name">
-                </div>
-                <div class="form-group col-md-4">
-                    <input type="text" class="form-control" [ngModelOptions]="{standalone: true}"
-                        [(ngModel)]="projectObj.contractorContactName" name="contractorContactName"
-                        id="contractorContactName" placeholder="Cont Contact Name">
-                </div> -->
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -80,15 +65,11 @@
         </div>
     </form>
 
-    <!-- Upload Files Step -->
-    <div *ngIf="activeIndex == 1" style="margin-top: 30px;">
+    <div *ngIf="activeIndex == 1" style="margin-top: 90px;">
         <div class="row container">
             <div class="col-6">
                 <div>
                     <div class="p-inputgroup">
-                        <!-- <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span> -->
-                        <!-- <input type="text" pInputText placeholder="Document Name"
-                                [(ngModel)]="docItem.documentName"> -->
                         <div class="form-group col-12" style="padding: 0 0 0 0;">
                             <label for="inputState">Select Document Category</label>
                             <select id="inputState" [ngModelOptions]="{standalone: true}"
@@ -154,7 +135,7 @@
 
     <!-- Description Step -->
     <div *ngIf="activeIndex == 2" style="margin-top: 20px;">
-        <section> <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+        <!-- <section> <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
                 <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10"
                     cx="65.1" cy="65.1" r="62.1" />
                 <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round"
@@ -162,8 +143,8 @@
             </svg>
             <p class="success">Order placed successfully. Your order will be dispacted soon. meanwhile you can track
                 your order in my order section.</p>
-        </section>
-        <h4>Please Fill a detaild description </h4>
+        </section> -->
+        <!-- <h4>Please Fill a detaild description </h4> -->
         <textarea id="description" [(ngModel)]="ProjectDescriptionObj.description"
             placeholder="Add any extra data if you want" pInputTextarea rows="10" cols="120"></textarea>
         <br>
@@ -180,7 +161,7 @@
                >FINISH</button> -->
 
         <button type="submit" (click)="NextStep()" style="margin: 10px;float: right;" class="btn btn-success"
-            *ngIf="activeIndex!=3">NEXT</button>
+            *ngIf="activeIndex!=2">NEXT</button>
     </div>
 
 </p-dialog>

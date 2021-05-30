@@ -282,7 +282,7 @@
 
 	</p-dialog>
 
-	<p-dialog header=" Make Offer ({{project.projectName}})" [(visible)]="MakeOfferFlag" [style]="{width: '56vw'}">
+	<p-dialog header=" Make Offer ({{project.projectName}})" [(visible)]="MakeOfferFlag" [style]="{width: '40vw'}">
 		<p-toast position="top-left" key="tl"></p-toast>
 		<p-toast position="top-center" key="tc"></p-toast>
 		<p-toast position="bottom-center" key="bc"></p-toast>
@@ -291,7 +291,7 @@
 			alt="">
 		<div class="row">
 			<div class="row container">
-				<div>
+				<!-- <div>
 					<label for="inputState">Select OfferStatus</label>
 					<div class="col">
 						<p-dropdown [options]="LstOfferStatus" [(ngModel)]="offer.offerStatusId"
@@ -300,7 +300,7 @@
 						</p-dropdown>
 					</div>
 
-				</div>
+				</div> -->
 				<div class="col">
 					<label for="inputState">Enter the cost
 					</label>

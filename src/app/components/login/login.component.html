@@ -23,9 +23,10 @@
                 <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
             </div>
             <span>or use your account</span>
-            <input type="email" name="email" (keyup)="onKeyMail($event)"  placeholder="Email" />
-            <input type="password" name="password" (keyup)="onKeyPass($event)"  placeholder="Password" />
-            <a routerLink="['/Forgotpassword']">Forgot your password?</a>
+            <input type="email" name="email" (keyup)="onKeyMail($event)" placeholder="Email" />
+            <input type="password" name="password" (keyup)="onKeyPass($event)" placeholder="Password" />
+            <!-- <a routerLink="['/Forgotpassword']"> Forgot your password?</a> -->
+            <a (click)="clickBtn()"> Forgot your password?</a>
             <button class="signIn" type="button" (click)="login()">Sign In</button>
         </form>
     </div>
