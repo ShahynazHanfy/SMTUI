@@ -455,7 +455,7 @@
 				<td>
 					<div class="row">
 						<span style="font-weight: bold;" class="col-9">{{projectUpdateDesc.userName}}</span>
-						<div class="pi pi-chart-line col-3" *ngIf="role == ('PreSalesManager'||'Admin') && projectUpdateDesc==indexDesc" 
+						<div class="pi pi-chart-line col-3" *ngIf=" (role =='PreSalesManager'||role =='Admin') && projectUpdateDesc==indexDesc" 
 							(click)="AssignProjectUpdateFlag(projectUpdateDesc)"
 							style="cursor: pointer;color: rgb(92, 92, 25);" aria-hidden="true">
 						</div>
@@ -484,7 +484,7 @@
 				</td>
 				<td>
 					<div class="row">
-						<button class="btn btn-primary col-8" (click)="showOffers(projectUpdateDesc.projectUpdateId)">
+						<button class="btn btn-primary col-8" (click)="showOffers(projectUpdateDesc)">
 							Offers
 						</button>
 						<!-- <span class="pi pi-times col-4" (click)="confirm(offerDesc)"

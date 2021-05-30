@@ -5,4 +5,6 @@ export class Offer {
     offerStatusId:Number
     projectCostsId:number
     projectsId:number
+    projectUpdateId:number
+
 }
