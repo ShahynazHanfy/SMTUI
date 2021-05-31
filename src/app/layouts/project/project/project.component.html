@@ -15,12 +15,12 @@
     <form *ngIf="activeIndex==0">
         <div class="form-row" style="margin-top: 20px;">
             <div class="form-group col-md-6">
-                <label for="inputState">Project Name</label>
+                <label for="inputStateprojectName">Project Name</label>
                 <input type="text" class="form-control" [ngModelOptions]="{standalone: true}"
                     [(ngModel)]="projectObj.projectName" name="projectName" id="ProjectName" placeholder="Project Name">
             </div>
             <div class="form-group col-md-6">
-                <label for="inputState">Project Components Name</label>
+                <label for="inputStateprojectComponentName">Project Components Name</label>
                 <br>
                 <p-multiSelect [options]="lstProjComponent" (onChange)="colChanges()"
                     [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedColumns"
@@ -30,14 +30,14 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputState">End User</label>
-                <select id="inputState" [ngModelOptions]="{standalone: true}" [(ngModel)]="projectObj.endUsersId"
+                <label for="inputStatecontactName">End User</label>
+                <select id="inputStatecontactName" [ngModelOptions]="{standalone: true}" [(ngModel)]="projectObj.endUsersId"
                     class="form-control">
                     <option *ngFor="let i of lstEndUsers" value="{{i.id}}">{{i.contactName}}</option>
                 </select>
             </div>
-            <div class="form-group col-md-6">
-                <label for="inputState">Project Contractor Name</label>
+            <div class="form-group col-md-6"> 
+                <label for="inputStatecontractorName">Project Contractor Name</label>
                 <!-- <select id="inputState" [ngModelOptions]="{standalone: true}" [(ngModel)]="projectObj.contractorsId"
                     class="form-control">
                     <option *ngFor="let i of lstContractors" value="{{i.id}}">{{i.contractorName}}
@@ -54,7 +54,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputState">Project Consultant Name</label>
+                <label for="inputStateconsultantName">Project Consultant Name</label>
                 <p-dropdown [options]="lstConsultatnt" [style]="{minWidth: '556px'}"
                     [(ngModel)]="projectObj.consultantId" optionLabel="consultantName" [filter]="true"
                     filterBy="consultantName" [showClear]="true" placeholder="Select a Consultant">
@@ -82,8 +82,8 @@
             </div>
  -->
             <div class="form-group col-md-6">
-                <label for="inputState">Governorate Name</label>
-                <select id="inputState" [ngModelOptions]="{standalone: true}" [(ngModel)]="projectObj.governorateId"
+                <label for="inputStategovernorateName">Governorate Name</label>
+                <select id="inputStategovernorateName" [ngModelOptions]="{standalone: true}" [(ngModel)]="projectObj.governorateId"
                     class="form-control">
                     <option *ngFor="let i of lstGovn" value="{{i.id}}">{{i.governorateName}}
                     </option>
@@ -100,8 +100,8 @@
                 <div>
                     <div class="p-inputgroup">
                         <div class="form-group col-12" style="padding: 0 0 0 0;">
-                            <label for="inputState">Select Document Category</label>
-                            <select id="inputState" [ngModelOptions]="{standalone: true}"
+                            <label for="inputStatecategoryName">Select Document Category</label>
+                            <select id="inputStatecategoryName" [ngModelOptions]="{standalone: true}"
                                 [(ngModel)]="docproject.documentsCategoryId" class="form-control">
                                 <option *ngFor="let i of lstDocumentCategory" value="{{i.id}}">
                                     {{i.categoryName}}</option>
@@ -250,8 +250,11 @@
                     <p-columnFilter type="text" field="projectStatusName" display="menu"></p-columnFilter>
                 </th>
                 <th>Update</th>
+                <th>Accept</th>
                 <th>Controls</th>
-
+                <th>              
+                    Accepted <p-columnFilter type="boolean" field="isAccept"></p-columnFilter>
+                </th>
 
             </tr>
         </ng-template>
@@ -320,16 +323,21 @@
                     </i>
                 </td>
                 <td>
+                    <button class="btn btn-info" *ngIf="role=='Admin'" [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)">Accept</button>
+                </td>
+                <td style="text-align: center;">
                     <span class="pi pi-compass" aria-hidden="true" style="cursor: pointer;"
                         (click)="showBasicDialog(customer.id)"></span>
-                    <span pTooltip="Show All Assigned Projects" tooltipPosition="top" class="pi pi-check"
+                    <!-- <span pTooltip="Show All Assigned Projects" tooltipPosition="top" class="pi pi-check"
                         aria-hidden="true" style="cursor: pointer;margin-left: 20px;" *ngIf="role=='Admin'"
-                        [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)"></span>
-                    <!-- <button class="btn btn-info" *ngIf="role=='Admin'" [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)">Accept</button> -->
+                        [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)"></span> -->
                     <!-- <span class="pi pi-pencil" aria-hidden="true" style="cursor: pointer;margin-left: 15px;"
                         (click)="EditDialog(customer.id)"></span> -->
                     <!-- <span class="pi pi-times" (click)="confirm(customer.id)" style="cursor: pointer;margin-left: 15px;"
                         aria-hidden="true"></span> -->
+                </td>
+                <td class="p-text-center">
+                    <i class="pi" [ngClass]="{'true-icon pi-check-circle': customer.isAccept, 'false-icon pi-times-circle': !customer.isAccept}"></i>
                 </td>
             </tr>
         </ng-template>
@@ -399,6 +407,7 @@
                 <th>Controls</th>
 
 
+
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-customer>
@@ -457,6 +466,8 @@
                         (click)="showBasicDialog(customer.projectId)"></span>
 
                 </td>
+
+
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
