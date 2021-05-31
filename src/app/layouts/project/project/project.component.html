@@ -1,11 +1,6 @@
 <p-dialog [(visible)]="showTheFirstStepDialog" [style]="{width: '80vw'}" [resizable]="true" [baseZIndex]="10000">
-<<<<<<< HEAD
-    <p-toast position="top-left" key="tc"></p-toast>
-    <p-toast position="top-center" key="tc"></p-toast>
-=======
     <p-toast position="top-left" key="t"></p-toast>
     <p-toast position="top-center" key="t"></p-toast>
->>>>>>> f3ccda593759eac659b07ef0fb0fc3a51449e658
     <p-toast position="bottom-center" key="tc"></p-toast>
     <div class="row">
         <h1 class="col-4" style="font-size: 40px;">Create Project</h1><span class="col-8"
@@ -256,9 +251,8 @@
                 </th>
                 <th>Update</th>
                 <th>Controls</th>
-                <th>              
-                    Accepted <p-columnFilter type="boolean" field="isAccept"></p-columnFilter>
-                </th>
+
+
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-customer>
@@ -326,25 +320,16 @@
                     </i>
                 </td>
                 <td>
-                    <span class="pi pi-compass" tooltip="Details" placement="top" aria-hidden="true" style="cursor: pointer;"
+                    <span class="pi pi-compass" aria-hidden="true" style="cursor: pointer;"
                         (click)="showBasicDialog(customer.id)"></span>
-<<<<<<< HEAD
-                    <span  class="pi pi-check"  tooltip="Accept Project" placement="top" 
-                        style="cursor: pointer;margin-left: 20px;" *ngIf="role=='Admin'" [disabled]="customer.isAccept" aria-hidden="true"
-                        (click)="AcceptProject(customer.id)"></span>
-=======
                     <span pTooltip="Show All Assigned Projects" tooltipPosition="top" class="pi pi-check"
                         aria-hidden="true" style="cursor: pointer;margin-left: 20px;" *ngIf="role=='Admin'"
                         [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)"></span>
->>>>>>> f3ccda593759eac659b07ef0fb0fc3a51449e658
                     <!-- <button class="btn btn-info" *ngIf="role=='Admin'" [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)">Accept</button> -->
                     <!-- <span class="pi pi-pencil" aria-hidden="true" style="cursor: pointer;margin-left: 15px;"
                         (click)="EditDialog(customer.id)"></span> -->
                     <!-- <span class="pi pi-times" (click)="confirm(customer.id)" style="cursor: pointer;margin-left: 15px;"
                         aria-hidden="true"></span> -->
-                </td>
-                <td class="p-text-center">
-                    <i class="pi" [ngClass]="{'true-icon pi-check-circle': customer.isAccept, 'false-icon pi-times-circle': !customer.isAccept}"></i>
                 </td>
             </tr>
         </ng-template>
@@ -428,7 +413,6 @@
                 <td>{{customer.projectCreationDate | date: 'MM/dd/yyyy'}}</td>
                 <td>
                     <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar>
-<<<<<<< HEAD
 
                 </td>
                 <td *ngIf="customer.projectStatusName =='New'">
@@ -464,43 +448,6 @@
                 <td>
                     <i class="pi" style="font-size: small;">
 
-=======
-
-                </td>
-                <td *ngIf="customer.projectStatusName =='New'">
-                    <div
-                        style="background-color: #d8cdff;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
-                        <span
-                            style="font-weight: bold;color: #8c17da;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;padding: .25em .5rem;border-radius: 2px;"
-                            [class]="'customer-badge status-' + customer.projectStatusName">{{customer.projectStatusName}}</span>
-
-                    </div>
-
-                </td>
-                <td *ngIf="customer.projectStatusName=='Offered'">
-                    <div
-                        style="background-color: #ffcdd2;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
-                        <span [class]="'customer-badge status-' + customer.projectStatusName"
-                            style="font-weight: bold; color: #f14b09;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;font-weight: 700;padding: .25em .5rem;border-radius: 2px;">{{customer.projectStatusName}}</span>
-
-                    </div>
-
-
-                </td>
-                <td *ngIf="customer.projectStatusName=='Hold'">
-                    <div
-                        style="background-color: #c8e6c9;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
-                        <span
-                            style="font-weight: bold; text-transform: uppercase; color: #256029; font-size: 12px;letter-spacing: .3px;font-weight: 700;font-weight: 700;padding: .25em .5rem;border-radius: 2px;"
-                            [class]="'customer-badge status-' + customer.projectStatusName">{{customer.projectStatusName}}</span>
-
-                    </div>
-
-                </td>
-                <td>
-                    <i class="pi" style="font-size: small;">
-
->>>>>>> f3ccda593759eac659b07ef0fb0fc3a51449e658
                         <button class="btn btn-success" [routerLink]="['projectUpdate',customer.projectId]">
                             Update</button>
                     </i>
