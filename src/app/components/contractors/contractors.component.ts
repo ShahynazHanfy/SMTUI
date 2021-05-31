@@ -17,7 +17,7 @@ export class ContractorsComponent implements OnInit {
   constructor(private ContractorsService:ContractorsService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.ContractorsObj={id:0,contactName:'',contractorName:'',email:'',phone:'',relevantPhone:''}
+    this.ContractorsObj={id:0,contactName:'',contractorName:'',email:'',phone:'',relevantPhone:'',titleName:''}
     this.ContractorsService.GetAllContractors().subscribe(
       res=>{this.lstContractors=res},
       err=>console.log(err)
@@ -32,7 +32,7 @@ export class ContractorsComponent implements OnInit {
   }
   NewDialog() {
     this.NewDialogbool = true;
-    this.ContractorsObj={id:0,contactName:'',contractorName:'',email:'',phone:'',relevantPhone:''}
+    this.ContractorsObj={id:0,contactName:'',contractorName:'',email:'',phone:'',relevantPhone:'',titleName:''}
   }
   add() {
     this.ContractorsService.insertContractor(this.ContractorsObj).subscribe(

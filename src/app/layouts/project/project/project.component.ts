@@ -246,6 +246,7 @@ export class ProjectComponent implements OnInit {
             });
             this.projectdocumentService.insertdocument(this.lstoddocproj).toPromise()
             resolve('cons');
+            this.showTheFirstStepDialog=false
           },
           msg => { // Error
             this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Correct Category and File' });

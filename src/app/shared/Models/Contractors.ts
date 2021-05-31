@@ -6,4 +6,6 @@ export class Contractors
     phone:string
     relevantPhone:string
     email:string
+    titleName:string
+
 }

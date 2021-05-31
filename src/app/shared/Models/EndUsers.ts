@@ -6,4 +6,5 @@ export class EndUsers
     phone:string
     relevantPhone:string
     email:string
+    titleName:string
 }

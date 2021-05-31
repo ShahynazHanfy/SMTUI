@@ -17,7 +17,7 @@ export class EndUsersComponent implements OnInit {
   constructor(private EndUsersService:EndUsersService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.EndUsersObj={id:0,contactName:'',companyName:'',email:'',phone:'',relevantPhone:''}
+    this.EndUsersObj={id:0,contactName:'',companyName:'',email:'',phone:'',relevantPhone:'',titleName:''}
     this.EndUsersService.GetAllEndUsers().subscribe(
       res=>{this.lstEndUsers=res},
       err=>console.log(err)
@@ -32,7 +32,7 @@ export class EndUsersComponent implements OnInit {
   }
   NewDialog() {
     this.NewDialogbool = true;
-    this.EndUsersObj={id:0,contactName:'',companyName:'',email:'',phone:'',relevantPhone:''}
+    this.EndUsersObj={id:0,contactName:'',companyName:'',email:'',phone:'',relevantPhone:'',titleName:''}
   }
   add() {
     this.EndUsersService.insertEndUser(this.EndUsersObj).subscribe(

@@ -501,7 +501,7 @@ export class ProjectUpdateComponent implements OnInit {
             this.offer.projectCostsId = response
             this.offer.offerStatusId = Number(this.offer.offerStatusId)
             this.offer.projectUpdateId = Number(this.projectUpdateIdForOffer)
-            this.offer.offerStatusId = 0
+            this.offer.offerStatusId = 1
             this.offerService.insertOffer(this.offer).subscribe(e => {
               this.offerId = e
               this.lstdocOffer.forEach(element => {
@@ -629,6 +629,6 @@ export class ProjectUpdateComponent implements OnInit {
     })
   }
   ViewAllOfferedOffers() {
-
+    this.offerdescriptionService.GetAllOfferOfferedByUserId(this.userId).subscribe(res => { this.LstProjectUpdateDescription = res })
   }
 }

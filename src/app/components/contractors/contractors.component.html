@@ -28,14 +28,16 @@
     <p-table id="my-table" class="container card" #dt dataKey="id" [rows]="5" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[5,10,50]" styleClass="p-datatable-customers" [paginator]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
-        [globalFilterFields]="['contractorName','contactName','email','phone','relevantPhone']" [value]="lstContractors">
+        [globalFilterFields]="['contractorName','contactName','email','phone','relevantPhone','titleName']"
+        [value]="lstContractors">
         <ng-template pTemplate="caption">
             <h1 style="margin-bottom: 20px; font-size: 2em;color: #2674a8;">Contractors</h1>
             <div class="row">
                 <div class="table-header col-md-10">
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search"/>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                            placeholder="Global Search" />
                     </span>
                 </div>
                 <div class="col-md-2">
@@ -51,6 +53,9 @@
                 </th>
                 <th pSortableColumn="contactName"><span>Contact Name</span>
                     <p-sortIcon field="contactName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="titleName"><span>Title Name</span>
+                    <p-sortIcon field="titleName"></p-sortIcon>
                 </th>
                 <th pSortableColumn="email"><span>email</span>
                     <p-sortIcon field="email"></p-sortIcon>
@@ -68,6 +73,7 @@
             <tr style="height: 5px !important;font-size: 17px;">
                 <td>{{contractor.contractorName}}</td>
                 <td>{{contractor.contactName}}</td>
+                <td>{{contractor.titleName}}</td>
                 <td>{{contractor.email}}</td>
                 <td>{{contractor.phone}}</td>
                 <td>{{contractor.relevantPhone}}</td>
@@ -76,14 +82,15 @@
                         (click)="showBasicDialog(contractor.id)"></span>
                     <span class="pi pi-pencil" style="cursor: pointer;margin-left: 15px;" aria-hidden="true"
                         (click)="EditDialog(contractor.id)"></span>
-                    <span class="pi pi-times" style="cursor: pointer;margin-left: 15px;" (click)="confirm(contractor.id)" aria-hidden="true"></span>
+                    <span class="pi pi-times" style="cursor: pointer;margin-left: 15px;"
+                        (click)="confirm(contractor.id)" aria-hidden="true"></span>
                 </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
 
-<p-dialog [(visible)]="displayBasic"  [style]="{width: '50vw'}" [baseZIndex]="10000">
+<p-dialog [(visible)]="displayBasic" [style]="{width: '50vw'}" [baseZIndex]="10000">
     <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Contractor Details</h1>
     <tr class=" form-control">
         <th><span style="margin-right: 20px;">contractor Name : </span></th>
@@ -92,6 +99,10 @@
     <tr class=" form-control">
         <th><span style="margin-right: 20px;">Contact Name : </span></th>
         <td>{{ContractorsObj.contactName}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Title Name : </span></th>
+        <td>{{ContractorsObj.titleName}}</td>
     </tr>
     <tr class=" form-control">
         <th><span style="margin-right: 20px;">Email : </span></th>
@@ -117,18 +128,23 @@
         </div>
         <div class="row">
             <span class="col-md-4" for="time">Contact Name</span>
-            <input name="contactName" type="text" class="col-md-6 form-control"
-                [(ngModel)]="ContractorsObj.contactName" inputId="date">
+            <input name="contactName" type="text" class="col-md-6 form-control" [(ngModel)]="ContractorsObj.contactName"
+                inputId="date">
+        </div>
+        <div class="row">
+            <span class="col-md-4" for="time">Title Name</span>
+            <input name="titleName" type="text" class="col-md-6 form-control" [(ngModel)]="ContractorsObj.titleName"
+                inputId="date">
         </div>
         <div class="row">
             <span class="col-md-4" for="time">Email</span>
-            <input name="email" type="text" class="col-md-6 form-control"
-                [(ngModel)]="ContractorsObj.email" inputId="date">
+            <input name="email" type="text" class="col-md-6 form-control" [(ngModel)]="ContractorsObj.email"
+                inputId="date">
         </div>
         <div class="row">
             <span class="col-md-4" for="time">phone</span>
-            <input name="phone" type="text" class="col-md-6 form-control"
-                [(ngModel)]="ContractorsObj.phone" inputId="date">
+            <input name="phone" type="text" class="col-md-6 form-control" [(ngModel)]="ContractorsObj.phone"
+                inputId="date">
         </div>
         <div class="row">
             <span class="col-md-4" for="time">Relevant Phone</span>
@@ -136,8 +152,8 @@
                 [(ngModel)]="ContractorsObj.relevantPhone" inputId="date">
         </div>
         <ng-template pTemplate="footer">
-            <p-button (onClick)="update(ContractorsObj.id)" type="submit" icon="pi pi-check"
-                styleClass="p-button-text">Submit</p-button>
+            <p-button (onClick)="update(ContractorsObj.id)" type="submit" icon="pi pi-check" styleClass="p-button-text">
+                Submit</p-button>
             <p-button icon="pi pi-times" (click)="displayBasic=false">Cancel</p-button>
         </ng-template>
 
@@ -154,18 +170,23 @@
         </div>
         <div class="row">
             <span class="col-md-4" for="time">Contact Name</span>
-            <input name="contactName" type="text" class="col-md-6 form-control"
-                [(ngModel)]="ContractorsObj.contactName" inputId="date">
+            <input name="contactName" type="text" class="col-md-6 form-control" [(ngModel)]="ContractorsObj.contactName"
+                inputId="date">
+        </div>
+        <div class="row">
+            <span class="col-md-4" for="time">Title Name</span>
+            <input name="contactName" type="text" class="col-md-6 form-control" [(ngModel)]="ContractorsObj.titleName"
+                inputId="date">
         </div>
         <div class="row">
             <span class="col-md-4" for="time">Email</span>
-            <input name="email" type="text" class="col-md-6 form-control"
-                [(ngModel)]="ContractorsObj.email" inputId="date">
+            <input name="email" type="text" class="col-md-6 form-control" [(ngModel)]="ContractorsObj.email"
+                inputId="date">
         </div>
         <div class="row">
             <span class="col-md-4" for="time">phone</span>
-            <input name="phone" type="text" class="col-md-6 form-control"
-                [(ngModel)]="ContractorsObj.phone" inputId="date">
+            <input name="phone" type="text" class="col-md-6 form-control" [(ngModel)]="ContractorsObj.phone"
+                inputId="date">
         </div>
         <div class="row">
             <span class="col-md-4" for="time">Relevant Phone</span>

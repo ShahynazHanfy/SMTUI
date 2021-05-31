@@ -22,6 +22,9 @@ export class OfferDescriptionService {
   GetAllOfferDescriptions(): Observable <OfferDescription[]>{
     return this.httpClient.get<OfferDescription[]> (`${environment.OfferDescription}`,this.httpHeader) ;
   }
+  GetAllOfferOfferedByUserId(userId:string): Observable <OfferDescription[]>{
+    return this.httpClient.get<OfferDescription[]> (`${environment.GetAllOfferOfferedByUserId}`+userId,this.httpHeader) ;
+  }
   // insertOfferDescription(offerDescription:OfferDescription): Observable <OfferDescription>{
   //   return this.httpClient.post<OfferDescription> (`${environment.OfferDescription}`,offerDescription,this.httpHeader) ;
   // }
