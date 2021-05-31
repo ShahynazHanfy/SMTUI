@@ -72,13 +72,13 @@ export class ProjectComponent implements OnInit {
   projectSystem: ProjectSystem
   displayBasic: boolean;
   AcceptedProject: boolean = false
-
-  displayContractor: boolean= false;
-  contractorObj:Contractors
+  lstConsultatnt:Consultant[]
+  displayContractor: boolean = false;
+  contractorObj: Contractors
   displayEndUsers: boolean;
-  EndUsersObj:EndUsers
+  EndUsersObj: EndUsers
   displayConsultant: boolean;
-  ConsultantObj:Consultant
+  ConsultantObj: Consultant
   constructor(private route: Router, private projStatusService: ProjectStatusService,
     private projectComponentService: ProjectComponentService,
     private EndUsersService: EndUsersService,
@@ -93,8 +93,8 @@ export class ProjectComponent implements OnInit {
     private confirmationService: ConfirmationService, private messageService: MessageService,
     private DocumentCategoryService: DocumentCategoryService,
     private ProjectSystemService: ProjectSystemService,
-    private ContractorsService:ContractorsService,
-    private ConsultantService:ConsultantService
+    private ContractorsService: ContractorsService,
+    private ConsultantService: ConsultantService
   ) { }
   activityValues: number[] = [0, 100];
 
@@ -130,16 +130,18 @@ export class ProjectComponent implements OnInit {
     this.lstContractors = []
     this.projectDescriptionList = []
     this.projectList = []
+    this.lstConsultatnt = []
     this.ProjectDescriptionObj =
     {
       id: 0, projectName: '', description: '', userName: this.userName,
       descriptionDate: new Date, projectId: 0, projectUpdateId: 0, userId: this.userId
     }
-    this.contractorObj={id:0,contactName:'',contractorName:'',email:'',phone:'',relevantPhone:'',titleName:''}
-    this.EndUsersObj={id:0,contactName:'',companyName:'',email:'',phone:'',relevantPhone:'',titleName:''}
-    this.ConsultantObj={id:0,contactName:'',consultantName:'',email:'',phone:'',relevantPhone:'',titleName:''}
+    this.contractorObj = { id: 0, contactName: '', contractorName: '', email: '', phone: '', relevantPhone: '', titleName: '' }
+    this.EndUsersObj = { id: 0, contactName: '', companyName: '', email: '', phone: '', relevantPhone: '', titleName: '' }
+    this.ConsultantObj = { id: 0, contactName: '', consultantName: '', email: '', phone: '', relevantPhone: '', titleName: '' }
 
-    this.projectObj = {consultantId:0,consultantName:'',contactName:'',
+    this.projectObj = {
+      consultantId: 0, consultantName: '', contactName: '',
       lstprojectSystems: [],
       companyName: '', contractorName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
       contractorContactName: '', projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date,
@@ -151,7 +153,8 @@ export class ProjectComponent implements OnInit {
     this.docproject = {
       projectUpdateId: 0, documentsCategoryId: 0, documentFile: '', id: 0, projectId: 0, documentsCategoryName: ''
     }
-    this.project = {consultantId:0,consultantName:'',contactName:'',
+    this.project = {
+      consultantId: 0, consultantName: '', contactName: '',
       lstprojectSystems: [],
       id: 0, projectStatusName: '', companyName: '', contractorName: '', contractorContactName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
       projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date, projectName: '', projectStatusId: 0, rank: 0, governorateId: 0, governorateName: ''
@@ -192,6 +195,10 @@ export class ProjectComponent implements OnInit {
     })
     this.DocumentCategoryService.GetAllDocumentCategories().subscribe(e => {
       this.lstDocumentCategory = e
+    })
+    this.ConsultantService.GetAllConsultants().subscribe(e=>{
+      this.lstConsultatnt = e
+      console.log("consultatnt",e)
     })
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
@@ -261,7 +268,7 @@ export class ProjectComponent implements OnInit {
             });
             this.projectdocumentService.insertdocument(this.lstoddocproj).toPromise()
             resolve('cons');
-            this.showTheFirstStepDialog=false
+            this.showTheFirstStepDialog = false
           },
           msg => { // Error
             this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Correct Category and File' });
@@ -429,24 +436,26 @@ export class ProjectComponent implements OnInit {
   showContractor(id) {
     this.displayContractor = true;
     this.ContractorsService.GetContractorById(id).subscribe(
-      data => { this.contractorObj = data ,console.log("ContractorsObj",this.contractorObj)},
       error => { console.log(error) }
     );
   }
   showEndUser(id) {
     this.displayEndUsers = true;
     this.EndUsersService.GetEndUserById(id).subscribe(
-      data => { this.EndUsersObj = data ,console.log("EndUsersObj",this.EndUsersObj)},
       error => { console.log(error) }
     );
   }
   showConsultant(id) {
     this.displayConsultant = true;
     this.ConsultantService.GetConsultantById(id).subscribe(
-      data => { this.ConsultantObj = data ,console.log("ConsultantObj",this.ConsultantObj)},
+      data => {
+        this.ConsultantObj = data,
+          console.log("ConsultantObj", this.ConsultantObj)
+      },
       error => { console.log(error) }
     );
   }
+
 
 
 }
