@@ -1,6 +1,11 @@
 <p-dialog [(visible)]="showTheFirstStepDialog" [style]="{width: '80vw'}" [resizable]="true" [baseZIndex]="10000">
+<<<<<<< HEAD
     <p-toast position="top-left" key="tc"></p-toast>
     <p-toast position="top-center" key="tc"></p-toast>
+=======
+    <p-toast position="top-left" key="t"></p-toast>
+    <p-toast position="top-center" key="t"></p-toast>
+>>>>>>> f3ccda593759eac659b07ef0fb0fc3a51449e658
     <p-toast position="bottom-center" key="tc"></p-toast>
     <div class="row">
         <h1 class="col-4" style="font-size: 40px;">Create Project</h1><span class="col-8"
@@ -38,14 +43,49 @@
             </div>
             <div class="form-group col-md-6">
                 <label for="inputState">Project Contractor Name</label>
-                <select id="inputState" [ngModelOptions]="{standalone: true}" [(ngModel)]="projectObj.contractorsId"
+                <!-- <select id="inputState" [ngModelOptions]="{standalone: true}" [(ngModel)]="projectObj.contractorsId"
                     class="form-control">
                     <option *ngFor="let i of lstContractors" value="{{i.id}}">{{i.contractorName}}
                     </option>
-                </select>
+                </select> -->
+
+                <p-dropdown [options]="lstContractors" [style]="{minWidth: '556px'}"
+                    [(ngModel)]="projectObj.contractorsId" optionLabel="contractorName" [filter]="true"
+                    filterBy="contractorName" [showClear]="true" placeholder="Select a Contractor">
+
+                </p-dropdown>
             </div>
+
         </div>
         <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputState">Project Consultant Name</label>
+                <p-dropdown [options]="lstConsultatnt" [style]="{minWidth: '556px'}"
+                    [(ngModel)]="projectObj.consultantId" optionLabel="consultantName" [filter]="true"
+                    filterBy="consultantName" [showClear]="true" placeholder="Select a Consultant">
+
+                </p-dropdown>
+            </div>
+            <!-- <div class="form-group col-md-6">
+                <label for="inputAddress2">Rank</label>
+                <input type="number" min="5" max="100" step=5 [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="projectObj.rank" class="form-control" id="inputAddress2" placeholder="50%, 20%, or 0">
+            </div> -->
+            <!--    <div class="form-group col-md-6 container">
+                <label for="inputState">Project Contractor Name</label>
+             <select id="inputState" [ngModelOptions]="{standalone: true}" [(ngModel)]="projectObj.contractorsId"
+                class="form-control">
+                <option *ngFor="let i of lstContractors" value="{{i.id}}">{{i.contractorName}}
+                </option>
+            </select>
+
+                <p-dropdown [options]="lstConsultatnt" name="consultantName" [style]="{minWidth: '556px'}"
+                    [(ngModel)]="projectObj.consultantId" optionLabel="consultantName" [filter]="true"
+                    filterBy="consultantName" [showClear]="true" placeholder="Select a Consultant">
+
+                </p-dropdown>
+            </div>
+ -->
             <div class="form-group col-md-6">
                 <label for="inputState">Governorate Name</label>
                 <select id="inputState" [ngModelOptions]="{standalone: true}" [(ngModel)]="projectObj.governorateId"
@@ -54,12 +94,9 @@
                     </option>
                 </select>
             </div>
-            <div class="form-group col-md-6">
-                <label for="inputAddress2">Rank</label>
-                <input type="number" min="5" max="100" step=5 [ngModelOptions]="{standalone: true}"
-                    [(ngModel)]="projectObj.rank" class="form-control" id="inputAddress2" placeholder="50%, 20%, or 0">
-            </div>
         </div>
+
+
     </form>
 
     <div *ngIf="activeIndex == 1" style="margin-top: 90px;">
@@ -291,9 +328,15 @@
                 <td>
                     <span class="pi pi-compass" tooltip="Details" placement="top" aria-hidden="true" style="cursor: pointer;"
                         (click)="showBasicDialog(customer.id)"></span>
+<<<<<<< HEAD
                     <span  class="pi pi-check"  tooltip="Accept Project" placement="top" 
                         style="cursor: pointer;margin-left: 20px;" *ngIf="role=='Admin'" [disabled]="customer.isAccept" aria-hidden="true"
                         (click)="AcceptProject(customer.id)"></span>
+=======
+                    <span pTooltip="Show All Assigned Projects" tooltipPosition="top" class="pi pi-check"
+                        aria-hidden="true" style="cursor: pointer;margin-left: 20px;" *ngIf="role=='Admin'"
+                        [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)"></span>
+>>>>>>> f3ccda593759eac659b07ef0fb0fc3a51449e658
                     <!-- <button class="btn btn-info" *ngIf="role=='Admin'" [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)">Accept</button> -->
                     <!-- <span class="pi pi-pencil" aria-hidden="true" style="cursor: pointer;margin-left: 15px;"
                         (click)="EditDialog(customer.id)"></span> -->
@@ -385,6 +428,7 @@
                 <td>{{customer.projectCreationDate | date: 'MM/dd/yyyy'}}</td>
                 <td>
                     <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar>
+<<<<<<< HEAD
 
                 </td>
                 <td *ngIf="customer.projectStatusName =='New'">
@@ -420,6 +464,43 @@
                 <td>
                     <i class="pi" style="font-size: small;">
 
+=======
+
+                </td>
+                <td *ngIf="customer.projectStatusName =='New'">
+                    <div
+                        style="background-color: #d8cdff;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
+                        <span
+                            style="font-weight: bold;color: #8c17da;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;padding: .25em .5rem;border-radius: 2px;"
+                            [class]="'customer-badge status-' + customer.projectStatusName">{{customer.projectStatusName}}</span>
+
+                    </div>
+
+                </td>
+                <td *ngIf="customer.projectStatusName=='Offered'">
+                    <div
+                        style="background-color: #ffcdd2;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
+                        <span [class]="'customer-badge status-' + customer.projectStatusName"
+                            style="font-weight: bold; color: #f14b09;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;font-weight: 700;padding: .25em .5rem;border-radius: 2px;">{{customer.projectStatusName}}</span>
+
+                    </div>
+
+
+                </td>
+                <td *ngIf="customer.projectStatusName=='Hold'">
+                    <div
+                        style="background-color: #c8e6c9;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
+                        <span
+                            style="font-weight: bold; text-transform: uppercase; color: #256029; font-size: 12px;letter-spacing: .3px;font-weight: 700;font-weight: 700;padding: .25em .5rem;border-radius: 2px;"
+                            [class]="'customer-badge status-' + customer.projectStatusName">{{customer.projectStatusName}}</span>
+
+                    </div>
+
+                </td>
+                <td>
+                    <i class="pi" style="font-size: small;">
+
+>>>>>>> f3ccda593759eac659b07ef0fb0fc3a51449e658
                         <button class="btn btn-success" [routerLink]="['projectUpdate',customer.projectId]">
                             Update</button>
                     </i>
