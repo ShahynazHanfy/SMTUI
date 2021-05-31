@@ -293,7 +293,9 @@
                 <td>
                     <span class="pi pi-compass" aria-hidden="true" style="cursor: pointer;"
                         (click)="showBasicDialog(customer.id)"></span>
-                        <button class="btn btn-info" *ngIf="role=='Admin'" [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)">Accept</button>
+                    <span pTooltip="Show All Assigned Projects" tooltipPosition="top" class="pi pi-check" aria-hidden="true" style="cursor: pointer;margin-left: 20px;"
+                    *ngIf="role=='Admin'" [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)"></span>
+                        <!-- <button class="btn btn-info" *ngIf="role=='Admin'" [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)">Accept</button> -->
                     <!-- <span class="pi pi-pencil" aria-hidden="true" style="cursor: pointer;margin-left: 15px;"
                         (click)="EditDialog(customer.id)"></span> -->
                     <!-- <span class="pi pi-times" (click)="confirm(customer.id)" style="cursor: pointer;margin-left: 15px;"
@@ -463,6 +465,10 @@
         <td><a style="cursor: pointer; color: #2674a8;font-weight: bold;" (click)="showContractor(projectObj.endUsersId)">{{projectObj.contractorName}}</a> </td>
         <!-- <th><span style="margin-left: 20px;margin-right: 10px;">ContactName : </span></th>
         <td>{{projectObj.contractorContactName}}</td> -->
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 10px;">Consultant Name : </span></th>
+        <td><a style="cursor: pointer; color: #2674a8;font-weight: bold;" (click)="showConsultant(projectObj.consultantId)">{{projectObj.consultantName}}</a> </td>
     </tr>
     <tr class=" form-control">
         <th><span style="margin-right: 10px;">Governorate Name : </span></th>

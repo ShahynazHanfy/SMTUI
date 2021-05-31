@@ -28,6 +28,8 @@ import { ProjectSystemService } from '../../../../../src/app/Shared/Services/Pro
 import { ProjectSystem } from '../../../../../src/app/Shared/Models/ProjectSystem';
 import { Table } from 'primeng/table';
 import { ToastrService } from 'ngx-toastr';
+import { Consultant } from 'app/shared/Models/Consultant';
+import { ConsultantService } from 'app/shared/Services/Consultant/consultant.service';
 
 @Component({
   selector: 'app-project',
@@ -75,6 +77,8 @@ export class ProjectComponent implements OnInit {
   contractorObj:Contractors
   displayEndUsers: boolean;
   EndUsersObj:EndUsers
+  displayConsultant: boolean;
+  ConsultantObj:Consultant
   constructor(private route: Router, private projStatusService: ProjectStatusService,
     private projectComponentService: ProjectComponentService,
     private EndUsersService: EndUsersService,
@@ -90,6 +94,7 @@ export class ProjectComponent implements OnInit {
     private DocumentCategoryService: DocumentCategoryService,
     private ProjectSystemService: ProjectSystemService,
     private ContractorsService:ContractorsService,
+    private ConsultantService:ConsultantService
   ) { }
   activityValues: number[] = [0, 100];
 
@@ -132,6 +137,8 @@ export class ProjectComponent implements OnInit {
     }
     this.contractorObj={id:0,contactName:'',contractorName:'',email:'',phone:'',relevantPhone:'',titleName:''}
     this.EndUsersObj={id:0,contactName:'',companyName:'',email:'',phone:'',relevantPhone:'',titleName:''}
+    this.ConsultantObj={id:0,contactName:'',consultantName:'',email:'',phone:'',relevantPhone:'',titleName:''}
+
     this.projectObj = {consultantId:0,consultantName:'',contactName:'',
       lstprojectSystems: [],
       companyName: '', contractorName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
@@ -430,6 +437,13 @@ export class ProjectComponent implements OnInit {
     this.displayEndUsers = true;
     this.EndUsersService.GetEndUserById(id).subscribe(
       data => { this.EndUsersObj = data ,console.log("EndUsersObj",this.EndUsersObj)},
+      error => { console.log(error) }
+    );
+  }
+  showConsultant(id) {
+    this.displayConsultant = true;
+    this.ConsultantService.GetConsultantById(id).subscribe(
+      data => { this.ConsultantObj = data ,console.log("ConsultantObj",this.ConsultantObj)},
       error => { console.log(error) }
     );
   }
