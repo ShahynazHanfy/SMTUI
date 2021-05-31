@@ -22,7 +22,7 @@
             <div class="form-group col-md-6">
                 <label for="inputStateprojectComponentName">Project Components Name</label>
                 <br>
-                <p-multiSelect [options]="lstProjComponent" (onChange)="colChanges()"
+                <p-multiSelect [options]="lstProjComponent" (onChange)="colChanges()" name="inputStateprojectComponentName"
                     [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedColumns"
                     optionLabel="projectComponentName" selectedItemsLabel="{0} columns selected"
                     [style]="{minWidth: '556px'}" placeholder="Choose Components"></p-multiSelect>
@@ -44,7 +44,7 @@
                     </option>
                 </select> -->
 
-                <p-dropdown [options]="lstContractors" [style]="{minWidth: '556px'}"
+                <p-dropdown [options]="lstContractors" [style]="{minWidth: '556px'}" name="inputStatecontractorName"
                     [(ngModel)]="projectObj.contractorsId" optionLabel="contractorName" [filter]="true"
                     filterBy="contractorName" [showClear]="true" placeholder="Select a Contractor">
 
@@ -55,7 +55,7 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputStateconsultantName">Project Consultant Name</label>
-                <p-dropdown [options]="lstConsultatnt" [style]="{minWidth: '556px'}"
+                <p-dropdown [options]="lstConsultatnt" [style]="{minWidth: '556px'}" name="inputStateconsultantName"
                     [(ngModel)]="projectObj.consultantId" optionLabel="consultantName" [filter]="true"
                     filterBy="consultantName" [showClear]="true" placeholder="Select a Consultant">
 
