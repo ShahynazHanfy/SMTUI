@@ -155,7 +155,7 @@ export class ProjectUpdateComponent implements OnInit {
     }
     this.docOffer = { id: 0, offerId: 0, documentFile: '' }
     this.project = {
-      lstprojectSystems: [],
+      lstprojectSystems: [],consultantId:0,consultantName:'',contactName:'',
       companyName: '', contractorContactName: '', contractorName: '', endUserContactName: '', endUsersId: 0,
       contractorsId: 0, governorateName: '', projectComponentName: '', projectCreationDate: new Date, projectName: '',
       projectStatusName: '', rank: 0, governorateId: 0, id: 0, projectComponentsId: 0, projectStatusId: 0
@@ -471,7 +471,7 @@ export class ProjectUpdateComponent implements OnInit {
     this.documentObj = docObj
     console.log("documentObj", this.documentObj)
     //view all docs by updateProject
-    this.projectdocumentService.GetAllDocumentsByProjectUpdateID(this.documentObj.projectUpdateId).subscribe(e => {
+    this.projectdocumentService.GetAllDocumentsByProjectUpdateID(this.projectId,this.documentObj.projectUpdateId).subscribe(e => {
       this.lstProjDocuments = e
       console.log("lstProjDocuments", this.lstProjDocuments)
     })

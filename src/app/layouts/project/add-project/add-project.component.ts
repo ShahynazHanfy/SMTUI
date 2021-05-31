@@ -59,6 +59,7 @@ export class AddProjectComponent implements OnInit {
       this.lstContractors=e
     })
     this.projectObj = {lstprojectSystems:[],
+      consultantId:0,contactName:'',consultantName:'',
       companyName: '', contractorName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
       contractorContactName: '', projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date,
       governorateId: 0, projectName: '', projectStatusId: 1, rank: 0, governorateName: '', id: 0, projectStatusName: 'New'
