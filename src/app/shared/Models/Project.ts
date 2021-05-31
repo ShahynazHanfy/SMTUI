@@ -16,5 +16,7 @@ export class Project {
     governorateId:number
     governorateName:string
     lstprojectSystems:[]
-
+    consultantId:number
+    consultantName:string
+    contactName:string
 }

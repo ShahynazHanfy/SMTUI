@@ -15,6 +15,7 @@ import { ContractorsComponent } from 'app/components/contractors/contractors.com
 import { EndUsersComponent } from 'app/components/end-users/end-users.component';
 import { ProjectComponentComponent } from "../../components/project-component/project-component.component";
 import { LoginComponent } from 'app/components/login/login.component';
+import { ConsultantComponent } from 'app/components/consultant/consultant.component';
 export const AdminLayoutRoutes: Routes = [
     // { path: 'project', loadChildren: () => import('../project/project.module').then(mod => mod.ProjectModule) },
     { path: '', component: DashboardComponent },
@@ -34,4 +35,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'notifications', component: NotificationsComponent },
     { path: 'upgrade', component: UpgradeComponent },
     { path: 'projectStatus', component: ProjectStatusComponent },
+    { path: 'Consultant', component: ConsultantComponent },
+
 ];

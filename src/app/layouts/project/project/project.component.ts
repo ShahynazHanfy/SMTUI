@@ -70,6 +70,11 @@ export class ProjectComponent implements OnInit {
   projectSystem: ProjectSystem
   displayBasic: boolean;
   AcceptedProject: boolean = false
+
+  displayContractor: boolean= false;
+  contractorObj:Contractors
+  displayEndUsers: boolean;
+  EndUsersObj:EndUsers
   constructor(private route: Router, private projStatusService: ProjectStatusService,
     private projectComponentService: ProjectComponentService,
     private EndUsersService: EndUsersService,
@@ -84,6 +89,7 @@ export class ProjectComponent implements OnInit {
     private confirmationService: ConfirmationService, private messageService: MessageService,
     private DocumentCategoryService: DocumentCategoryService,
     private ProjectSystemService: ProjectSystemService,
+    private ContractorsService:ContractorsService,
   ) { }
   activityValues: number[] = [0, 100];
 
@@ -124,7 +130,9 @@ export class ProjectComponent implements OnInit {
       id: 0, projectName: '', description: '', userName: this.userName,
       descriptionDate: new Date, projectId: 0, projectUpdateId: 0, userId: this.userId
     }
-    this.projectObj = {
+    this.contractorObj={id:0,contactName:'',contractorName:'',email:'',phone:'',relevantPhone:'',titleName:''}
+    this.EndUsersObj={id:0,contactName:'',companyName:'',email:'',phone:'',relevantPhone:'',titleName:''}
+    this.projectObj = {consultantId:0,consultantName:'',contactName:'',
       lstprojectSystems: [],
       companyName: '', contractorName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
       contractorContactName: '', projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date,
@@ -136,7 +144,7 @@ export class ProjectComponent implements OnInit {
     this.docproject = {
       projectUpdateId: 0, documentsCategoryId: 0, documentFile: '', id: 0, projectId: 0, documentsCategoryName: ''
     }
-    this.project = {
+    this.project = {consultantId:0,consultantName:'',contactName:'',
       lstprojectSystems: [],
       id: 0, projectStatusName: '', companyName: '', contractorName: '', contractorContactName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
       projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date, projectName: '', projectStatusId: 0, rank: 0, governorateId: 0, governorateName: ''
@@ -410,6 +418,23 @@ export class ProjectComponent implements OnInit {
       this.AcceptedProject = true
     })
   }
+
+  showContractor(id) {
+    this.displayContractor = true;
+    this.ContractorsService.GetContractorById(id).subscribe(
+      data => { this.contractorObj = data ,console.log("ContractorsObj",this.contractorObj)},
+      error => { console.log(error) }
+    );
+  }
+  showEndUser(id) {
+    this.displayEndUsers = true;
+    this.EndUsersService.GetEndUserById(id).subscribe(
+      data => { this.EndUsersObj = data ,console.log("EndUsersObj",this.EndUsersObj)},
+      error => { console.log(error) }
+    );
+  }
+
+
 }
 
 

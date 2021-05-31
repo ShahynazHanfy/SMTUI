@@ -454,15 +454,15 @@
     </tr>
     <tr class=" form-control">
         <th><span style="margin-right: 10px;">Company Name : </span></th>
-        <td>{{projectObj.companyName}}</td>
-        <th><span style="margin-left: 20px;margin-right: 10px;">End User Name : </span></th>
-        <td>{{projectObj.endUserContactName}}</td>
+        <td><a style="cursor: pointer; color: #2674a8;font-weight: bold;" (click)="showEndUser(projectObj.contractorsId)">{{projectObj.companyName}}</a> </td> 
+        <!-- <th><span style="margin-left: 20px;margin-right: 10px;">End User Name : </span></th>
+        <td>{{projectObj.endUserContactName}}</td> -->
     </tr>
     <tr class=" form-control">
         <th><span style="margin-right: 10px;">Contractor Name : </span></th>
-        <td>{{projectObj.contractorName}}</td>
-        <th><span style="margin-left: 20px;margin-right: 10px;">ContactName : </span></th>
-        <td>{{projectObj.contractorContactName}}</td>
+        <td><a style="cursor: pointer; color: #2674a8;font-weight: bold;" (click)="showContractor(projectObj.endUsersId)">{{projectObj.contractorName}}</a> </td>
+        <!-- <th><span style="margin-left: 20px;margin-right: 10px;">ContactName : </span></th>
+        <td>{{projectObj.contractorContactName}}</td> -->
     </tr>
     <tr class=" form-control">
         <th><span style="margin-right: 10px;">Governorate Name : </span></th>
@@ -479,5 +479,60 @@
               </tbody>
               </table>
         </td>
+    </tr>
+</p-dialog>
+
+<p-dialog [(visible)]="displayContractor" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Contractor Details</h1>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">contractor Name : </span></th>
+        <td>{{contractorObj.contractorName}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Contact Name : </span></th>
+        <td>{{contractorObj.contactName}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Title Name : </span></th>
+        <td>{{contractorObj.titleName}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Email : </span></th>
+        <td>{{contractorObj.email}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Phone : </span></th>
+        <td>{{contractorObj.phone}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Relevant Phone : </span></th>
+        <td>{{contractorObj.relevantPhone}}</td>
+    </tr>
+</p-dialog>
+<p-dialog [(visible)]="displayEndUsers" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">End User Details</h1>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Company Name : </span></th>
+        <td>{{EndUsersObj.companyName}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Contact Name : </span></th>
+        <td>{{EndUsersObj.contactName}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Title Name : </span></th>
+        <td>{{EndUsersObj.titleName}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Email : </span></th>
+        <td>{{EndUsersObj.email}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Phone : </span></th>
+        <td>{{EndUsersObj.phone}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Relevant Phone : </span></th>
+        <td>{{EndUsersObj.relevantPhone}}</td>
     </tr>
 </p-dialog>
