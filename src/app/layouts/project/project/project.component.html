@@ -1,7 +1,4 @@
-
-
-<p-dialog [(visible)]="showTheFirstStepDialog" [style]="{width: '80vw'}" 
-    [resizable]="true" [baseZIndex]="10000">
+<p-dialog [(visible)]="showTheFirstStepDialog" [style]="{width: '80vw'}" [resizable]="true" [baseZIndex]="10000">
     <p-toast position="top-left" key="tc"></p-toast>
     <p-toast position="top-center" key="tc"></p-toast>
     <p-toast position="bottom-center" key="tc"></p-toast>
@@ -11,7 +8,7 @@
     </div>
 
     <!-- Handle Steps Details,Documents,Desc,Confirmation -->
-    <p-steps  [model]="items" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
+    <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
 
 
     <!-- Details Step -->
@@ -167,7 +164,7 @@
 </p-dialog>
 
 <div class="card">
-    <p-table #dt2 [value]="projectList" *ngIf="role!='Sales'"  dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+    <p-table #dt2 [value]="projectList" *ngIf="role!='Sales'" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-customers container-fluid" [paginator]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [globalFilterFields]="['projectName','projectCreationDate','rank','projectStatusName']">
@@ -222,8 +219,9 @@
                 </th>
                 <th>Update</th>
                 <th>Controls</th>
-
-
+                <th>              
+                    Accepted <p-columnFilter type="boolean" field="isAccept"></p-columnFilter>
+                </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-customer>
@@ -291,15 +289,19 @@
                     </i>
                 </td>
                 <td>
-                    <span class="pi pi-compass" aria-hidden="true" style="cursor: pointer;"
+                    <span class="pi pi-compass" tooltip="Details" placement="top" aria-hidden="true" style="cursor: pointer;"
                         (click)="showBasicDialog(customer.id)"></span>
-                    <span pTooltip="Show All Assigned Projects" tooltipPosition="top" class="pi pi-check" aria-hidden="true" style="cursor: pointer;margin-left: 20px;"
-                    *ngIf="role=='Admin'" [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)"></span>
-                        <!-- <button class="btn btn-info" *ngIf="role=='Admin'" [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)">Accept</button> -->
+                    <span  class="pi pi-check"  tooltip="Accept Project" placement="top" 
+                        style="cursor: pointer;margin-left: 20px;" *ngIf="role=='Admin'" [disabled]="customer.isAccept" aria-hidden="true"
+                        (click)="AcceptProject(customer.id)"></span>
+                    <!-- <button class="btn btn-info" *ngIf="role=='Admin'" [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)">Accept</button> -->
                     <!-- <span class="pi pi-pencil" aria-hidden="true" style="cursor: pointer;margin-left: 15px;"
                         (click)="EditDialog(customer.id)"></span> -->
                     <!-- <span class="pi pi-times" (click)="confirm(customer.id)" style="cursor: pointer;margin-left: 15px;"
                         aria-hidden="true"></span> -->
+                </td>
+                <td class="p-text-center">
+                    <i class="pi" [ngClass]="{'true-icon pi-check-circle': customer.isAccept, 'false-icon pi-times-circle': !customer.isAccept}"></i>
                 </td>
             </tr>
         </ng-template>
@@ -310,134 +312,138 @@
         </ng-template>
     </p-table>
 
-    <p-table #dt2 [value]="projectDescriptionList" *ngIf="role=='Sales'"  dataKey="id" [rows]="10" [showCurrentPageReport]="true"
-    [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-customers container-fluid" [paginator]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [globalFilterFields]="['projectName','projectCreationDate','rank','projectStatusName']">
-    <ng-template pTemplate="caption">
-        <div class="p-d-flex">
-            <span class="p-input-icon-left p-ml-auto">
-                <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
-                    placeholder="Search keyword" />
+    <p-table #dt2 [value]="projectDescriptionList" *ngIf="role=='Sales'" dataKey="id" [rows]="10"
+        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+        styleClass="p-datatable-customers container-fluid" [paginator]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [globalFilterFields]="['projectName','projectCreationDate','rank','projectStatusName']">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex">
+                <span class="p-input-icon-left p-ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
+                        placeholder="Search keyword" />
 
-                <button class="btn btn-primary" *ngIf="role=='Sales'||role=='SalesManager'||role=='Admin'" style="margin-left: 20px;" (click)="showTheFirstStepDialog=true">Add
-                    New
-                    Project</button>
-                <!-- <a class="btn btn-secondary" style="background-color: rgb(180, 187, 83);"
+                    <button class="btn btn-primary" *ngIf="role=='Sales'||role=='SalesManager'||role=='Admin'"
+                        style="margin-left: 20px;" (click)="showTheFirstStepDialog=true">Add
+                        New
+                        Project</button>
+                    <!-- <a class="btn btn-secondary" style="background-color: rgb(180, 187, 83);"
                     ><i class="material-icons">&#xE147;</i> <span>Add New
                         Project</span></a> -->
 
 
-            </span>
-        </div>
-    </ng-template>
-    <ng-template pTemplate="header">
-        <tr>
-            <th>Emloyee Name</th>
-            <th>Project Name
-                <p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
-            </th>
-            <th>
-                <div class="p-d-flex p-jc-between p-ai-center">
-                    Date
-                    <p-columnFilter type="date" field="projectCreationDate" display="menu"></p-columnFilter>
-                </div>
-            </th>
-            <th>
-                <div class="p-d-flex p-jc-between p-ai-center">
-                    Activity
-                    <p-columnFilter field="rank" matchMode="between" display="menu" [showMatchModes]="false"
-                        [showOperator]="false" [showAddButton]="false">
-                        <ng-template pTemplate="filter" let-filter="filterCallback">
-                            <p-slider [ngModel]="activityValues" [range]="true" (onSlideEnd)="filter($event.values)"
-                                styleClass="p-m-3"></p-slider>
-                            <div class="p-d-flex p-ai-center p-jc-between p-px-2">
-                                <span>{{activityValues[0]}}</span>
-                                <span style="float: right;">{{activityValues[1]}}</span>
-                            </div>
-                        </ng-template>
-                    </p-columnFilter>
-                </div>
-            </th>
-            <th>Status
-                <p-columnFilter type="text" field="projectStatusName" display="menu"></p-columnFilter>
-            </th>
-            <th>Update</th>
-            <th>Controls</th>
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Emloyee Name</th>
+                <th>Project Name
+                    <p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
+                </th>
+                <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                        Date
+                        <p-columnFilter type="date" field="projectCreationDate" display="menu"></p-columnFilter>
+                    </div>
+                </th>
+                <th>
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                        Activity
+                        <p-columnFilter field="rank" matchMode="between" display="menu" [showMatchModes]="false"
+                            [showOperator]="false" [showAddButton]="false">
+                            <ng-template pTemplate="filter" let-filter="filterCallback">
+                                <p-slider [ngModel]="activityValues" [range]="true" (onSlideEnd)="filter($event.values)"
+                                    styleClass="p-m-3"></p-slider>
+                                <div class="p-d-flex p-ai-center p-jc-between p-px-2">
+                                    <span>{{activityValues[0]}}</span>
+                                    <span style="float: right;">{{activityValues[1]}}</span>
+                                </div>
+                            </ng-template>
+                        </p-columnFilter>
+                    </div>
+                </th>
+                <th>Status
+                    <p-columnFilter type="text" field="projectStatusName" display="menu"></p-columnFilter>
+                </th>
+                <th>Update</th>
+                <th>Controls</th>
 
 
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-customer>
-        <tr>
-            <td>
-                <img src="../../../../assets/img/sales.png" style="border-radius: 50%;margin-right: 10px;"
-                    [class]="'flag flag-' + customer.endUserContactName" width="40">
-            </td>
-            <td>
-                <span style="font-weight: bold;">{{customer.projectName}}</span>
-            </td>
-            <td>{{customer.projectCreationDate | date: 'MM/dd/yyyy'}}</td>
-            <td>
-                <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer>
+            <tr>
+                <td>
+                    <img src="../../../../assets/img/sales.png" style="border-radius: 50%;margin-right: 10px;"
+                        [class]="'flag flag-' + customer.endUserContactName" width="40">
+                </td>
+                <td>
+                    <span style="font-weight: bold;">{{customer.projectName}}</span>
+                </td>
+                <td>{{customer.projectCreationDate | date: 'MM/dd/yyyy'}}</td>
+                <td>
+                    <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar>
 
-            </td>
-            <td *ngIf="customer.projectStatusName =='New'">
-                <div
-                    style="background-color: #d8cdff;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
-                    <span
-                        style="font-weight: bold;color: #8c17da;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;padding: .25em .5rem;border-radius: 2px;"
-                        [class]="'customer-badge status-' + customer.projectStatusName">{{customer.projectStatusName}}</span>
+                </td>
+                <td *ngIf="customer.projectStatusName =='New'">
+                    <div
+                        style="background-color: #d8cdff;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
+                        <span
+                            style="font-weight: bold;color: #8c17da;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;padding: .25em .5rem;border-radius: 2px;"
+                            [class]="'customer-badge status-' + customer.projectStatusName">{{customer.projectStatusName}}</span>
 
-                </div>
+                    </div>
 
-            </td>
-            <td *ngIf="customer.projectStatusName=='Offered'">
-                <div
-                    style="background-color: #ffcdd2;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
-                    <span [class]="'customer-badge status-' + customer.projectStatusName"
-                        style="font-weight: bold; color: #f14b09;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;font-weight: 700;padding: .25em .5rem;border-radius: 2px;">{{customer.projectStatusName}}</span>
+                </td>
+                <td *ngIf="customer.projectStatusName=='Offered'">
+                    <div
+                        style="background-color: #ffcdd2;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
+                        <span [class]="'customer-badge status-' + customer.projectStatusName"
+                            style="font-weight: bold; color: #f14b09;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;font-weight: 700;padding: .25em .5rem;border-radius: 2px;">{{customer.projectStatusName}}</span>
 
-                </div>
+                    </div>
 
 
-            </td>
-            <td *ngIf="customer.projectStatusName=='Hold'">
-                <div
-                    style="background-color: #c8e6c9;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
-                    <span
-                        style="font-weight: bold; text-transform: uppercase; color: #256029; font-size: 12px;letter-spacing: .3px;font-weight: 700;font-weight: 700;padding: .25em .5rem;border-radius: 2px;"
-                        [class]="'customer-badge status-' + customer.projectStatusName">{{customer.projectStatusName}}</span>
+                </td>
+                <td *ngIf="customer.projectStatusName=='Hold'">
+                    <div
+                        style="background-color: #c8e6c9;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
+                        <span
+                            style="font-weight: bold; text-transform: uppercase; color: #256029; font-size: 12px;letter-spacing: .3px;font-weight: 700;font-weight: 700;padding: .25em .5rem;border-radius: 2px;"
+                            [class]="'customer-badge status-' + customer.projectStatusName">{{customer.projectStatusName}}</span>
 
-                </div>
+                    </div>
 
-            </td>
-            <td>
-                <i class="pi" style="font-size: small;">
+                </td>
+                <td>
+                    <i class="pi" style="font-size: small;">
 
-                    <button class="btn btn-success" [routerLink]="['projectUpdate',customer.projectId]">
-                        Update</button>
-                </i>
-            </td>
-            <td>
-                <span class="pi pi-compass" aria-hidden="true" style="cursor: pointer;"
-                    (click)="showBasicDialog(customer.projectId)"></span>
+                        <button class="btn btn-success" [routerLink]="['projectUpdate',customer.projectId]">
+                            Update</button>
+                    </i>
+                </td>
+                <td>
+                    <span class="pi pi-compass" aria-hidden="true" style="cursor: pointer;"
+                        (click)="showBasicDialog(customer.projectId)"></span>
 
-            </td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-        <tr>
-            <td colspan="5">No customers found.</td>
-        </tr>
-    </ng-template>
-</p-table>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">No customers found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
 
 </div>
 
 <span data-notify="icon" class="nc-icon nc-chart-pie-36"></span>
-<span data-notify="message">This is a notification with close button and icon and have many lines. You can see that the icon and the close button are always vertically aligned. This is a beautiful notification. So you don't have to worry about the style.</span>
+<span data-notify="message">This is a notification with close button and icon and have many lines. You can see that the
+    icon and the close button are always vertically aligned. This is a beautiful notification. So you don't have to
+    worry about the style.</span>
 
 
 <p-dialog [(visible)]="displayBasic" [style]="{width: '60vw'}" [baseZIndex]="10000">
@@ -456,34 +462,39 @@
     </tr>
     <tr class=" form-control">
         <th><span style="margin-right: 10px;">Company Name : </span></th>
-        <td><a style="cursor: pointer; color: #2674a8;font-weight: bold;" (click)="showEndUser(projectObj.contractorsId)">{{projectObj.companyName}}</a> </td> 
+        <td><a style="cursor: pointer; color: #2674a8;font-weight: bold;"
+                (click)="showEndUser(projectObj.contractorsId)">{{projectObj.companyName}}</a> </td>
         <!-- <th><span style="margin-left: 20px;margin-right: 10px;">End User Name : </span></th>
         <td>{{projectObj.endUserContactName}}</td> -->
     </tr>
     <tr class=" form-control">
         <th><span style="margin-right: 10px;">Contractor Name : </span></th>
-        <td><a style="cursor: pointer; color: #2674a8;font-weight: bold;" (click)="showContractor(projectObj.endUsersId)">{{projectObj.contractorName}}</a> </td>
+        <td><a style="cursor: pointer; color: #2674a8;font-weight: bold;"
+                (click)="showContractor(projectObj.endUsersId)">{{projectObj.contractorName}}</a> </td>
         <!-- <th><span style="margin-left: 20px;margin-right: 10px;">ContactName : </span></th>
         <td>{{projectObj.contractorContactName}}</td> -->
     </tr>
     <tr class=" form-control">
         <th><span style="margin-right: 10px;">Consultant Name : </span></th>
-        <td><a style="cursor: pointer; color: #2674a8;font-weight: bold;" (click)="showConsultant(projectObj.consultantId)">{{projectObj.consultantName}}</a> </td>
+        <td><a style="cursor: pointer; color: #2674a8;font-weight: bold;"
+                (click)="showConsultant(projectObj.consultantId)">{{projectObj.consultantName}}</a> </td>
     </tr>
     <tr class=" form-control">
         <th><span style="margin-right: 10px;">Governorate Name : </span></th>
         <td>{{projectObj.governorateName}}</td>
     </tr>
-        <tr class=" form-control">
+    <tr class=" form-control">
         <th><span style="margin-right: 10px;">project Components : </span></th>
         <td>
             <table>
                 <tbody>
-                <tr *ngFor="let i of projectObj.lstprojectSystems" >
-                  <td><div style="padding-bottom: 10px;">{{i.projectComponentName}}</div></td>
-                </tr>
-              </tbody>
-              </table>
+                    <tr *ngFor="let i of projectObj.lstprojectSystems">
+                        <td>
+                            <div style="padding-bottom: 10px;">{{i.projectComponentName}}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </td>
     </tr>
 </p-dialog>

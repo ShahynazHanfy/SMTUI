@@ -57,7 +57,6 @@ import { ConsultantComponent } from './components/consultant/consultant.componen
     // CommonModule,
     BrowserAnimationsModule,
     RatingModule,
-
     RouterModule.forRoot(AppRoutes,{
       useHash: true
     }),

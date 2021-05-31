@@ -38,6 +38,7 @@ import { CommonModule } from '@angular/common';
 // import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import {StepsModule} from 'primeng/steps';
 // import { BrowserModule } from '@angular/platform-browser'
+import { TooltipModule } from 'ng2-tooltip-directive';
  
 
 
@@ -49,6 +50,7 @@ import {StepsModule} from 'primeng/steps';
     // BrowserModule,
     // NgWizardModule.forRoot(ngWizardConfig),
     AccordionModule,
+    TooltipModule,
     // MatDialogModule,
     StepsModule,
     ButtonModule,

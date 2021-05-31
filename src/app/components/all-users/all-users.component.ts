@@ -19,7 +19,7 @@ export class AllUsersComponent implements OnInit {
   constructor(private userService: UsersService, private EmpService: EmployeeService, private confirmationService: ConfirmationService, private messageService: MessageService
 
   ) {
-    this.NewUser = { email: '', role: 'User', userName: '', password: 'M@sTech146' };
+    this.NewUser = { email: '', role: 'User', userName: '', password: 'P@ssw0rd' };
   }
 
   ngOnInit(): void {
