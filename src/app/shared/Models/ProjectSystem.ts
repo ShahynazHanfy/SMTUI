@@ -1,8 +1,7 @@
-import { ProjectComponent } from 'app/layouts/project/project/project.component'
-
+import { ProjectComponentModel } from "../Models/ProjectComponent";
 
 export class ProjectSystem {
     id: number
-    LstprojectComponents: ProjectComponent[]
-    ProjectId: number
+    lstprojectComponents: ProjectComponentModel[]
+    projectId: number
 }

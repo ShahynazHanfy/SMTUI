@@ -30,6 +30,7 @@ import { Table } from 'primeng/table';
 import { ToastrService } from 'ngx-toastr';
 import { Consultant } from 'app/shared/Models/Consultant';
 import { ConsultantService } from 'app/shared/Services/Consultant/consultant.service';
+import { ProjectComponentComponent } from 'app/components/project-component/project-component.component';
 
 @Component({
   selector: 'app-project',
@@ -68,17 +69,18 @@ export class ProjectComponent implements OnInit {
   docprojectToDB: ProjectDocuments
   lstoddocproj: ProjectDocuments[]
   lstDocumentCategory: DocumentCategory[]
-  selectedColumns: ProjectComponent[];
+  selectedColumns: ProjectComponentModel[];
   projectSystem: ProjectSystem
   displayBasic: boolean;
   AcceptedProject: boolean = false
-  lstConsultatnt:Consultant[]
+  lstConsultatnt: Consultant[]
   displayContractor: boolean = false;
   contractorObj: Contractors
   displayEndUsers: boolean;
   EndUsersObj: EndUsers
   displayConsultant: boolean;
   ConsultantObj: Consultant
+  consultantObj: Consultant
   constructor(private route: Router, private projStatusService: ProjectStatusService,
     private projectComponentService: ProjectComponentService,
     private EndUsersService: EndUsersService,
@@ -131,6 +133,11 @@ export class ProjectComponent implements OnInit {
     this.projectDescriptionList = []
     this.projectList = []
     this.lstConsultatnt = []
+    this.selectedColumns=[]
+    this.consultantObj = {
+      id: 0, contactName: '', consultantName: '', email: '', phone: '', relevantPhone: '', titleName: ''
+    }
+
     this.ProjectDescriptionObj =
     {
       id: 0, projectName: '', description: '', userName: this.userName,
@@ -148,7 +155,7 @@ export class ProjectComponent implements OnInit {
       governorateId: 0, projectName: '', projectStatusId: 1, rank: 0, governorateName: '', id: 0, projectStatusName: 'New'
     }
     this.projectSystem = {
-      ProjectId: 0, id: 0, LstprojectComponents: []
+      projectId: 0, id: 0, lstprojectComponents: []
     }
     this.docproject = {
       projectUpdateId: 0, documentsCategoryId: 0, documentFile: '', id: 0, projectId: 0, documentsCategoryName: ''
@@ -196,9 +203,9 @@ export class ProjectComponent implements OnInit {
     this.DocumentCategoryService.GetAllDocumentCategories().subscribe(e => {
       this.lstDocumentCategory = e
     })
-    this.ConsultantService.GetAllConsultants().subscribe(e=>{
+    this.ConsultantService.GetAllConsultants().subscribe(e => {
       this.lstConsultatnt = e
-      console.log("consultatnt",e)
+      console.log("consultatnt", e)
     })
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
@@ -233,6 +240,7 @@ export class ProjectComponent implements OnInit {
     this.projectObj.governorateId = Number(this.projectObj.governorateId)
     this.projectObj.projectComponentsId = Number(this.projectObj.projectComponentsId)
     this.projectObj.projectStatusId = Number(this.projectObj.projectStatusId)
+    this.projectObj.consultantId = Number(this.projectObj.consultantId)
 
     let promise = new Promise((resolve, reject) => {
       this.projectService.insertProject(this.projectObj).toPromise()
@@ -245,22 +253,21 @@ export class ProjectComponent implements OnInit {
           },
           msg => { // Error
             this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Correct Category and File' });
-
             reject(msg);
-          }
-        ).then(
-          res => { // For save projectComponent
-            this.projectSystem.ProjectId = this.projectId
-            this.projectSystem.LstprojectComponents = this.selectedColumns
-            this.ProjectSystemService.insertProjectSystems(this.projectSystem).toPromise()
-            resolve('cons');
-          },
-          msg => { // Error
-            this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Correct Category and File' });
-
-            reject(msg);
-          }
-        )
+          }).then(
+            res => { // For save projectComponent
+              this.projectSystem.projectId = this.projectId
+              this.projectSystem.lstprojectComponents = this.selectedColumns
+              console.log("projSystem", this.projectSystem)
+              console.log("selectedColumns", this.selectedColumns)
+              this.ProjectSystemService.insertProjectSystems(this.projectSystem).toPromise()
+              resolve('cons');
+            },
+            msg => { // Error
+              this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Correct Category and File' });
+              reject(msg);
+            }
+          )
         .then(
           response => { // Success
             this.lstoddocproj.forEach(element => {
@@ -434,14 +441,23 @@ export class ProjectComponent implements OnInit {
   }
 
   showContractor(id) {
+    console.log("cont Id",id)
     this.displayContractor = true;
     this.ContractorsService.GetContractorById(id).subscribe(
+      data => {
+        this.contractorObj = data,
+          console.log("contractorObj", this.contractorObj)
+      },
       error => { console.log(error) }
     );
   }
   showEndUser(id) {
     this.displayEndUsers = true;
     this.EndUsersService.GetEndUserById(id).subscribe(
+      data => {
+        this.EndUsersObj = data,
+          console.log("EndUsersObj", this.EndUsersObj)
+      },
       error => { console.log(error) }
     );
   }
@@ -456,7 +472,18 @@ export class ProjectComponent implements OnInit {
     );
   }
 
+  pickUpConsultantId() {
+    console.log("consu", this.consultantObj);
+    this.projectObj.consultantId = Number(this.projectObj.consultantId)
+    this.projectObj.consultantId = this.consultantObj.id
 
+  }
+  pickUpContractorId() {
+    console.log("contractorObj", this.contractorObj);
+
+    this.projectObj.contractorsId = Number(this.projectObj.contractorsId) //NAN
+    this.projectObj.contractorsId = this.contractorObj.id
+  }
 
 }
 

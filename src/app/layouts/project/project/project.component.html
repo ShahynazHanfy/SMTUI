@@ -45,9 +45,8 @@
                 </select> -->
 
                 <p-dropdown [options]="lstContractors" [style]="{minWidth: '556px'}" name="inputStatecontractorName"
-                    [(ngModel)]="projectObj.contractorsId" optionLabel="contractorName" [filter]="true"
+                    [(ngModel)]="contractorObj" (onChange)="pickUpContractorId()" optionLabel="contractorName" [filter]="true"
                     filterBy="contractorName" [showClear]="true" placeholder="Select a Contractor">
-
                 </p-dropdown>
             </div>
 
@@ -56,7 +55,7 @@
             <div class="form-group col-md-6">
                 <label for="inputStateconsultantName">Project Consultant Name</label>
                 <p-dropdown [options]="lstConsultatnt" [style]="{minWidth: '556px'}" name="inputStateconsultantName"
-                    [(ngModel)]="projectObj.consultantId" optionLabel="consultantName" [filter]="true"
+                  optionLabel="consultantName" [(ngModel)]="consultantObj" (onChange)="pickUpConsultantId()" [filter]="true"
                     filterBy="consultantName" [showClear]="true" placeholder="Select a Consultant">
 
                 </p-dropdown>
@@ -232,7 +231,7 @@
                 </th>
                 <th>
                     <div class="p-d-flex p-jc-between p-ai-center">
-                        Activity
+                        Periority
                         <p-columnFilter field="rank" matchMode="between" display="menu" [showMatchModes]="false"
                             [showOperator]="false" [showAddButton]="false">
                             <ng-template pTemplate="filter" let-filter="filterCallback">
@@ -502,14 +501,14 @@
     <tr class=" form-control">
         <th><span style="margin-right: 10px;">Company Name : </span></th>
         <td><a style="cursor: pointer; color: #2674a8;font-weight: bold;"
-                (click)="showEndUser(projectObj.contractorsId)">{{projectObj.companyName}}</a> </td>
+                (click)="showEndUser(projectObj.endUsersId)">{{projectObj.companyName}}</a> </td>
         <!-- <th><span style="margin-left: 20px;margin-right: 10px;">End User Name : </span></th>
         <td>{{projectObj.endUserContactName}}</td> -->
     </tr>
     <tr class=" form-control">
         <th><span style="margin-right: 10px;">Contractor Name : </span></th>
         <td><a style="cursor: pointer; color: #2674a8;font-weight: bold;"
-                (click)="showContractor(projectObj.endUsersId)">{{projectObj.contractorName}}</a> </td>
+                (click)="showContractor(projectObj.contractorsId)">{{projectObj.contractorName}}</a> </td>
         <!-- <th><span style="margin-left: 20px;margin-right: 10px;">ContactName : </span></th>
         <td>{{projectObj.contractorContactName}}</td> -->
     </tr>
@@ -590,5 +589,32 @@
     <tr class=" form-control">
         <th><span style="margin-right: 20px;">Relevant Phone : </span></th>
         <td>{{EndUsersObj.relevantPhone}}</td>
+    </tr>
+</p-dialog>
+<p-dialog [(visible)]="displayConsultant" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <h1 style="margin-bottom: 20px; font-size: 1.2em;color: #2674a8;">Consultant Details</h1>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Consultant Name : </span></th>
+        <td>{{ConsultantObj.consultantName}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Contact Name : </span></th>
+        <td>{{ConsultantObj.contactName}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Title Name : </span></th>
+        <td>{{ConsultantObj.titleName}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Email : </span></th>
+        <td>{{ConsultantObj.email}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Phone : </span></th>
+        <td>{{ConsultantObj.phone}}</td>
+    </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 20px;">Relevant Phone : </span></th>
+        <td>{{ConsultantObj.relevantPhone}}</td>
     </tr>
 </p-dialog>

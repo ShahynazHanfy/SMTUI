@@ -18,8 +18,12 @@ export class ProjectService {
   GetAllProjects(): Observable <Project[]>{
     return this.httpClient.get<Project[]> (`${environment.Project}`,this.httpHeader) ;
   }
-  insertProject(project:Project): Observable <Project>{
-    return this.httpClient.post<Project> (`${environment.Project}`,project,this.httpHeader) ;
+  // insertProject(project:Project): Observable <Project>{
+  //   return this.httpClient.post<Project> (`${environment.Project}`,project,this.httpHeader) ;
+  // }
+  insertProject(project:Project): Observable<Project> {
+    console.log("projectbefore",project)
+    return this.httpClient.post<Project>(`${environment.Project}`, project, this.httpHeader);
   }
   deleteProject(id: number): Observable<Project> {
     return this.httpClient.delete<Project>(`${environment.Project}/` + id, this.httpHeader);
