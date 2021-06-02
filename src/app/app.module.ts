@@ -14,7 +14,7 @@ import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api'
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import {AccordionModule} from 'primeng/accordion'; 
 import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import {InputTextModule} from 'primeng/inputtext';
@@ -98,6 +98,10 @@ import { ConsultantComponent } from './components/consultant/consultant.componen
     ConfirmDialogModule,
     DragDropModule,
     PickListModule,
+    FormGroup,
+    FormControl,
+    Validators,
+    FormBuilder 
     // AngularMultiSelectModule
 
   ],

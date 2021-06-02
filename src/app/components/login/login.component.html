@@ -26,7 +26,7 @@
             <input type="email" name="email" (keyup)="onKeyMail($event)" placeholder="Email" />
             <input type="password" name="password" (keyup)="onKeyPass($event)" placeholder="Password" />
             <!-- <a routerLink="['/Forgotpassword']"> Forgot your password?</a> -->
-            <a (click)="clickBtn()"> Forgot your password?</a>
+            <a (click)="clickBtn()" style="cursor: pointer;"> Forgot your password?</a>
             <button class="signIn" type="button" (click)="login()">Sign In</button>
         </form>
     </div>

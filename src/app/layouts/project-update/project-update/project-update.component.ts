@@ -154,7 +154,7 @@ export class ProjectUpdateComponent implements OnInit {
       employeeId: 0, id: 0, isAssigned: false, projectUpdateId: 0, description: '', AssignedProjectDate: new Date
     }
     this.docOffer = { id: 0, offerId: 0, documentFile: '' }
-    this.project = {
+    this.project = {userId:this.userId,deadline:new Date,
       lstprojectSystems: [],consultantId:0,consultantName:'',contactName:'',
       companyName: '', contractorContactName: '', contractorName: '', endUserContactName: '', endUsersId: 0,
       contractorsId: 0, governorateName: '', projectComponentName: '', projectCreationDate: new Date, projectName: '',
@@ -182,7 +182,7 @@ export class ProjectUpdateComponent implements OnInit {
     })
 
     this.projectUpdate = {
-      DueDate: new Date, id: 0, ProjectId: this.projectId, ProjectName: this.project.projectName
+      DueDate: new Date, id: 0, ProjectId: this.projectId, ProjectName: this.project.projectName,deadline:new Date()
     }
     this.DocumentCategoryService.GetAllDocumentCategories().subscribe(e => {
       this.lstDocumentCategory = e
@@ -327,7 +327,7 @@ export class ProjectUpdateComponent implements OnInit {
             this.lstoddocproj.forEach(element => {
               element.projectUpdateId = this.projectUpdateId
             });
-            this.projectUpdate = { DueDate: new Date, ProjectId: this.projectId, ProjectName: '', id: 0 }
+            this.projectUpdate = { DueDate: new Date, ProjectId: this.projectId, ProjectName: '', id: 0 ,deadline:new Date}
             this.projectdocumentService.insertdocument(this.lstoddocproj).toPromise()
             this.NewLeaveDialogbool = false
             resolve('cons');
@@ -470,6 +470,11 @@ export class ProjectUpdateComponent implements OnInit {
     this.ViewDocsFlag = true
     this.documentObj = docObj
     console.log("documentObj", this.documentObj)
+    console.log("projectId", this.projectId)
+if(this.documentObj.projectUpdateId==null)
+{
+  this.documentObj.projectUpdateId=0;
+}
     //view all docs by updateProject
     this.projectdocumentService.GetAllDocumentsByProjectUpdateID(this.projectId,this.documentObj.projectUpdateId).subscribe(e => {
       this.lstProjDocuments = e
@@ -589,10 +594,6 @@ export class ProjectUpdateComponent implements OnInit {
   }
   deleteOfferDoc(doc) {
     this.offerDocumentsService.deleteOfferDocument(doc.id).subscribe(e => {
-      // this.lstProjDocuments.forEach((element, index) => {
-      //   if (element.id == doc.id)
-      //     this.lstProjDocuments.splice(index, 1);
-      // });
       this.lstOfferDocuments = []
       this.offerDocumentsService.GetAllOfferDocumentsByOfferId(this.TempOfferId).subscribe(e => {
         this.lstOfferDocuments = e

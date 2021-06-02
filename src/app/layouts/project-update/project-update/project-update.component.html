@@ -1,5 +1,4 @@
 <div class="container">
-	<h3 style="color: red;">Project Updates</h3>
 
 	<p-dialog header=" Add Update " [(visible)]="NewLeaveDialogbool" [style]="{width: '50vw'}" [baseZIndex]="10000">
 		<p-toast position="top-left" key="tl"></p-toast>
@@ -402,11 +401,13 @@
 		[globalFilterFields]="['userName','descriptionDate']">
 		<ng-template pTemplate="caption">
 			<div class="row">
-				<div class="col-6 p-input-icon-left p-ml-auto">
+				<div class="col-4 p-input-icon-left p-ml-auto">
 					<i class="pi pi-search" style="margin-left: 20px;margin-top: -16px;"></i>
 					<input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
 						placeholder="Search keyword" />
 				</div>
+				<div class="col-2"><h6 style="color: rgb(20, 20, 20);margin-top: 20px;">({{project.projectName}})</h6></div>
+
 				<div class="col-6" style="float: right;">
 					<button class="btn btn-info" (click)="addNewUpdate()">Add
 						New Update
@@ -415,14 +416,14 @@
 						(click)="ViewLatestDocs(documentObj.projectId)">
 						Show Latest Documents
 					</button>
-					<span class="pi pi-slack" (click)="ViewAllOfferedOffers()" pTooltip="Show All Assigned Projects" tooltipPosition="top"
-							style="cursor: pointer;margin-left: 8px;" aria-hidden="true"></span>
+					<span class="pi pi-slack" (click)="ViewAllOfferedOffers()" pTooltip="Show All Assigned Projects"
+						tooltipPosition="top" style="cursor: pointer;margin-left: 8px;" aria-hidden="true"></span>
 				</div>
 			</div>
 		</ng-template>
 		<ng-template pTemplate="header">
 			<tr>
-				<th>User Name
+				<th>Sales Name
 					<p-columnFilter type="text" field="userName" display="menu"></p-columnFilter>
 				</th>
 				<th>Date
@@ -455,7 +456,8 @@
 				<td>
 					<div class="row">
 						<span style="font-weight: bold;" class="col-9">{{projectUpdateDesc.userName}}</span>
-						<div class="pi pi-chart-line col-3" *ngIf=" (role =='PreSalesManager'||role =='Admin') && projectUpdateDesc==indexDesc" 
+						<div class="pi pi-chart-line col-3"
+							*ngIf=" (role =='PreSalesManager'||role =='Admin') && projectUpdateDesc==indexDesc"
 							(click)="AssignProjectUpdateFlag(projectUpdateDesc)"
 							style="cursor: pointer;color: rgb(92, 92, 25);" aria-hidden="true">
 						</div>
@@ -545,7 +547,7 @@
 					<td>
 						<span style="font-weight: bold;">{{offerDesc.projectName}}</span>
 					</td>
-					<td>{{offerDesc.offerCreationDate | date: 'MM/dd/yyyy'}}</td>
+					<td>{{offerDesc.offerCreationDate | date: 'short'}}</td>
 
 					<td>
 						{{offerDesc.cost}}

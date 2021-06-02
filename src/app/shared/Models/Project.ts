@@ -16,7 +16,9 @@ export class Project {
     governorateId:number
     governorateName:string
     lstprojectSystems:[]
+    userId:string
     consultantId:number
     consultantName:string
     contactName:string
+    deadline:Date
 }

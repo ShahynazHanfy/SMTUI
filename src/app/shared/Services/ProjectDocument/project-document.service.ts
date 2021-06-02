@@ -42,7 +42,7 @@ export class ProjectDocumentService {
     return this.httpClient.get<ProjectDocuments[]> (`${environment.ProjectDocumentByProjectID}${ProjectID}`,this.httpHeader) ;
   }
   GetAllDocumentsByProjectUpdateID(ProjectId:number,ProjectUpdateID:Number): Observable <ProjectDocuments[]>{
-    return this.httpClient.get<ProjectDocuments[]> (`${environment.GetAllUpdatesByProjectUpdateId}${ProjectUpdateID}`+'/'+ProjectId,this.httpHeader) ;
+    return this.httpClient.get<ProjectDocuments[]> (`${environment.GetAllUpdatesByProjectUpdateId}${ProjectId}`+'/'+ProjectUpdateID,this.httpHeader) ;
   }
   GetLatestDocuments(projectId:Number): Observable <ProjectDocuments[]>{
     return this.httpClient.get<ProjectDocuments[]> (`${environment.GetLatestDocuments}${projectId}`,this.httpHeader) ;

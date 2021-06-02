@@ -60,6 +60,7 @@ export class AddProjectComponent implements OnInit {
     })
     this.projectObj = {lstprojectSystems:[],contactName:'',consultantName:'',consultantId:0,
       companyName: '', contractorName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
+      userId:'',deadline:new Date,
       contractorContactName: '', projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date,
       governorateId: 0, projectName: '', projectStatusId: 1, rank: 0, governorateName: '', id: 0, projectStatusName: 'New'
     }

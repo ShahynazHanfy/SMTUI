@@ -4,6 +4,8 @@ export class ProjectUpdate
     ProjectName:string
     DueDate:Date
     ProjectId:number
+    deadline:Date
+
 }
 export class ProjectUpdateExtraData
 {

@@ -21,6 +21,7 @@ export const environment = {
   GetLatestDocuments:'http://10.10.0.129/SMTAPI/api/ProjectDocuments/GetLatestDocuments/',
   GetDescriptionsByProjectId:'http://10.10.0.129/SMTAPI/api/ProjectDescriptions/GetDescriptionsByProjectId/',
   GetDescriptionsByProjectUpdateId:'http://10.10.0.129/SMTAPI/api/ProjectDescriptions/GetDescriptionsByProjectUpdateId/',
+  GetAllProjectByUserId:'http://10.10.0.129/SMTAPI/api/ProjectDescriptions/GetAllProjectByUserId/',
   ProjectDocumentByProjectID:'http://10.10.0.129/SMTAPI/api/ProjectDocuments/GetProjectDocumentByProjectId/',
   ProjectSystem:'http://10.10.0.129/SMTAPI/api/ProjectSystems/',
   OfferStatus:'http://10.10.0.129/SMTAPI/api/OfferStatus/',
@@ -33,6 +34,11 @@ export const environment = {
   GetAllAcceptedProjects:'http://10.10.0.129/SMTAPI/api/Projects/GetAllAcceptedProjects',
   OfferDescription:'http://10.10.0.129/SMTAPI/api/OfferDescriptions',
   GetAllOfferByProjectUpdateId:'http://10.10.0.129/SMTAPI/api/OfferDescriptions/GetAllOfferByProjectUpdateId/',
-  GetAllOfferDocumentsByOfferId:'http://10.10.0.129/SMTAPI/api/OfferDocuments/GetAllOfferDocumentsByOfferId/'
-
+  GetAllOfferDocumentsByOfferId:'http://10.10.0.129/SMTAPI/api/OfferDocuments/GetAllOfferDocumentsByOfferId/',
+  GetAllEmployeesByProfessionId:'http://10.10.0.129/SMTAPI/api/Employees/GetAllEmployeesByProfessionId/',
+  GetAllProfessions:'http://10.10.0.129/SMTAPI/api/Employees/GetAllProfessions',
+  AssigneProject:'http://10.10.0.129/SMTAPI/api/AssignedProjects/',
+  GetAllAssignedProjectsByEmployeeId:'http://10.10.0.129/SMTAPI/api/AssignedProjects/GetAllAssignedProjectsByEmployeeId/',
+  GetAllOfferOfferedByUserId:'http://10.10.0.129/SMTAPI/api/OfferDescriptions/GetAllOfferOfferedByUserId/',
+  Consultant:'http://10.10.0.129/SMTAPI/api/Consultant',
 };

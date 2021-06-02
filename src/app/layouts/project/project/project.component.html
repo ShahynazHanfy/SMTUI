@@ -22,21 +22,22 @@
             <div class="form-group col-md-6">
                 <label for="inputStateprojectComponentName">Project Components Name</label>
                 <br>
-                <p-multiSelect [options]="lstProjComponent" (onChange)="colChanges()" name="inputStateprojectComponentName"
-                    [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedColumns"
-                    optionLabel="projectComponentName" selectedItemsLabel="{0} columns selected"
-                    [style]="{minWidth: '556px'}" placeholder="Choose Components"></p-multiSelect>
+                <p-multiSelect [options]="lstProjComponent" (onChange)="colChanges()"
+                    name="inputStateprojectComponentName" [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="selectedColumns" optionLabel="projectComponentName"
+                    selectedItemsLabel="{0} columns selected" [style]="{minWidth: '556px'}"
+                    placeholder="Choose Components"></p-multiSelect>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputStatecontactName">End User</label>
-                <select id="inputStatecontactName" [ngModelOptions]="{standalone: true}" [(ngModel)]="projectObj.endUsersId"
-                    class="form-control">
+                <select id="inputStatecontactName" [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="projectObj.endUsersId" class="form-control">
                     <option *ngFor="let i of lstEndUsers" value="{{i.id}}">{{i.contactName}}</option>
                 </select>
             </div>
-            <div class="form-group col-md-6"> 
+            <div class="form-group col-md-6">
                 <label for="inputStatecontractorName">Project Contractor Name</label>
                 <!-- <select id="inputState" [ngModelOptions]="{standalone: true}" [(ngModel)]="projectObj.contractorsId"
                     class="form-control">
@@ -45,8 +46,8 @@
                 </select> -->
 
                 <p-dropdown [options]="lstContractors" [style]="{minWidth: '556px'}" name="inputStatecontractorName"
-                    [(ngModel)]="contractorObj" (onChange)="pickUpContractorId()" optionLabel="contractorName" [filter]="true"
-                    filterBy="contractorName" [showClear]="true" placeholder="Select a Contractor">
+                    [(ngModel)]="contractorObj" (onChange)="pickUpContractorId()" optionLabel="contractorName"
+                    [filter]="true" filterBy="contractorName" [showClear]="true" placeholder="Select a Contractor">
                 </p-dropdown>
             </div>
 
@@ -55,10 +56,16 @@
             <div class="form-group col-md-6">
                 <label for="inputStateconsultantName">Project Consultant Name</label>
                 <p-dropdown [options]="lstConsultatnt" [style]="{minWidth: '556px'}" name="inputStateconsultantName"
-                  optionLabel="consultantName" [(ngModel)]="consultantObj" (onChange)="pickUpConsultantId()" [filter]="true"
-                    filterBy="consultantName" [showClear]="true" placeholder="Select a Consultant">
+                    optionLabel="consultantName" [(ngModel)]="consultantObj" (onChange)="pickUpConsultantId()"
+                    [filter]="true" filterBy="consultantName" [showClear]="true" placeholder="Select a Consultant">
 
                 </p-dropdown>
+               <div style="margin-top: 10px;">
+                       <label>DeadLine</label>
+                <p-calendar inputId="basic" name='deadline' [(ngModel)]='projectObj.deadline'></p-calendar>
+               </div>
+            
+
             </div>
             <!-- <div class="form-group col-md-6">
                 <label for="inputAddress2">Rank</label>
@@ -82,8 +89,8 @@
  -->
             <div class="form-group col-md-6">
                 <label for="inputStategovernorateName">Governorate Name</label>
-                <select id="inputStategovernorateName" [ngModelOptions]="{standalone: true}" [(ngModel)]="projectObj.governorateId"
-                    class="form-control">
+                <select id="inputStategovernorateName" [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="projectObj.governorateId" class="form-control">
                     <option *ngFor="let i of lstGovn" value="{{i.id}}">{{i.governorateName}}
                     </option>
                 </select>
@@ -173,9 +180,12 @@
                 your order in my order section.</p>
         </section> -->
         <!-- <h4>Please Fill a detaild description </h4> -->
+
+
         <textarea id="description" [(ngModel)]="ProjectDescriptionObj.description"
             placeholder="Add any extra data if you want" pInputTextarea rows="10" cols="120"></textarea>
         <br>
+
     </div>
 
     <!-- Button Package Finish Next Back -->
@@ -251,7 +261,7 @@
                 <th>Update</th>
                 <th>Accept</th>
                 <th>Controls</th>
-                <th>              
+                <th>
                     Accepted <p-columnFilter type="boolean" field="isAccept"></p-columnFilter>
                 </th>
 
@@ -260,13 +270,16 @@
         <ng-template pTemplate="body" let-customer>
             <tr>
                 <td>
-                    <img src="../../../../assets/img/sales.png" style="border-radius: 50%;margin-right: 10px;"
-                        [class]="'flag flag-' + customer.endUserContactName" width="40">
+                    <!-- <img src="../../../../assets/img/sales.png" style="border-radius: 50%;margin-right: 10px;"
+                        [class]="'flag flag-' + customer.endUserContactName" width="40"> -->
+
+                    <span style="font-weight: bold;">{{customer.userName}}</span>
+
                 </td>
                 <td>
                     <span style="font-weight: bold;">{{customer.projectName}}</span>
                 </td>
-                <td>{{customer.projectCreationDate | date: 'MM/dd/yyyy'}}</td>
+                <td>{{customer.projectCreationDate | date: 'short'}}</td>
 
                 <!-- <img src="assets/showcase/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + customer.country.code" width="30">
                     <span class="image-text">{{customer.country.name}}</span> -->
@@ -322,7 +335,8 @@
                     </i>
                 </td>
                 <td>
-                    <button class="btn btn-info" *ngIf="role=='Admin'" [disabled]="customer.isAccept" (click)="AcceptProject(customer.id)">Accept</button>
+                    <button class="btn btn-info" *ngIf="role=='Admin'" [disabled]="customer.isAccept"
+                        (click)="AcceptProject(customer.id)">Accept</button>
                 </td>
                 <td style="text-align: center;">
                     <span class="pi pi-compass" aria-hidden="true" style="cursor: pointer;"
@@ -336,7 +350,8 @@
                         aria-hidden="true"></span> -->
                 </td>
                 <td class="p-text-center">
-                    <i class="pi" [ngClass]="{'true-icon pi-check-circle': customer.isAccept, 'false-icon pi-times-circle': !customer.isAccept}"></i>
+                    <i class="pi"
+                        [ngClass]="{'true-icon pi-check-circle': customer.isAccept, 'false-icon pi-times-circle': !customer.isAccept}"></i>
                 </td>
             </tr>
         </ng-template>
@@ -373,7 +388,7 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th>Emloyee Name</th>
+                <th>Sales Name</th>
                 <th>Project Name
                     <p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
                 </th>
@@ -412,13 +427,16 @@
         <ng-template pTemplate="body" let-customer>
             <tr>
                 <td>
-                    <img src="../../../../assets/img/sales.png" style="border-radius: 50%;margin-right: 10px;"
-                        [class]="'flag flag-' + customer.endUserContactName" width="40">
+                    <!-- <img src="../../../../assets/img/sales.png" style="border-radius: 50%;margin-right: 10px;"
+                        [class]="'flag flag-' + customer.endUserContactName" width="40"> -->
+
+                    <span style="font-weight: bold;">{{customer.userName}}</span>
+
                 </td>
                 <td>
                     <span style="font-weight: bold;">{{customer.projectName}}</span>
                 </td>
-                <td>{{customer.projectCreationDate | date: 'MM/dd/yyyy'}}</td>
+                <td>{{customer.projectCreationDate | date: 'short'}}</td>
                 <td>
                     <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar>
 

@@ -117,7 +117,7 @@ export class ProjectComponent implements OnInit {
       }
     },
     {
-      label: 'Confirmation',
+      label: 'Description',
       command: (event: any) => {
         this.activeIndex = 2;
       }
@@ -149,7 +149,7 @@ export class ProjectComponent implements OnInit {
 
     this.projectObj = {
       consultantId: 0, consultantName: '', contactName: '',
-      lstprojectSystems: [],
+      lstprojectSystems: [],userId:this.userId,deadline:new Date,
       companyName: '', contractorName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
       contractorContactName: '', projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date,
       governorateId: 0, projectName: '', projectStatusId: 1, rank: 0, governorateName: '', id: 0, projectStatusName: 'New'
@@ -162,18 +162,22 @@ export class ProjectComponent implements OnInit {
     }
     this.project = {
       consultantId: 0, consultantName: '', contactName: '',
-      lstprojectSystems: [],
+      lstprojectSystems: [],userId:'',deadline:new Date,
       id: 0, projectStatusName: '', companyName: '', contractorName: '', contractorContactName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
       projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date, projectName: '', projectStatusId: 0, rank: 0, governorateId: 0, governorateName: ''
     }
     if (this.role == 'PreSales') {
       this.projectService.GetAllAcceptedProjects().subscribe(e => {
         this.projectList = e
+        console.log("projectList", this.projectList)
+
       })
 
     } if (this.role == 'Admin' || 'SalesManager') {
       this.projectService.GetAllProjects().subscribe(e => {
         this.projectList = e,
+        console.log("projectList", this.projectList)
+
           this.projectList.forEach(customer => customer.projectCreationDate = new Date(customer.projectCreationDate));
       })
     }
@@ -274,8 +278,12 @@ export class ProjectComponent implements OnInit {
               element.projectId = this.projectId
             });
             this.projectdocumentService.insertdocument(this.lstoddocproj).toPromise()
-            resolve('cons');
             this.showTheFirstStepDialog = false
+            this.projectService.GetAllProjects().subscribe(e=>{
+              this.projectList = e
+            resolve('cons');
+
+            })
           },
           msg => { // Error
             this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Correct Category and File' });
