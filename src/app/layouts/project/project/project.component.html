@@ -309,6 +309,16 @@
                     </div>
 
                 </td>
+                <td *ngIf="customer.projectStatusName =='InProgress'">
+                    <div
+                        style="background-color: #8a7ac0;width: 95px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
+                        <span
+                            style="font-weight: bold;color: #1624e9;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;padding: .25em .5rem;border-radius: 2px;"
+                            [class]="'customer-badge status-' + customer.projectStatusName">{{customer.projectStatusName}}</span>
+
+                    </div>
+
+                </td>
                 <td *ngIf="customer.projectStatusName=='Offered'">
                     <div
                         style="background-color: #ffcdd2;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
@@ -316,8 +326,14 @@
                             style="font-weight: bold; color: #f14b09;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;font-weight: 700;padding: .25em .5rem;border-radius: 2px;">{{customer.projectStatusName}}</span>
 
                     </div>
+                </td>
+                <td *ngIf="customer.projectStatusName=='Assigned'">
+                    <div
+                        style="background-color: #dbdada;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
+                        <span [class]="'customer-badge status-' + customer.projectStatusName"
+                            style="font-weight: bold; color: #b34216;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;font-weight: 700;padding: .25em .5rem;border-radius: 2px;">{{customer.projectStatusName}}</span>
 
-
+                    </div>
                 </td>
                 <td *ngIf="customer.projectStatusName=='Hold'">
                     <div
@@ -461,6 +477,16 @@
                     </div>
 
                 </td>
+                <td *ngIf="customer.projectStatusName =='InProgress'">
+                    <div
+                        style="background-color: #8a7ac0;width: 95px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
+                        <span
+                            style="font-weight: bold;color: #1624e9;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;padding: .25em .5rem;border-radius: 2px;"
+                            [class]="'customer-badge status-' + customer.projectStatusName">{{customer.projectStatusName}}</span>
+
+                    </div>
+
+                </td>
                 <td *ngIf="customer.projectStatusName=='Offered'">
                     <div
                         style="background-color: #ffcdd2;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
@@ -468,8 +494,14 @@
                             style="font-weight: bold; color: #f14b09;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;font-weight: 700;padding: .25em .5rem;border-radius: 2px;">{{customer.projectStatusName}}</span>
 
                     </div>
+                </td>
+                <td *ngIf="customer.projectStatusName=='Assigned'">
+                    <div
+                        style="background-color: #dbdada;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
+                        <span [class]="'customer-badge status-' + customer.projectStatusName"
+                            style="font-weight: bold; color: #b34216;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;font-weight: 700;padding: .25em .5rem;border-radius: 2px;">{{customer.projectStatusName}}</span>
 
-
+                    </div>
                 </td>
                 <td *ngIf="customer.projectStatusName=='Hold'">
                     <div

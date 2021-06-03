@@ -626,6 +626,10 @@ export class ProjectUpdateComponent implements OnInit {
   AssignProjectUpdateFlag(projectUpdateDesc) {
     // this.projectUpdateId = 
     this.projectUpdateIdForAssign = projectUpdateDesc.id
+    if(this.projectUpdateIdForAssign==0)
+    {
+      this.projectUpdateIdForAssign=null
+    }
     console.log("projectUpdateDesc", projectUpdateDesc)
     this.AssignOffersFlag = true
   }
