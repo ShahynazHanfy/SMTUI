@@ -21,4 +21,6 @@ export class Project {
     consultantName:string
     contactName:string
     deadline:Date
+    acceptedDate:Date
+
 }

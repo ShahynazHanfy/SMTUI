@@ -60,11 +60,11 @@
                     [filter]="true" filterBy="consultantName" [showClear]="true" placeholder="Select a Consultant">
 
                 </p-dropdown>
-               <div style="margin-top: 10px;">
-                       <label>DeadLine</label>
-                <p-calendar inputId="basic" name='deadline' [(ngModel)]='projectObj.deadline'></p-calendar>
-               </div>
-            
+                <div style="margin-top: 10px;">
+                    <label>DeadLine</label>
+                    <p-calendar inputId="basic" name='deadline' [(ngModel)]='projectObj.deadline'></p-calendar>
+                </div>
+
 
             </div>
             <!-- <div class="form-group col-md-6">
@@ -208,7 +208,7 @@
     <p-table #dt2 [value]="projectList" *ngIf="role!='Sales'" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-customers container-fluid" [paginator]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [globalFilterFields]="['projectName','projectCreationDate','rank','projectStatusName']">
+        [globalFilterFields]="['userName','projectName','projectCreationDate','rank','projectStatusName']">
         <ng-template pTemplate="caption">
             <div class="p-d-flex">
                 <span class="p-input-icon-left p-ml-auto">
@@ -239,7 +239,7 @@
                         <p-columnFilter type="date" field="projectCreationDate" display="menu"></p-columnFilter>
                     </div>
                 </th>
-                <th>
+                <th *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales'">
                     <div class="p-d-flex p-jc-between p-ai-center">
                         Periority
                         <p-columnFilter field="rank" matchMode="between" display="menu" [showMatchModes]="false"
@@ -259,9 +259,11 @@
                     <p-columnFilter type="text" field="projectStatusName" display="menu"></p-columnFilter>
                 </th>
                 <th>Update</th>
-                <th>Accept</th>
+                <th *ngIf="role=='Admin' || role=='SalesManager'">Accept</th>
                 <th>Controls</th>
-                <th>
+                <th>Description</th>
+
+                <th *ngIf="role=='Admin' || role=='SalesManager'">
                     Accepted <p-columnFilter type="boolean" field="isAccept"></p-columnFilter>
                 </th>
 
@@ -290,7 +292,7 @@
                 <!-- <td>
                     {{customer.contractorName}}
                 </td> -->
-                <td>
+                <td *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales'">
                     <!-- <img src="../../../../assets/img/bg5.jpg" width="32" style="vertical-align: middle" /> -->
                     <!-- <span class="image-text">{{customer.rank}}</span> -->
                     <!-- <p-progressBar [value]=customer.rank></p-progressBar> -->
@@ -334,9 +336,9 @@
                             Update</button>
                     </i>
                 </td>
-                <td>
-                    <button class="btn btn-info" *ngIf="role=='Admin'" [disabled]="customer.isAccept"
-                        (click)="AcceptProject(customer.id)">Accept</button>
+                <td *ngIf="role=='Admin' || role=='SalesManager'">
+                    <button class="btn btn-info" [disabled]="customer.isAccept"
+                        (click)="OpenDeailogAcceptProject(customer.id)">Accept</button>
                 </td>
                 <td style="text-align: center;">
                     <span class="pi pi-compass" aria-hidden="true" style="cursor: pointer;"
@@ -349,9 +351,16 @@
                     <!-- <span class="pi pi-times" (click)="confirm(customer.id)" style="cursor: pointer;margin-left: 15px;"
                         aria-hidden="true"></span> -->
                 </td>
-                <td class="p-text-center">
+                <td style="text-align: center;">
+                    <!-- <span class="btn btn-success" aria-hidden="true" style="cursor: pointer;"
+                        (click)="ViewDescriptionByProjectId(customer.projectId)">Descriptions</span> -->
+                        <span class="pi pi-wallet" (click)="ViewDescriptionByProjectId(customer.id)" style="cursor: pointer;"
+                        aria-hidden="true"></span> 
+                </td>
+                <td class="p-text-center" *ngIf="role=='Admin' || role=='SalesManager'">
                     <i class="pi"
                         [ngClass]="{'true-icon pi-check-circle': customer.isAccept, 'false-icon pi-times-circle': !customer.isAccept}"></i>
+
                 </td>
             </tr>
         </ng-template>
@@ -398,9 +407,9 @@
                         <p-columnFilter type="date" field="projectCreationDate" display="menu"></p-columnFilter>
                     </div>
                 </th>
-                <th>
+                <th *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales'">
                     <div class="p-d-flex p-jc-between p-ai-center">
-                        Activity
+                        Periority
                         <p-columnFilter field="rank" matchMode="between" display="menu" [showMatchModes]="false"
                             [showOperator]="false" [showAddButton]="false">
                             <ng-template pTemplate="filter" let-filter="filterCallback">
@@ -418,6 +427,7 @@
                     <p-columnFilter type="text" field="projectStatusName" display="menu"></p-columnFilter>
                 </th>
                 <th>Update</th>
+                <th>Description</th>
                 <th>Controls</th>
 
 
@@ -437,7 +447,7 @@
                     <span style="font-weight: bold;">{{customer.projectName}}</span>
                 </td>
                 <td>{{customer.projectCreationDate | date: 'short'}}</td>
-                <td>
+                <td *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales'">
                     <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar>
 
                 </td>
@@ -478,6 +488,11 @@
                             Update</button>
                     </i>
                 </td>
+                <td >
+                    <span class="pi pi-wallet" (click)="ViewDescriptionByProjectId(customer.projectId)" style="cursor: pointer;margin-left: 20px;"
+                    aria-hidden="true"></span> 
+
+                </td>
                 <td>
                     <span class="pi pi-compass" aria-hidden="true" style="cursor: pointer;"
                         (click)="showBasicDialog(customer.projectId)"></span>
@@ -515,6 +530,14 @@
     <tr class=" form-control">
         <th><span style="margin-right: 10px;">Project Creation Date : </span></th>
         <td>{{projectObj.projectCreationDate| date :'short'}}</td>
+    </tr>
+    <tr class=" form-control" *ngIf="projectObj.acceptedDate!=null">
+        <th><span style="margin-right: 10px;">Project Accepted Date : </span></th>
+        <td>{{projectObj.acceptedDate| date :'short'}}</td>
+    </tr>
+    <tr class=" form-control" *ngIf="projectObj.acceptedDate==null">
+        <th><span style="margin-right: 10px;">Project Accepted Date : </span></th>
+        <td>Not Accepted Yet</td>
     </tr>
     <tr class=" form-control">
         <th><span style="margin-right: 10px;">Company Name : </span></th>
@@ -635,4 +658,67 @@
         <th><span style="margin-right: 20px;">Relevant Phone : </span></th>
         <td>{{ConsultantObj.relevantPhone}}</td>
     </tr>
+</p-dialog>
+
+
+<p-dialog [(visible)]="acceptdescription" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <form>
+        <textarea name="first" [ngModelOptions]="{standalone: true}" id="descriptionaccept"
+            [(ngModel)]="ProjectDescriptionObj.description" placeholder="Add any extra data if you want" pInputTextarea
+            rows="7" cols="75"></textarea>
+
+        <button type="submit" (click)="AcceptProject()" style="float: right;margin: 10px;"
+            class="btn btn-primary">Save</button>
+    </form>
+
+</p-dialog>
+
+
+<p-dialog header=" View Project Description " [(visible)]="projectDescritionFlag" [style]="{width: '60vw'}"
+    [baseZIndex]="10000">
+    <p-toast position="top-left" key="tl"></p-toast>
+    <p-toast position="top-center" key="tc"></p-toast>
+    <p-toast position="bottom-center" key="bc"></p-toast>
+    <div class="row">
+        <div class="row container">
+
+            <div style="margin-left: 10px;">
+                <br>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let i of LstprojectDescription">
+                            <td>
+                                {{i.userName}}
+                            </td>
+                            <td>
+                                {{i.descriptionDate | date: 'short'}}
+                            </td>
+                            <td>
+                                {{i.description}}
+                            </td>
+                        </tr>
+                        <tr *ngIf="LstprojectDescription.length == 0">
+                            <td colspan="4" style="color: rgb(102, 97, 23);">No Description found.</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->
+    <br>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="projectDescritionFlag=false" label="" class="p-button-secondary">Exit
+        </p-button>
+    </ng-template>
+
 </p-dialog>

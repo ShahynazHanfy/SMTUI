@@ -41,6 +41,7 @@ export const environment = {
   GetAllAssignedProjectsByEmployeeId:'http://localhost:57910/api/AssignedProjects/GetAllAssignedProjectsByEmployeeId/',
   GetAllOfferOfferedByUserId:'http://localhost:57910/api/OfferDescriptions/GetAllOfferOfferedByUserId/',
   Consultant:'http://localhost:57910/api/Consultant',
+  GetAllOfferByProjectUpdateIdAndUserId:'http://localhost:57910/api/OfferDescriptions/GetAllOfferByProjectUpdateIdAndUserId/',
 
 };
 

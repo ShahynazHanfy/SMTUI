@@ -103,9 +103,10 @@ export class ProjectUpdateComponent implements OnInit {
   ProjectCostId: number
   CurrencyValue: string
   offerId: number
-  indexDesc: ProjectDescription
+  indexDesc: ProjectUpdate
   offerDescription: OfferDescription
   role: string;
+  ViewOfferDescFlag: boolean;
   constructor(private activeRoute: ActivatedRoute,
     private projectService: ProjectService,
     private ProjectUpdateService: ProjectUpdateService,
@@ -154,8 +155,9 @@ export class ProjectUpdateComponent implements OnInit {
       employeeId: 0, id: 0, isAssigned: false, projectUpdateId: 0, description: '', AssignedProjectDate: new Date
     }
     this.docOffer = { id: 0, offerId: 0, documentFile: '' }
-    this.project = {userId:this.userId,deadline:new Date,
-      lstprojectSystems: [],consultantId:0,consultantName:'',contactName:'',
+    this.project = {
+      userId: this.userId, deadline: new Date, acceptedDate: new Date,
+      lstprojectSystems: [], consultantId: 0, consultantName: '', contactName: '',
       companyName: '', contractorContactName: '', contractorName: '', endUserContactName: '', endUsersId: 0,
       contractorsId: 0, governorateName: '', projectComponentName: '', projectCreationDate: new Date, projectName: '',
       projectStatusName: '', rank: 0, governorateId: 0, id: 0, projectComponentsId: 0, projectStatusId: 0
@@ -182,7 +184,7 @@ export class ProjectUpdateComponent implements OnInit {
     })
 
     this.projectUpdate = {
-      DueDate: new Date, id: 0, ProjectId: this.projectId, ProjectName: this.project.projectName,deadline:new Date()
+      DueDate: new Date, id: 0, ProjectId: this.projectId, ProjectName: this.project.projectName, deadline: new Date()
     }
     this.DocumentCategoryService.GetAllDocumentCategories().subscribe(e => {
       this.lstDocumentCategory = e
@@ -239,11 +241,11 @@ export class ProjectUpdateComponent implements OnInit {
   RloadPage() {
     this.ProjectUpdateService.GetAllUpdatesByProjectId(this.projectId).subscribe(e => {
       this.LstpProjectUpdates = e
+      this.indexDesc = this.LstpProjectUpdates[0]
       console.log("LstpProjectUpdatesAgain", e)
 
       this.projectDescriptionService.GetDescriptionsByProjectId(this.projectId).subscribe(e => {
         this.LstProjectUpdateDescription = e
-        this.indexDesc = this.LstProjectUpdateDescription[0]
         console.log("hh")
         this.LstProjectUpdateDescription.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
 
@@ -327,7 +329,7 @@ export class ProjectUpdateComponent implements OnInit {
             this.lstoddocproj.forEach(element => {
               element.projectUpdateId = this.projectUpdateId
             });
-            this.projectUpdate = { DueDate: new Date, ProjectId: this.projectId, ProjectName: '', id: 0 ,deadline:new Date}
+            this.projectUpdate = { DueDate: new Date, ProjectId: this.projectId, ProjectName: '', id: 0, deadline: new Date }
             this.projectdocumentService.insertdocument(this.lstoddocproj).toPromise()
             this.NewLeaveDialogbool = false
             resolve('cons');
@@ -361,7 +363,7 @@ export class ProjectUpdateComponent implements OnInit {
     });
     this.projectDescriptionService.GetDescriptionsByProjectId(this.projectId).subscribe(e => {
       this.LstProjectUpdateDescription = e
-      this.indexDesc = this.LstProjectUpdateDescription[0]
+      // this.indexDesc = this.LstProjectUpdateDescription[0]
       console.log("hhhhhhhhhhhhh")
       this.LstProjectUpdateDescription.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
 
@@ -466,17 +468,28 @@ export class ProjectUpdateComponent implements OnInit {
       console.log("LstProjectUpdateDescriptionByUpdateId", e)
     })
   }
+  ViewOfferDescrption(offerDescId) {
+    console.log("Offer obj", offerDescId)
+    this.ViewOfferDescFlag = true;
+    this.offerdescriptionService.GetAllOfferDescriptionByOfferId(offerDescId).subscribe(
+      res => {
+        console.log("lstOfferDescription", this.offerDescription)
+        this.offerDescription = res
+      }
+    ),
+      err => console.log(err)
+  }
+
   ViewDocs(docObj) {
     this.ViewDocsFlag = true
     this.documentObj = docObj
     console.log("documentObj", this.documentObj)
     console.log("projectId", this.projectId)
-if(this.documentObj.projectUpdateId==null)
-{
-  this.documentObj.projectUpdateId=0;
-}
+    if (this.documentObj.id == null) {
+      this.documentObj.id = 0;
+    }
     //view all docs by updateProject
-    this.projectdocumentService.GetAllDocumentsByProjectUpdateID(this.projectId,this.documentObj.projectUpdateId).subscribe(e => {
+    this.projectdocumentService.GetAllDocumentsByProjectUpdateID(this.projectId, this.documentObj.id).subscribe(e => {
       this.lstProjDocuments = e
       console.log("lstProjDocuments", this.lstProjDocuments)
     })
@@ -547,16 +560,24 @@ if(this.documentObj.projectUpdateId==null)
     //   }
     // ),
     //   err => console.log(err)
-    if (projectUpdate.projectUpdateId == null) {
-      projectUpdate.projectUpdateId = 0
+    if (projectUpdate.id == null) {
+      projectUpdate.id = 0
     }
-    this.offerdescriptionService.GetAllOfferByProjectUpdateId(projectUpdate.projectId, projectUpdate.projectUpdateId).subscribe(
-      res => {
-        console.log("lstOfferDescription", this.lstOfferDescription)
-        this.lstOfferDescription = res
-      }
-    ),
-      err => console.log(err)
+    if (this.role == 'PreSales' || this.role == 'PreSalesManager') {
+      this.offerdescriptionService.GetAllOfferByProjectUpdateId(projectUpdate.projectId, projectUpdate.id).subscribe(
+        res => {
+          console.log("lstOfferDescription", this.lstOfferDescription)
+          this.lstOfferDescription = res
+        }
+      ),
+        err => console.log(err)
+    }
+    if (this.role == 'Sales' || this.role == 'SalesManager') {
+      this.offerdescriptionService.GetAllOfferByProjectUpdateIdAndUserId(projectUpdate.projectId, projectUpdate.id).subscribe(res => 
+        { this.lstOfferDescription = res,
+        console.log("LstProjectUpdateDescription user",this.lstOfferDescription) })
+    }
+
   }
   changeStatus(offerDescription) {
     console.log("teeeeeeeeeeeeeeeeet", offerDescription)
@@ -604,7 +625,7 @@ if(this.documentObj.projectUpdateId==null)
   }
   AssignProjectUpdateFlag(projectUpdateDesc) {
     // this.projectUpdateId = 
-    this.projectUpdateIdForAssign = projectUpdateDesc.projectUpdateId
+    this.projectUpdateIdForAssign = projectUpdateDesc.id
     console.log("projectUpdateDesc", projectUpdateDesc)
     this.AssignOffersFlag = true
   }

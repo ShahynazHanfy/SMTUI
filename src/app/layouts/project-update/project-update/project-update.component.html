@@ -395,7 +395,7 @@
 </div>
 
 <div class="card">
-	<p-table #dt2 [value]="LstProjectUpdateDescription" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
+	<p-table #dt2 [value]="LstpProjectUpdates" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
 		[rowsPerPageOptions]="[5,10,50]" styleClass="p-datatable-customers container-fluid" [paginator]="true"
 		currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
 		[globalFilterFields]="['userName','descriptionDate']">
@@ -416,7 +416,7 @@
 						(click)="ViewLatestDocs(documentObj.projectId)">
 						Show Latest Documents
 					</button>
-					<span class="pi pi-slack" (click)="ViewAllOfferedOffers()" pTooltip="Show All Assigned Projects"
+					<span *ngIf="role=='PreSales' || role=='PreSalesManager'" class="pi pi-slack" (click)="ViewAllOfferedOffers()" pTooltip="Show All Assigned Projects"
 						tooltipPosition="top" style="cursor: pointer;margin-left: 8px;" aria-hidden="true"></span>
 				</div>
 			</div>
@@ -463,13 +463,13 @@
 						</div>
 					</div>
 				</td>
-				<td>{{projectUpdateDesc.descriptionDate | date: 'short'}}</td>
-				<td *ngIf="projectUpdateDesc.projectUpdateId!=null">
-					<button class="btn btn-primary" (click)="ViewDescrption(projectUpdateDesc.projectUpdateId)">
+				<td>{{projectUpdateDesc.dueDate | date: 'short'}}</td>
+				<td *ngIf="projectUpdateDesc.id!=0">
+					<button class="btn btn-primary" (click)="ViewDescrption(projectUpdateDesc.id)">
 						Description
 					</button>
 				</td>
-				<td *ngIf="projectUpdateDesc.projectUpdateId==null">
+				<td *ngIf="projectUpdateDesc.id==0">
 					<button class="btn btn-warning" disabled>
 						Main Project
 					</button>
@@ -480,7 +480,7 @@
 					</button>
 				</td>
 				<td *ngIf="role== 'PreSalesManager'||role == 'PreSales' ||role =='Admin'">
-					<button class="btn btn-primary" (click)="ShowOfferDialog(projectUpdateDesc.projectUpdateId)">
+					<button class="btn btn-primary" (click)="ShowOfferDialog(projectUpdateDesc.id)">
 						Make Offer
 					</button>
 				</td>
@@ -522,20 +522,21 @@
 			</ng-template>
 			<ng-template pTemplate="header">
 				<tr>
+					<th>Pre-Sales</th>
 					<th>Offer Name
-						<p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
+						<!-- <p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter> -->
 					</th>
 					<th>
 						<div class="p-d-flex p-jc-between p-ai-center">
 							Date
-							<p-columnFilter type="date" field="offerCreationDate" display="menu"></p-columnFilter>
+							<!-- <p-columnFilter type="date" field="offerCreationDate" display="menu"></p-columnFilter> -->
 						</div>
 					</th>
 					<th>Cost
-						<p-columnFilter type="text" field="cost" display="menu"></p-columnFilter>
+						<!-- <p-columnFilter type="text" field="cost" display="menu"></p-columnFilter> -->
 					</th>
 					<th>Status
-						<p-columnFilter type="text" field="offerStatusName" display="menu"></p-columnFilter>
+						<!-- <p-columnFilter type="text" field="offerStatusName" display="menu"></p-columnFilter> -->
 					</th>
 					<th>Operations
 						<!-- <p-columnFilter type="text" field="Delete" display="menu"></p-columnFilter> -->
@@ -544,6 +545,7 @@
 			</ng-template>
 			<ng-template pTemplate="body" let-offerDesc>
 				<tr>
+					<td style="font-weight: bold;color: orange;">{{offerDesc.userName}}</td>
 					<td>
 						<span style="font-weight: bold;">{{offerDesc.projectName}}</span>
 					</td>
@@ -553,16 +555,19 @@
 						{{offerDesc.cost}}
 					</td>
 
-					<td style="width: 10px;">
+					<td style="width: 10px;" *ngIf="role=='PreSalesManager' || role=='PreSales'">
 						<p-dropdown [options]="LstOfferStatus" [style]="{'maxWidth':'150px'}"
 							(onChange)="changeStatus(offerDesc)" [readonly]="false"
 							[(ngModel)]="offerDesc.offerStatusId" optionLabel="offerStatusName" optionValue="id">
 						</p-dropdown>
-
+					</td>
+					
+					<td style="width: 10px;" *ngIf="role=='Sales' || role=='SalesManager'">
+						{{offerDesc.offerStatusName}}
 					</td>
 					<td>
-						<span class="pi pi-times" (click)="confirm(offerDesc)"
-							style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>
+						 <span class="pi pi-campas" (click)="ViewOfferDescrption(offerDesc.id)"
+							style="cursor: pointer;margin-left: 15px;" aria-hidden="true">Description</span> 
 						<span class="pi pi-file-o" (click)="viewOfferDocuments(offerDesc)"
 							style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>
 					</td>
@@ -597,7 +602,7 @@
 							<tr>
 								<th>File Name</th>
 								<th><i>View</i></th>
-								<th><i>Delete</i></th>
+								<!-- <th><i>Delete</i></th> -->
 
 							</tr>
 						</thead>
@@ -611,10 +616,10 @@
 									<div class="col"><button class="btn btn-primary"
 											(click)="viewSingleOfferDoc(doc)">View</button></div>
 								</td>
-								<td>
+								<!-- <td>
 									<div class="col"><button class="btn btn-danger"
 											(click)="deleteOfferDoc(doc)">Delete</button></div>
-								</td>
+								</td> -->
 
 							</tr>
 
@@ -680,5 +685,55 @@
 		<p-button icon="pi pi-times" (click)="AssignOffersFlag=false" label="" class="p-button-secondary">NO
 		</p-button>
 	</ng-template>
+
+</p-dialog>
+
+
+<p-dialog header=" View Offer Description " [(visible)]="ViewOfferDescFlag" [style]="{width: '60vw'}"
+[baseZIndex]="10000">
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+<div class="row">
+	<div class="row container">
+
+		<div style="margin-left: 10px;">
+			<br>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>User Name</th>
+						<th>Date</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr>
+						<td>
+							{{offerDescription.userName}}
+						</td>
+						<td>
+							{{offerDescription.descriptionDate | date: 'short'}}
+						</td>
+						<td>
+							{{offerDescription.description}}
+						</td>
+					</tr>
+					<tr *ngIf="lstOfferDescription.length == 0">
+						<td colspan="4" style="color: rgb(102, 97, 23);">No Documents found.</td>
+					</tr>
+				</tbody>
+
+			</table>
+		</div>
+	</div>
+</div>
+<!-- </div> -->
+<br>
+<ng-template pTemplate="footer">
+	<p-button icon="pi pi-times" (click)="ViewOfferDescFlag=false" label="" class="p-button-secondary">Exit
+	</p-button>
+</ng-template>
 
 </p-dialog>

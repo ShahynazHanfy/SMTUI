@@ -49,6 +49,7 @@ export class ProjectComponent implements OnInit {
   ProjectDescriptionObj: ProjectDescription
   projectList: Project[]
   projectDescriptionList: ProjectDescription[]
+  LstprojectDescription: ProjectDescription[]
   projectObj: Project
   lstEndUsers: EndUsers[]
   lstProjStatus: ProjectStatus[]
@@ -81,6 +82,9 @@ export class ProjectComponent implements OnInit {
   displayConsultant: boolean;
   ConsultantObj: Consultant
   consultantObj: Consultant
+  acceptdescription: boolean;
+  acceptProjectId: any;
+  projectDescritionFlag: boolean;
   constructor(private route: Router, private projStatusService: ProjectStatusService,
     private projectComponentService: ProjectComponentService,
     private EndUsersService: EndUsersService,
@@ -131,9 +135,10 @@ export class ProjectComponent implements OnInit {
     this.lstDocumentCategory = []
     this.lstContractors = []
     this.projectDescriptionList = []
+    this.LstprojectDescription = []
     this.projectList = []
     this.lstConsultatnt = []
-    this.selectedColumns=[]
+    this.selectedColumns = []
     this.consultantObj = {
       id: 0, contactName: '', consultantName: '', email: '', phone: '', relevantPhone: '', titleName: ''
     }
@@ -148,8 +153,9 @@ export class ProjectComponent implements OnInit {
     this.ConsultantObj = { id: 0, contactName: '', consultantName: '', email: '', phone: '', relevantPhone: '', titleName: '' }
 
     this.projectObj = {
+      acceptedDate: new Date,
       consultantId: 0, consultantName: '', contactName: '',
-      lstprojectSystems: [],userId:this.userId,deadline:new Date,
+      lstprojectSystems: [], userId: this.userId, deadline: new Date,
       companyName: '', contractorName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
       contractorContactName: '', projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date,
       governorateId: 0, projectName: '', projectStatusId: 1, rank: 0, governorateName: '', id: 0, projectStatusName: 'New'
@@ -161,24 +167,26 @@ export class ProjectComponent implements OnInit {
       projectUpdateId: 0, documentsCategoryId: 0, documentFile: '', id: 0, projectId: 0, documentsCategoryName: ''
     }
     this.project = {
+      acceptedDate: new Date,
       consultantId: 0, consultantName: '', contactName: '',
-      lstprojectSystems: [],userId:'',deadline:new Date,
+      lstprojectSystems: [], userId: '', deadline: new Date,
       id: 0, projectStatusName: '', companyName: '', contractorName: '', contractorContactName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
       projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date, projectName: '', projectStatusId: 0, rank: 0, governorateId: 0, governorateName: ''
     }
-    if (this.role == 'PreSales') {
+    if (this.role == 'PreSales' || this.role == 'PreSalesManager') {
       this.projectService.GetAllAcceptedProjects().subscribe(e => {
         this.projectList = e
-        console.log("projectList", this.projectList)
+        console.log("AcceptedProjects", this.projectList)
 
       })
 
-    } if (this.role == 'Admin' || 'SalesManager') {
+    } 
+    if (this.role == 'Admin' || this.role == 'SalesManager') {
       this.projectService.GetAllProjects().subscribe(e => {
         this.projectList = e,
-        console.log("projectList", this.projectList)
+          console.log("projectList admin", this.projectList)
 
-          this.projectList.forEach(customer => customer.projectCreationDate = new Date(customer.projectCreationDate));
+        this.projectList.forEach(customer => customer.projectCreationDate = new Date(customer.projectCreationDate));
       })
     }
     if (this.role == 'Sales') {
@@ -221,7 +229,12 @@ export class ProjectComponent implements OnInit {
   showBasicDialog(id) {
     this.displayBasic = true;
     this.projectService.GetProjectById(id).subscribe(
-      data => { this.projectObj = data, console.log("projectObj", this.projectObj) },
+      data => {
+        this.projectObj = data, console.log("projectObj", this.projectObj)
+        if (this.projectObj.projectCreationDate == this.projectObj.acceptedDate) {
+          this.projectObj.acceptedDate = null
+        }
+      },
       error => { console.log(error) }
     );
   }
@@ -233,6 +246,9 @@ export class ProjectComponent implements OnInit {
     this.route.navigate(['/addProject']);
   }
   search(term: string) {
+
+  }
+  reloadPage(){
 
   }
   colChanges() {
@@ -279,9 +295,12 @@ export class ProjectComponent implements OnInit {
             });
             this.projectdocumentService.insertdocument(this.lstoddocproj).toPromise()
             this.showTheFirstStepDialog = false
-            this.projectService.GetAllProjects().subscribe(e=>{
+            this.projectService.GetAllProjects().subscribe(e => {
               this.projectList = e
-            resolve('cons');
+            this.ngOnInit()
+            this.activeIndex =0
+
+              resolve('cons');
 
             })
           },
@@ -440,16 +459,64 @@ export class ProjectComponent implements OnInit {
         break;
     }
   }
-  AcceptProject(projId) {
-    this.projectService.AcceptProject(projId).subscribe(e => {
-      this.ngOnInit()
-      this.showNotification('top', 'left')
-      this.AcceptedProject = true
-    })
+
+  OpenDeailogAcceptProject(projId) {
+    console.log("projId", projId)
+    this.acceptProjectId = projId
+    this.acceptdescription = true
+  }
+  AcceptProject() {
+    this.projectObj.acceptedDate = new Date()
+    let promise = new Promise((resolve, reject) => {
+      this.projectService.AcceptProject(this.acceptProjectId).toPromise()
+        .then(
+          res => {
+            this.ProjectDescriptionObj.projectId = this.acceptProjectId
+            console.log("this.ProjectDescriptionObj.projectId", this.ProjectDescriptionObj.projectId)
+            this.projectDescriptionService.insertProjectDescription(this.ProjectDescriptionObj).toPromise()
+            resolve('cons');
+            this.acceptdescription = false
+            if (this.role == 'Admin' || this.role == 'SalesManager') {
+              this.projectService.GetAllProjects().subscribe(e => {
+                this.projectList = e,
+                  console.log("projectList admin", this.projectList)
+        
+                this.projectList.forEach(customer => customer.projectCreationDate = new Date(customer.projectCreationDate));
+              })
+            }
+            if (this.role == 'Sales') {
+              this.projectDescriptionService.GetAllProjectByUserId(this.userId).subscribe(e => {
+                this.projectDescriptionList = e,
+                  console.log("projDesscSales", this.projectDescriptionList)
+                this.projectDescriptionList.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
+              })
+            }
+        
+          },
+          msg => { // Error
+            this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Enter Description' });
+            reject(msg);
+          })
+    });
+    return promise;
+
+
+
+
+    // this.projectDescriptionService.insertProjectDescription(this.ProjectDescriptionObj).subscribe(res => {
+    //   this.ProjectDescriptionObj = res
+    // }
+
+    // )
+    // this.projectService.AcceptProject(projId).subscribe(e => {
+    //   this.ngOnInit()
+    //   this.showNotification('top', 'left')
+    //   this.AcceptedProject = true
+    // })
   }
 
   showContractor(id) {
-    console.log("cont Id",id)
+    console.log("cont Id", id)
     this.displayContractor = true;
     this.ContractorsService.GetContractorById(id).subscribe(
       data => {
@@ -492,7 +559,13 @@ export class ProjectComponent implements OnInit {
     this.projectObj.contractorsId = Number(this.projectObj.contractorsId) //NAN
     this.projectObj.contractorsId = this.contractorObj.id
   }
-
+  ViewDescriptionByProjectId(projectId) {
+    console.log("idddd", projectId)
+    this.projectDescritionFlag = true;
+    this.projectDescriptionService.GetDescriptionsByProjectId(projectId).subscribe(
+      res => { this.LstprojectDescription = res }
+    )
+  }
 }
 
 

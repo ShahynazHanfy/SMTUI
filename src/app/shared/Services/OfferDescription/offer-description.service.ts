@@ -18,12 +18,17 @@ export class OfferDescriptionService {
   GetAllOfferByProjectUpdateId(projectId:number,projectUpdateId:number): Observable <OfferDescription[]>{
     return this.httpClient.get<OfferDescription[]> (`${environment.GetAllOfferByProjectUpdateId}`+ projectId+'/'+projectUpdateId,this.httpHeader) ;
   }
-
+  GetAllOfferByProjectUpdateIdAndUserId(projectId:number,projectUpdateId:number): Observable <OfferDescription[]>{
+    return this.httpClient.get<OfferDescription[]> (`${environment.GetAllOfferByProjectUpdateIdAndUserId}`+ projectId+'/'+projectUpdateId,this.httpHeader) ;
+  }
   GetAllOfferDescriptions(): Observable <OfferDescription[]>{
     return this.httpClient.get<OfferDescription[]> (`${environment.OfferDescription}`,this.httpHeader) ;
   }
   GetAllOfferOfferedByUserId(userId:string): Observable <OfferDescription[]>{
     return this.httpClient.get<OfferDescription[]> (`${environment.GetAllOfferOfferedByUserId}`+userId,this.httpHeader) ;
+  }
+  GetAllOfferDescriptionByOfferId(OfferId:number): Observable <OfferDescription>{
+    return this.httpClient.get<OfferDescription> (`${environment.OfferDescription}/`+OfferId,this.httpHeader) ;
   }
   // insertOfferDescription(offerDescription:OfferDescription): Observable <OfferDescription>{
   //   return this.httpClient.post<OfferDescription> (`${environment.OfferDescription}`,offerDescription,this.httpHeader) ;

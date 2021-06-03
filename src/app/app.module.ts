@@ -98,10 +98,10 @@ import { ConsultantComponent } from './components/consultant/consultant.componen
     ConfirmDialogModule,
     DragDropModule,
     PickListModule,
-    FormGroup,
-    FormControl,
-    Validators,
-    FormBuilder 
+    // FormGroup,
+    // FormControl,
+    // Validators,
+    // FormBuilder 
     // AngularMultiSelectModule
 
   ],

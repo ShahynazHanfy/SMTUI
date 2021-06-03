@@ -58,7 +58,7 @@ export class AddProjectComponent implements OnInit {
     this.contractorService.GetAllContractors().subscribe(e=>{
       this.lstContractors=e
     })
-    this.projectObj = {lstprojectSystems:[],contactName:'',consultantName:'',consultantId:0,
+    this.projectObj = {lstprojectSystems:[],contactName:'',consultantName:'',consultantId:0,acceptedDate:new Date,
       companyName: '', contractorName: '', contractorsId: 0, endUserContactName: '', endUsersId: 0,
       userId:'',deadline:new Date,
       contractorContactName: '', projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date,
