@@ -6,9 +6,8 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 
 export const AppRoutes: Routes = [
-  {
-    path: '',component:LoginComponent
-  },
+  { path: '', pathMatch: 'full', redirectTo: 'login' },
+
   // {
   //   path: 'admin',
   //   redirectTo: 'dashboard',

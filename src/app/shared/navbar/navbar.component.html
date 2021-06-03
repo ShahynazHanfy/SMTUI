@@ -49,10 +49,10 @@
             </p>
           </a>
           <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right">
-            <a ngbDropdownItem [routerLink]="'AllUsers'">All Users</a>
-            <a ngbDropdownItem [routerLink]="'projectStatus'">
+            <a ngbDropdownItem [routerLink]="'AllUsers'" *ngIf="role=='Admin'">All Users</a>
+            <!-- <a ngbDropdownItem [routerLink]="'projectStatus'">
               <div>ProjectStatus</div>
-            </a>
+            </a> -->
             <a ngbDropdownItem [routerLink]="'Governorates'">Governorates</a>
             <a ngbDropdownItem [routerLink]="'Contractors'">Contractors</a>
             <a ngbDropdownItem [routerLink]="'EndUsers'">EndUsers</a>

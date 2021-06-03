@@ -41,4 +41,5 @@ export const environment = {
   GetAllAssignedProjectsByEmployeeId:'http://10.10.0.129/SMTAPI/api/AssignedProjects/GetAllAssignedProjectsByEmployeeId/',
   GetAllOfferOfferedByUserId:'http://10.10.0.129/SMTAPI/api/OfferDescriptions/GetAllOfferOfferedByUserId/',
   Consultant:'http://10.10.0.129/SMTAPI/api/Consultant',
+  GetAllOfferByProjectUpdateIdAndUserId:'http://10.10.0.129/SMTAPI/api/OfferDescriptions/GetAllOfferByProjectUpdateIdAndUserId/',
 };
