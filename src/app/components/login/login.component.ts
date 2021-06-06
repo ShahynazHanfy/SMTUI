@@ -12,10 +12,15 @@ export class LoginComponent implements OnInit {
   userId: string
   email: string = ''
   password: string = ''
+  fieldTextType: boolean;
+
   constructor(private authService: AuthenticateService, private route: Router) { }
 
   ngOnInit(): void {
 
+  }
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
   }
   login() {
     console.log("mail", this.email)

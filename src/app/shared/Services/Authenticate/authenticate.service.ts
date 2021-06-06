@@ -60,4 +60,13 @@ export class AuthenticateService {
   {
     return this.httpClient.get(`${environment.Domain}Authenticate/checkInterceptor`,this.httpOptions)
   }
+  IsAdmin()
+  {
+    return localStorage.getItem('roles') == 'Admin'
+        || localStorage.getItem('roles') == 'SalesManager'
+        || localStorage.getItem('roles') == 'Sales'
+        || localStorage.getItem('roles') == 'PreSalesManager'
+        || localStorage.getItem('roles') == 'PreSales'
+        || localStorage.getItem('roles') == 'CEO'
+  }
 }

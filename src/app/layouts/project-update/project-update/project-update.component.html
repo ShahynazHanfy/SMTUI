@@ -129,7 +129,7 @@
 									{{i.userName}}
 								</td>
 								<td>
-									{{i.descriptionDate | date: 'short'}}
+									{{i.descriptionDate | date: 'MM/dd/yyyy, h:mm a'}}
 								</td>
 								<td>
 									{{i.description}}
@@ -463,7 +463,7 @@
 						</div>
 					</div>
 				</td>
-				<td>{{projectUpdateDesc.dueDate | date: 'short'}}</td>
+				<td>{{projectUpdateDesc.dueDate | date: 'MM/dd/yyyy, h:mm a'}}</td>
 				<td *ngIf="projectUpdateDesc.id!=0">
 					<button class="btn btn-primary" (click)="ViewDescrption(projectUpdateDesc.id)">
 						Description
@@ -549,7 +549,7 @@
 					<td>
 						<span style="font-weight: bold;">{{offerDesc.projectName}}</span>
 					</td>
-					<td>{{offerDesc.offerCreationDate | date: 'short'}}</td>
+					<td>{{offerDesc.offerCreationDate | date: 'MM/dd/yyyy, h:mm a'}}</td>
 
 					<td>
 						{{offerDesc.cost}}
@@ -714,7 +714,7 @@
 							{{offerDescription.userName}}
 						</td>
 						<td>
-							{{offerDescription.descriptionDate | date: 'short'}}
+							{{offerDescription.descriptionDate | date: 'MM/dd/yyyy, h:mm a'}}
 						</td>
 						<td>
 							{{offerDescription.description}}

@@ -16,25 +16,26 @@ import { EndUsersComponent } from 'app/components/end-users/end-users.component'
 import { ProjectComponentComponent } from "../../components/project-component/project-component.component";
 import { LoginComponent } from 'app/components/login/login.component';
 import { ConsultantComponent } from 'app/components/consultant/consultant.component';
+import { AuthGuard } from 'app/helpers/auth.guard';
 export const AdminLayoutRoutes: Routes = [
     // { path: 'project', loadChildren: () => import('../project/project.module').then(mod => mod.ProjectModule) },
     { path: '', component: DashboardComponent },
     { path: 'dashboard', component: DashboardComponent },
-    { path: 'user', component: UserComponent },
+    { path: 'user', component: UserComponent ,canActivate: [AuthGuard]},
     // { path: 'login', component: LoginComponent },
     { path: 'table', component: TableComponent },
-    { path: 'AllUsers', component: AllUsersComponent },
-    { path: 'ProComponents', component: ProjectComponentComponent },
-    { path: 'Governorates', component: GovernoratesComponent },
-    { path: 'Contractors', component: ContractorsComponent },
-    { path: 'typography', component: TypographyComponent },
-    { path: 'EndUsers', component: EndUsersComponent },
-    { path: 'projects', loadChildren: () => import('../project/project.module').then(mod => mod.ProjectModule) },
-    { path: 'projects/projectUpdate/:projectId', loadChildren: () => import('../project-update/project-update.module').then(mod => mod.ProjectUpdateModule) },
-    { path: 'maps', component: MapsComponent },
-    { path: 'notifications', component: NotificationsComponent },
-    { path: 'upgrade', component: UpgradeComponent },
-    { path: 'projectStatus', component: ProjectStatusComponent },
-    { path: 'Consultant', component: ConsultantComponent },
+    { path: 'AllUsers', component: AllUsersComponent ,canActivate: [AuthGuard]},
+    { path: 'ProComponents', component: ProjectComponentComponent,canActivate: [AuthGuard] },
+    { path: 'Governorates', component: GovernoratesComponent,canActivate: [AuthGuard] },
+    { path: 'Contractors', component: ContractorsComponent,canActivate: [AuthGuard] },
+    { path: 'typography', component: TypographyComponent ,canActivate: [AuthGuard]},
+    { path: 'EndUsers', component: EndUsersComponent ,canActivate: [AuthGuard]},
+    { path: 'projects', loadChildren: () => import('../project/project.module').then(mod => mod.ProjectModule),canActivate: [AuthGuard] },
+    { path: 'projects/projectUpdate/:projectId', loadChildren: () => import('../project-update/project-update.module').then(mod => mod.ProjectUpdateModule),canActivate: [AuthGuard] },
+    { path: 'maps', component: MapsComponent ,canActivate: [AuthGuard]},
+    { path: 'notifications', component: NotificationsComponent ,canActivate: [AuthGuard]},
+    { path: 'upgrade', component: UpgradeComponent,canActivate: [AuthGuard] },
+    { path: 'projectStatus', component: ProjectStatusComponent ,canActivate: [AuthGuard]},
+    { path: 'Consultant', component: ConsultantComponent ,canActivate: [AuthGuard]},
 
 ];

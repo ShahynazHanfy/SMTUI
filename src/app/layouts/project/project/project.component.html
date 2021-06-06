@@ -281,7 +281,7 @@
                 <td>
                     <span style="font-weight: bold;">{{customer.projectName}}</span>
                 </td>
-                <td>{{customer.projectCreationDate | date: 'short'}}</td>
+                <td>{{customer.projectCreationDate | date: 'MM/dd/yyyy, h:mm a'}}</td>
 
                 <!-- <img src="assets/showcase/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + customer.country.code" width="30">
                     <span class="image-text">{{customer.country.name}}</span> -->
@@ -462,7 +462,7 @@
                 <td>
                     <span style="font-weight: bold;">{{customer.projectName}}</span>
                 </td>
-                <td>{{customer.projectCreationDate | date: 'short'}}</td>
+                <td>{{customer.projectCreationDate | date: 'MM/dd/yyyy, h:mm a'}}</td>
                 <td *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales'">
                     <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar>
 
@@ -561,11 +561,11 @@
     </tr>
     <tr class=" form-control">
         <th><span style="margin-right: 10px;">Project Creation Date : </span></th>
-        <td>{{projectObj.projectCreationDate| date :'short'}}</td>
+        <td>{{projectObj.projectCreationDate| date :'MM/dd/yyyy, h:mm a'}}</td>
     </tr>
     <tr class=" form-control" *ngIf="projectObj.acceptedDate!=null">
         <th><span style="margin-right: 10px;">Project Accepted Date : </span></th>
-        <td>{{projectObj.acceptedDate| date :'short'}}</td>
+        <td>{{projectObj.acceptedDate| date :'MM/dd/yyyy, h:mm a'}}</td>
     </tr>
     <tr class=" form-control" *ngIf="projectObj.acceptedDate==null">
         <th><span style="margin-right: 10px;">Project Accepted Date : </span></th>
@@ -731,7 +731,7 @@
                                 {{i.userName}}
                             </td>
                             <td>
-                                {{i.descriptionDate | date: 'short'}}
+                                {{i.descriptionDate | date: 'MM/dd/yyyy, h:mm a'}}
                             </td>
                             <td>
                                 {{i.description}}

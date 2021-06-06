@@ -60,11 +60,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     MapsComponent,
     NotificationsComponent,
     AllUsersComponent,
-    ProjectComponentComponent,
-    ProjectStatusComponent,
-    GovernoratesComponent,
-    ContractorsComponent,
-    EndUsersComponent
+
+    
   ],
   exports: [
     CommonModule,

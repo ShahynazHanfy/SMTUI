@@ -41,7 +41,14 @@ import { PickListModule } from "primeng/picklist";
 import { ProjectRouting } from "./layouts/project/project-routing";
 import { RatingModule } from "primeng/rating";
 import { ForgotPasswordComponent } from "../app/components/forgot-password/forgot-password.component";
+import{ResetPasswordComponent} from "app/components/reset-password/reset-password.component";
 import { ConsultantComponent } from './components/consultant/consultant.component';
+import { ContractorsComponent } from "./components/contractors/contractors.component";
+import { EndUsersComponent } from "./components/end-users/end-users.component";
+import { GovernoratesComponent } from "./components/governorates/governorates.component";
+import { ProjectComponentComponent } from "./components/project-component/project-component.component";
+import { ProjectStatusComponent } from "./components/project-status/project-status.component";
+import { LoginComponent } from "./components/login/login.component";
 // import { CommonModule } from '@angular/common';
 
 @NgModule({
@@ -49,7 +56,14 @@ import { ConsultantComponent } from './components/consultant/consultant.componen
     AppComponent,
     AdminLayoutComponent,
     ForgotPasswordComponent,
-    ConsultantComponent
+    ConsultantComponent,
+    ProjectComponentComponent,
+    ProjectStatusComponent,
+    GovernoratesComponent,
+    ContractorsComponent,
+    EndUsersComponent,
+    ResetPasswordComponent,
+    LoginComponent
     // ProjectStatusComponent
   ],
   imports: [
