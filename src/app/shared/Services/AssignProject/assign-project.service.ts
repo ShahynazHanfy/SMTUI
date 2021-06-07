@@ -22,6 +22,9 @@ export class  AssignProjectService {
 GetAssignProject(assignProjectId:number): Observable<AssigneProject> {
     return this.httpClient.get<AssigneProject>(`${environment.AssigneProject}`+assignProjectId, this.httpHeader);
   }
+  GetAllAssignedProjectsByProjectId(ProjectId:number): Observable<AssigneProject[]> {
+    return this.httpClient.get<AssigneProject[]>(`${environment.GetAllAssignedProjectsByProjectId}`+ProjectId, this.httpHeader);
+  }
   // insertOffer(Offer: Offer): Observable<number> {
   //   return this.httpClient.post<number>(`${environment.Offer}`, Offer, this.httpHeader);
   // }

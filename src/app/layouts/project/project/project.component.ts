@@ -581,10 +581,10 @@ export class ProjectComponent implements OnInit {
   {
     this.ViewAssignedProjectFlag = false
   }
-  ViewAllOfferedOffers() {
+  ViewAllOfferedOffers(projectId) {
     this.ViewAssignedProjectFlag = true
-    if (this.role == 'PreSalesManager' || this.role=='PreSales') {
-      this.assignProjectService.GetAllAssignProjects().subscribe(
+    if (this.role == 'PreSalesManager' || this.role=='PreSales' || this.role=='Admin') {
+      this.assignProjectService.GetAllAssignedProjectsByProjectId(projectId).subscribe(
         res => {
           this.lstAssignedProjectsForEmployee = res,
             console.log("lstAssignedProjectsForEmployee", this.lstAssignedProjectsForEmployee)

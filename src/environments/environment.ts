@@ -42,7 +42,7 @@ export const environment = {
   GetAllOfferOfferedByUserId:'http://localhost:57910/api/OfferDescriptions/GetAllOfferOfferedByUserId/',
   Consultant:'http://localhost:57910/api/Consultant',
   GetAllOfferByProjectUpdateIdAndUserId:'http://localhost:57910/api/OfferDescriptions/GetAllOfferByProjectUpdateIdAndUserId/',
-
+  GetAllAssignedProjectsByProjectId:'http://localhost:57910/api/AssignedProjects/GetAllAssignedProjectsByProjectId/',
 };
 
 /*
