@@ -237,7 +237,8 @@
                         <p-columnFilter type="date" field="projectCreationDate" display="menu"></p-columnFilter>
                     </div>
                 </th>
-                <th *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales' || role=='CEO'">
+                <th
+                    *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales' || role=='CEO'">
                     <div class="p-d-flex p-jc-between p-ai-center">
                         Periority
                         <p-columnFilter field="rank" matchMode="between" display="menu" [showMatchModes]="false"
@@ -290,19 +291,29 @@
                 <!-- <td>
                     {{customer.contractorName}}
                 </td> -->
-                <td *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales' || role=='CEO'">
+                <td
+                    *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales' || role=='CEO'">
                     <!-- <img src="../../../../assets/img/bg5.jpg" width="32" style="vertical-align: middle" /> -->
                     <!-- <span class="image-text">{{customer.rank}}</span> -->
                     <!-- <p-progressBar [value]=customer.rank></p-progressBar> -->
                     <!-- <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar> -->
 
                     <div class="form-group">
-                        <select id="inputStatecontactName" (change)="updateProjectRank(customer)" [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="updatedRank" class="form-control">
-                            <option *ngFor="let i of lstFrom1To100" value="{{customer}}">{{i}}</option>
+                        <!-- <select id="inputStatecontactName" (change)="updateProjectRank()" [ngModelOptions]="{standalone: true}"
+                        [(ngModel)]="selectedValue"  class="form-control">
+                            
+                            <option *ngFor="let i of lstFrom1To100" [value]="i" >{{i}}</option>
+                        </select> -->
+
+                        <select [ngModelOptions]="{standalone: true}" class="form-control"
+                            (change)="updateProjectRank($event,customer)">
+                            <option *ngFor="let option of lstFrom1To100; index as i"
+                                [selected]="option === customer.rank">
+                                {{ option }}
+                            </option>
                         </select>
                     </div>
-                   
+
                 </td>
                 <td *ngIf="customer.projectStatusName =='New'">
                     <div
@@ -375,8 +386,8 @@
                 <td style="text-align: center;">
                     <!-- <span class="btn btn-success" aria-hidden="true" style="cursor: pointer;"
                         (click)="ViewDescriptionByProjectId(customer.projectId)">Descriptions</span> -->
-                        <span class="pi pi-wallet" (click)="ViewDescriptionByProjectId(customer.id)" style="cursor: pointer;"
-                        aria-hidden="true"></span> 
+                    <span class="pi pi-wallet" (click)="ViewDescriptionByProjectId(customer.id)"
+                        style="cursor: pointer;" aria-hidden="true"></span>
                 </td>
                 <td class="p-text-center" *ngIf="role=='Admin' || role=='SalesManager' || role=='CEO'">
                     <i class="pi"
@@ -404,7 +415,8 @@
                     <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
                         placeholder="Search keyword" />
 
-                    <button class="btn btn-primary" *ngIf="role=='Sales'||role=='SalesManager'||role=='Admin' || role=='CEO'"
+                    <button class="btn btn-primary"
+                        *ngIf="role=='Sales'||role=='SalesManager'||role=='Admin' || role=='CEO'"
                         style="margin-left: 20px;" (click)="showTheFirstStepDialog=true">Add
                         New
                         Project</button>
@@ -428,7 +440,8 @@
                         <p-columnFilter type="date" field="projectCreationDate" display="menu"></p-columnFilter>
                     </div>
                 </th>
-                <th *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales' || role=='CEO'">
+                <th
+                    *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales' || role=='CEO'">
                     <div class="p-d-flex p-jc-between p-ai-center">
                         Periority
                         <p-columnFilter field="rank" matchMode="between" display="menu" [showMatchModes]="false"
@@ -468,8 +481,9 @@
                     <span style="font-weight: bold;">{{customer.projectName}}</span>
                 </td>
                 <td>{{customer.projectCreationDate | date: 'MM/dd/yyyy, h:mm a'}}</td>
-               
-                <td *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales' || role=='CEO'">
+
+                <td
+                    *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales' || role=='CEO'">
                     <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar>
 
                 </td>
@@ -526,9 +540,9 @@
                             Update</button>
                     </i>
                 </td>
-                <td >
-                    <span class="pi pi-wallet" (click)="ViewDescriptionByProjectId(customer.projectId)" style="cursor: pointer;margin-left: 20px;"
-                    aria-hidden="true"></span> 
+                <td>
+                    <span class="pi pi-wallet" (click)="ViewDescriptionByProjectId(customer.projectId)"
+                        style="cursor: pointer;margin-left: 20px;" aria-hidden="true"></span>
 
                 </td>
                 <td>
