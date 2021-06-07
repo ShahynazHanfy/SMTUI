@@ -419,7 +419,7 @@
 						Show Latest Documents
 					</button>
 					<span *ngIf="role=='PreSales' || role=='PreSalesManager' || role=='CEO'" class="pi pi-slack"
-						(click)="ViewAllOfferedOffers()" pTooltip="Show All Assigned Projects" tooltipPosition="top"
+						(mouseenter)="ViewAllOfferedOffers()" pTooltip="Show All Assigned Projects" tooltipPosition="top"
 						style="cursor: pointer;margin-left: 8px;" aria-hidden="true"></span>
 				</div>
 			</div>
@@ -754,7 +754,7 @@
 			<ng-template pTemplate="caption">
 				<div class="row">
 					<div class="col-4 p-input-icon-left p-ml-auto">
-						<i class="pi pi-search" style="margin-left: 20px;margin-top: -16px;"></i>
+						<i class="pi pi-search" style="margin-left: 20px;"></i>
 						<input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
 							placeholder="Search keyword" />
 					</div>
@@ -785,8 +785,8 @@
 					</td>
 					<td>{{assignedProject.projectName}}</td>
 					<td>{{assignedProject.assignedProjectDate | date: 'MM/dd/yyyy, h:mm a'}}</td>
-					<td *ngIf="projectUpdateDesc.id!=0">
-						<button class="btn btn-primary" (click)="ViewDescrption(assignedProject.id)">
+					<td *ngIf="assignedProject.id!=0">
+						<button class="btn btn-primary" (click)="viewAssignProjectDesc(assignedProject.id)">
 							Description
 						</button>
 					</td>
@@ -794,9 +794,58 @@
 			</ng-template>
 			<ng-template pTemplate="emptymessage">
 				<tr>
-					<td colspan="5" *ngIf="LstProjectUpdateDescription.length==0">No customers found.</td>
+					<td colspan="5" *ngIf="lstAssignedProjectsForEmployee.length==0">No customers found.</td>
 				</tr>
 			</ng-template>
 		</p-table>
 	</div>
+</p-dialog>
+
+
+<p-dialog header=" View Assigned Description " [(visible)]="ViewAssignedDescFlag" [style]="{width: '60vw'}"
+	[baseZIndex]="10000">
+	<p-toast position="top-left" key="tl"></p-toast>
+	<p-toast position="top-center" key="tc"></p-toast>
+	<p-toast position="bottom-center" key="bc"></p-toast>
+	<div class="row">
+		<div class="row container">
+
+			<div style="margin-left: 10px;">
+				<br>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>PreSales Name</th>
+							<th>Date</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+                       <tr>
+							<td>
+								{{AssignedProjectsDec.employeeName}}
+							</td>
+							<td>
+								{{AssignedProjectsDec.assignedProjectDate | date: 'MM/dd/yyyy, h:mm a'}}
+							</td>
+							<td>
+								{{AssignedProjectsDec.description}}
+							</td>
+						</tr>
+						<tr *ngIf="AssignedProjectsDec.id == 0">
+							<td colspan="4" style="color: rgb(102, 97, 23);">No Description found.</td>
+						</tr>
+					</tbody>
+
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- </div> -->
+	<br>
+	<ng-template pTemplate="footer">
+		<p-button icon="pi pi-times" (click)="ViewAssignedDescFlag=false" label="" class="p-button-secondary">Exit
+		</p-button>
+	</ng-template>
+
 </p-dialog>

@@ -31,6 +31,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Consultant } from 'app/shared/Models/Consultant';
 import { ConsultantService } from 'app/shared/Services/Consultant/consultant.service';
 import { ProjectComponentComponent } from 'app/components/project-component/project-component.component';
+import { AssignProjectService } from 'app/shared/Services/AssignProject/assign-project.service';
+import { AssigneProject } from 'app/shared/Models/AssignedProject';
 
 @Component({
   selector: 'app-project',
@@ -85,7 +87,10 @@ export class ProjectComponent implements OnInit {
   acceptdescription: boolean;
   acceptProjectId: any;
   projectDescritionFlag: boolean;
-  constructor(private route: Router, private projStatusService: ProjectStatusService,
+  ViewAssignedProjectFlag: boolean;
+  lstAssignedProjectsForEmployee: AssigneProject[]
+  AssignedProjectsDec: AssigneProject
+    constructor(private route: Router, private projStatusService: ProjectStatusService,
     private projectComponentService: ProjectComponentService,
     private EndUsersService: EndUsersService,
     private governorateService: GovernoratesService,
@@ -100,7 +105,9 @@ export class ProjectComponent implements OnInit {
     private DocumentCategoryService: DocumentCategoryService,
     private ProjectSystemService: ProjectSystemService,
     private ContractorsService: ContractorsService,
-    private ConsultantService: ConsultantService
+    private ConsultantService: ConsultantService,
+    private assignProjectService: AssignProjectService
+
   ) { }
   activityValues: number[] = [0, 100];
 
@@ -139,6 +146,8 @@ export class ProjectComponent implements OnInit {
     this.projectList = []
     this.lstConsultatnt = []
     this.selectedColumns = []
+    this.lstAssignedProjectsForEmployee = []
+
     this.consultantObj = {
       id: 0, contactName: '', consultantName: '', email: '', phone: '', relevantPhone: '', titleName: ''
     }
@@ -565,6 +574,23 @@ export class ProjectComponent implements OnInit {
     this.projectDescriptionService.GetDescriptionsByProjectId(projectId).subscribe(
       res => { this.LstprojectDescription = res }
     )
+  }
+
+
+  closeViewAllOfferedOffers()
+  {
+    this.ViewAssignedProjectFlag = false
+  }
+  ViewAllOfferedOffers() {
+    this.ViewAssignedProjectFlag = true
+    if (this.role == 'PreSalesManager' || this.role=='PreSales') {
+      this.assignProjectService.GetAllAssignProjects().subscribe(
+        res => {
+          this.lstAssignedProjectsForEmployee = res,
+            console.log("lstAssignedProjectsForEmployee", this.lstAssignedProjectsForEmployee)
+        }
+      )
+    }
   }
 }
 
