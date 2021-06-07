@@ -406,7 +406,9 @@
 					<input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
 						placeholder="Search keyword" />
 				</div>
-				<div class="col-2"><h6 style="color: rgb(20, 20, 20);margin-top: 20px;">({{project.projectName}})</h6></div>
+				<div class="col-2">
+					<h6 style="color: rgb(20, 20, 20);margin-top: 20px;">({{project.projectName}})</h6>
+				</div>
 
 				<div class="col-6" style="float: right;">
 					<button class="btn btn-info" (click)="addNewUpdate()">Add
@@ -416,8 +418,9 @@
 						(click)="ViewLatestDocs(documentObj.projectId)">
 						Show Latest Documents
 					</button>
-					<span *ngIf="role=='PreSales' || role=='PreSalesManager'" class="pi pi-slack" (click)="ViewAllOfferedOffers()" pTooltip="Show All Assigned Projects"
-						tooltipPosition="top" style="cursor: pointer;margin-left: 8px;" aria-hidden="true"></span>
+					<span *ngIf="role=='PreSales' || role=='PreSalesManager' || role=='CEO'" class="pi pi-slack"
+						(click)="ViewAllOfferedOffers()" pTooltip="Show All Assigned Projects" tooltipPosition="top"
+						style="cursor: pointer;margin-left: 8px;" aria-hidden="true"></span>
 				</div>
 			</div>
 		</ng-template>
@@ -431,7 +434,7 @@
 				</th>
 				<th>Show Description</th>
 				<th>Show Documents</th>
-				<th *ngIf="role == 'PreSalesManager'||role =='PreSales'||role =='Admin'">Make Offer</th>
+				<th *ngIf="role == 'PreSalesManager'||role =='PreSales'||role =='Admin' || role=='CEO'">Make Offer</th>
 				<th>Offers</th>
 
 			</tr>
@@ -479,7 +482,7 @@
 						Documents
 					</button>
 				</td>
-				<td *ngIf="role== 'PreSalesManager'||role == 'PreSales' ||role =='Admin'">
+				<td *ngIf="role== 'PreSalesManager'||role == 'PreSales' ||role =='Admin' || role=='CEO'">
 					<button class="btn btn-primary" (click)="ShowOfferDialog(projectUpdateDesc.id)">
 						Make Offer
 					</button>
@@ -555,19 +558,19 @@
 						{{offerDesc.cost}}
 					</td>
 
-					<td style="width: 10px;" *ngIf="role=='PreSalesManager' || role=='PreSales'">
+					<td style="width: 10px;" *ngIf="role=='PreSalesManager' || role=='PreSales' || role=='CEO'">
 						<p-dropdown [options]="LstOfferStatus" [style]="{'maxWidth':'150px'}"
 							(onChange)="changeStatus(offerDesc)" [readonly]="false"
 							[(ngModel)]="offerDesc.offerStatusId" optionLabel="offerStatusName" optionValue="id">
 						</p-dropdown>
 					</td>
-					
-					<td style="width: 10px;" *ngIf="role=='Sales' || role=='SalesManager'">
+
+					<td style="width: 10px;" *ngIf="role=='Sales' || role=='SalesManager' || role=='CEO'">
 						{{offerDesc.offerStatusName}}
 					</td>
 					<td>
-						 <span class="pi pi-campas" (click)="ViewOfferDescrption(offerDesc.id)"
-							style="cursor: pointer;margin-left: 15px;" aria-hidden="true">Description</span> 
+						<span class="pi pi-campas" (click)="ViewOfferDescrption(offerDesc.id)"
+							style="cursor: pointer;margin-left: 15px;" aria-hidden="true">Description</span>
 						<span class="pi pi-file-o" (click)="viewOfferDocuments(offerDesc)"
 							style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>
 					</td>
@@ -690,50 +693,110 @@
 
 
 <p-dialog header=" View Offer Description " [(visible)]="ViewOfferDescFlag" [style]="{width: '60vw'}"
-[baseZIndex]="10000">
-<p-toast position="top-left" key="tl"></p-toast>
-<p-toast position="top-center" key="tc"></p-toast>
-<p-toast position="bottom-center" key="bc"></p-toast>
-<div class="row">
-	<div class="row container">
+	[baseZIndex]="10000">
+	<p-toast position="top-left" key="tl"></p-toast>
+	<p-toast position="top-center" key="tc"></p-toast>
+	<p-toast position="bottom-center" key="bc"></p-toast>
+	<div class="row">
+		<div class="row container">
 
-		<div style="margin-left: 10px;">
-			<br>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>User Name</th>
-						<th>Date</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
+			<div style="margin-left: 10px;">
+				<br>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>User Name</th>
+							<th>Date</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
 
-					<tr>
-						<td>
-							{{offerDescription.userName}}
-						</td>
-						<td>
-							{{offerDescription.descriptionDate | date: 'MM/dd/yyyy, h:mm a'}}
-						</td>
-						<td>
-							{{offerDescription.description}}
-						</td>
-					</tr>
-					<tr *ngIf="lstOfferDescription.length == 0">
-						<td colspan="4" style="color: rgb(102, 97, 23);">No Documents found.</td>
-					</tr>
-				</tbody>
+						<tr>
+							<td>
+								{{offerDescription.userName}}
+							</td>
+							<td>
+								{{offerDescription.descriptionDate | date: 'MM/dd/yyyy, h:mm a'}}
+							</td>
+							<td>
+								{{offerDescription.description}}
+							</td>
+						</tr>
+						<tr *ngIf="lstOfferDescription.length == 0">
+							<td colspan="4" style="color: rgb(102, 97, 23);">No Documents found.</td>
+						</tr>
+					</tbody>
 
-			</table>
+				</table>
+			</div>
 		</div>
 	</div>
-</div>
-<!-- </div> -->
-<br>
-<ng-template pTemplate="footer">
-	<p-button icon="pi pi-times" (click)="ViewOfferDescFlag=false" label="" class="p-button-secondary">Exit
-	</p-button>
-</ng-template>
+	<!-- </div> -->
+	<br>
+	<ng-template pTemplate="footer">
+		<p-button icon="pi pi-times" (click)="ViewOfferDescFlag=false" label="" class="p-button-secondary">Exit
+		</p-button>
+	</ng-template>
 
+</p-dialog>
+
+<p-dialog header=" View All Assigned Projects" [(visible)]="ViewAssignedProjectFlag" [style]="{width: '60vw'}"
+	[baseZIndex]="10000">
+	<p-toast position="top-left" key="tl"></p-toast>
+	<p-toast position="top-center" key="tc"></p-toast>
+	<p-toast position="bottom-center" key="bc"></p-toast>
+	<div class="card">
+		<p-table #dt2 [value]="lstAssignedProjectsForEmployee" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
+			[rowsPerPageOptions]="[5,10,50]" styleClass="p-datatable-customers container-fluid" [paginator]="true"
+			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+			[globalFilterFields]="['userName','descriptionDate']">
+			<ng-template pTemplate="caption">
+				<div class="row">
+					<div class="col-4 p-input-icon-left p-ml-auto">
+						<i class="pi pi-search" style="margin-left: 20px;margin-top: -16px;"></i>
+						<input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
+							placeholder="Search keyword" />
+					</div>
+				</div>
+			</ng-template>
+			<ng-template pTemplate="header">
+				<tr>
+					<th>PreSales Name
+						<p-columnFilter type="text" field="employeeName" display="menu"></p-columnFilter>
+					</th>
+					<th>projectName
+						<p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
+					</th>
+					<th>Assigned Date
+						<p-columnFilter type="date" field="assignedProjectDate" display="menu"></p-columnFilter>
+					</th>
+					<th>Show Description</th>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="body" let-assignedProject>
+	
+				<tr>
+	
+					<td>
+						<div class="row">
+							<span style="font-weight: bold;" class="col-9">{{assignedProject.employeeName}}</span>
+						</div>
+					</td>
+					<td>{{assignedProject.projectName}}</td>
+					<td>{{assignedProject.assignedProjectDate | date: 'MM/dd/yyyy, h:mm a'}}</td>
+					<td *ngIf="projectUpdateDesc.id!=0">
+						<button class="btn btn-primary" (click)="ViewDescrption(assignedProject.id)">
+							Description
+						</button>
+					</td>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="emptymessage">
+				<tr>
+					<td colspan="5" *ngIf="LstProjectUpdateDescription.length==0">No customers found.</td>
+				</tr>
+			</ng-template>
+		</p-table>
+	</div>
 </p-dialog>

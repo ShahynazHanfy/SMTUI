@@ -107,6 +107,7 @@ export class ProjectUpdateComponent implements OnInit {
   offerDescription: OfferDescription
   role: string;
   ViewOfferDescFlag: boolean;
+  ViewAssignedProjectFlag: boolean;
   constructor(private activeRoute: ActivatedRoute,
     private projectService: ProjectService,
     private ProjectUpdateService: ProjectUpdateService,
@@ -144,6 +145,7 @@ export class ProjectUpdateComponent implements OnInit {
     this.result = []
     this.lstOfferDataSheet = []
     this.LstOfferStatus = []
+    this.lstAssignedProjectsForEmployee=[]
     console.log("ds", this.value1)
     this.role = localStorage.getItem('roles');
     this.lstOfCurrency = ['$', 'U', 'EGP']
@@ -573,9 +575,10 @@ export class ProjectUpdateComponent implements OnInit {
         err => console.log(err)
     }
     if (this.role == 'Sales' || this.role == 'SalesManager') {
-      this.offerdescriptionService.GetAllOfferByProjectUpdateIdAndUserId(projectUpdate.projectId, projectUpdate.id).subscribe(res => 
-        { this.lstOfferDescription = res,
-        console.log("LstProjectUpdateDescription user",this.lstOfferDescription) })
+      this.offerdescriptionService.GetAllOfferByProjectUpdateIdAndUserId(projectUpdate.projectId, projectUpdate.id).subscribe(res => {
+        this.lstOfferDescription = res,
+        console.log("LstProjectUpdateDescription user", this.lstOfferDescription)
+      })
     }
 
   }
@@ -626,9 +629,8 @@ export class ProjectUpdateComponent implements OnInit {
   AssignProjectUpdateFlag(projectUpdateDesc) {
     // this.projectUpdateId = 
     this.projectUpdateIdForAssign = projectUpdateDesc.id
-    if(this.projectUpdateIdForAssign==0)
-    {
-      this.projectUpdateIdForAssign=null
+    if (this.projectUpdateIdForAssign == 0) {
+      this.projectUpdateIdForAssign = null
     }
     console.log("projectUpdateDesc", projectUpdateDesc)
     this.AssignOffersFlag = true
@@ -655,6 +657,19 @@ export class ProjectUpdateComponent implements OnInit {
     })
   }
   ViewAllOfferedOffers() {
-    this.offerdescriptionService.GetAllOfferOfferedByUserId(this.userId).subscribe(res => { this.LstProjectUpdateDescription = res })
+    this.ViewAssignedProjectFlag=true
+    if(this.role=='PreSalesManager')
+    {
+      this.assignProjectService.GetAllAssignProjects().subscribe(
+        res=>{
+          this.lstAssignedProjectsForEmployee=res,
+          console.log("lstAssignedProjectsForEmployee",this.lstAssignedProjectsForEmployee)
+        }
+      )
+    }
+    this.offerdescriptionService.GetAllOfferOfferedByUserId(this.userId).subscribe(
+      res => {
+        this.LstProjectUpdateDescription = res
+      })
   }
 }

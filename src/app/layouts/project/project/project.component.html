@@ -229,7 +229,7 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th>Emloyee Name</th>
+                <th>Sales Name</th>
                 <th>Project Name
                     <p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
                 </th>
@@ -239,7 +239,7 @@
                         <p-columnFilter type="date" field="projectCreationDate" display="menu"></p-columnFilter>
                     </div>
                 </th>
-                <th *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales'">
+                <th *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales' || role=='CEO'">
                     <div class="p-d-flex p-jc-between p-ai-center">
                         Periority
                         <p-columnFilter field="rank" matchMode="between" display="menu" [showMatchModes]="false"
@@ -259,11 +259,11 @@
                     <p-columnFilter type="text" field="projectStatusName" display="menu"></p-columnFilter>
                 </th>
                 <th>Update</th>
-                <th *ngIf="role=='Admin' || role=='SalesManager'">Accept</th>
+                <th *ngIf="role=='Admin' || role=='SalesManager' || role=='CEO'">Accept</th>
                 <th>Controls</th>
                 <th>Description</th>
 
-                <th *ngIf="role=='Admin' || role=='SalesManager'">
+                <th *ngIf="role=='Admin' || role=='SalesManager' || role=='CEO'">
                     Accepted <p-columnFilter type="boolean" field="isAccept"></p-columnFilter>
                 </th>
 
@@ -292,7 +292,7 @@
                 <!-- <td>
                     {{customer.contractorName}}
                 </td> -->
-                <td *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales'">
+                <td *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales' || role=='CEO'">
                     <!-- <img src="../../../../assets/img/bg5.jpg" width="32" style="vertical-align: middle" /> -->
                     <!-- <span class="image-text">{{customer.rank}}</span> -->
                     <!-- <p-progressBar [value]=customer.rank></p-progressBar> -->
@@ -352,7 +352,7 @@
                             Update</button>
                     </i>
                 </td>
-                <td *ngIf="role=='Admin' || role=='SalesManager'">
+                <td *ngIf="role=='Admin' || role=='SalesManager' || role=='CEO'">
                     <button class="btn btn-info" [disabled]="customer.isAccept"
                         (click)="OpenDeailogAcceptProject(customer.id)">Accept</button>
                 </td>
@@ -373,7 +373,7 @@
                         <span class="pi pi-wallet" (click)="ViewDescriptionByProjectId(customer.id)" style="cursor: pointer;"
                         aria-hidden="true"></span> 
                 </td>
-                <td class="p-text-center" *ngIf="role=='Admin' || role=='SalesManager'">
+                <td class="p-text-center" *ngIf="role=='Admin' || role=='SalesManager' || role=='CEO'">
                     <i class="pi"
                         [ngClass]="{'true-icon pi-check-circle': customer.isAccept, 'false-icon pi-times-circle': !customer.isAccept}"></i>
 
@@ -399,7 +399,7 @@
                     <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
                         placeholder="Search keyword" />
 
-                    <button class="btn btn-primary" *ngIf="role=='Sales'||role=='SalesManager'||role=='Admin'"
+                    <button class="btn btn-primary" *ngIf="role=='Sales'||role=='SalesManager'||role=='Admin' || role=='CEO'"
                         style="margin-left: 20px;" (click)="showTheFirstStepDialog=true">Add
                         New
                         Project</button>
@@ -423,7 +423,7 @@
                         <p-columnFilter type="date" field="projectCreationDate" display="menu"></p-columnFilter>
                     </div>
                 </th>
-                <th *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales'">
+                <th *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales' || role=='CEO'">
                     <div class="p-d-flex p-jc-between p-ai-center">
                         Periority
                         <p-columnFilter field="rank" matchMode="between" display="menu" [showMatchModes]="false"
@@ -463,7 +463,7 @@
                     <span style="font-weight: bold;">{{customer.projectName}}</span>
                 </td>
                 <td>{{customer.projectCreationDate | date: 'MM/dd/yyyy, h:mm a'}}</td>
-                <td *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales'">
+                <td *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales' || role=='CEO'">
                     <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar>
 
                 </td>
