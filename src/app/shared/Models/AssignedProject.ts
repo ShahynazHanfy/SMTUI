@@ -5,6 +5,7 @@ export class AssigneProject
     projectId:number
     projectUpdateId:number
     employeeId:number
+    employeeName:string
     description:string
-    AssignedProjectDate:Date
+    assignedProjectDate:Date
 }

@@ -44,6 +44,7 @@ export class ProjectUpdateComponent implements OnInit {
   activeIndex: number = 0;
   items: MenuItem[];
   lstAssignedProjectsForEmployee: AssigneProject[]
+  AssignedProjectsDec: AssigneProject
   ProjectUpdateDescription: ProjectDescription
   LstProjectUpdateDescription: ProjectDescription[]
   LstProjectUpdateDescriptionByUpdateId: ProjectDescription[]
@@ -108,6 +109,7 @@ export class ProjectUpdateComponent implements OnInit {
   role: string;
   ViewOfferDescFlag: boolean;
   ViewAssignedProjectFlag: boolean;
+  ViewAssignedDescFlag: boolean;
   constructor(private activeRoute: ActivatedRoute,
     private projectService: ProjectService,
     private ProjectUpdateService: ProjectUpdateService,
@@ -145,16 +147,16 @@ export class ProjectUpdateComponent implements OnInit {
     this.result = []
     this.lstOfferDataSheet = []
     this.LstOfferStatus = []
-    this.lstAssignedProjectsForEmployee=[]
+    this.lstAssignedProjectsForEmployee = []
     console.log("ds", this.value1)
     this.role = localStorage.getItem('roles');
     this.lstOfCurrency = ['$', 'U', 'EGP']
     this.stateOptions = [{ label: 'EGP', value: 'EGP' }, { label: 'USD', value: 'USD' }, { label: 'EUR', value: 'EUR' }];
     this.projectId = this.activeRoute.snapshot.params['projectId'];
     console.log("projectId", this.projectId)
-    this.AssignProject = {
+    this.AssignProject = {employeeName:"",
       projectId: this.projectId,
-      employeeId: 0, id: 0, isAssigned: false, projectUpdateId: 0, description: '', AssignedProjectDate: new Date
+      employeeId: 0, id: 0, isAssigned: false, projectUpdateId: 0, description: '', assignedProjectDate: new Date
     }
     this.docOffer = { id: 0, offerId: 0, documentFile: '' }
     this.project = {
@@ -203,7 +205,7 @@ export class ProjectUpdateComponent implements OnInit {
     this.costObj = {
       id: 0, cost: 0, currency: ''
     }
-
+    this.AssignedProjectsDec = { id: 0, description: "",employeeName:"", assignedProjectDate: new Date, employeeId: 0, isAssigned: false, projectId: 0, projectUpdateId: 0 }
     this.OfferStatusService.GetAllOfferStatuses().subscribe(e => {
       this.LstOfferStatus = e
       console.log("offerStatus", this.LstOfferStatus)
@@ -577,7 +579,7 @@ export class ProjectUpdateComponent implements OnInit {
     if (this.role == 'Sales' || this.role == 'SalesManager') {
       this.offerdescriptionService.GetAllOfferByProjectUpdateIdAndUserId(projectUpdate.projectId, projectUpdate.id).subscribe(res => {
         this.lstOfferDescription = res,
-        console.log("LstProjectUpdateDescription user", this.lstOfferDescription)
+          console.log("LstProjectUpdateDescription user", this.lstOfferDescription)
       })
     }
 
@@ -656,14 +658,17 @@ export class ProjectUpdateComponent implements OnInit {
 
     })
   }
+  closeViewAllOfferedOffers()
+  {
+    this.ViewAssignedProjectFlag = false
+  }
   ViewAllOfferedOffers() {
-    this.ViewAssignedProjectFlag=true
-    if(this.role=='PreSalesManager')
-    {
+    this.ViewAssignedProjectFlag = true
+    if (this.role == 'PreSalesManager'|| this.role=='PreSales') {
       this.assignProjectService.GetAllAssignProjects().subscribe(
-        res=>{
-          this.lstAssignedProjectsForEmployee=res,
-          console.log("lstAssignedProjectsForEmployee",this.lstAssignedProjectsForEmployee)
+        res => {
+          this.lstAssignedProjectsForEmployee = res,
+            console.log("lstAssignedProjectsForEmployee", this.lstAssignedProjectsForEmployee)
         }
       )
     }
@@ -671,5 +676,13 @@ export class ProjectUpdateComponent implements OnInit {
       res => {
         this.LstProjectUpdateDescription = res
       })
+  }
+  viewAssignProjectDesc(assignedProjectsById) {
+    this.ViewAssignedDescFlag = true
+    this.assignProjectService.GetAssignProject(assignedProjectsById).subscribe(
+      res =>{ this.AssignedProjectsDec = res,
+      console.log("assign project",this.AssignedProjectsDec)
+    }
+    )
   }
 }
