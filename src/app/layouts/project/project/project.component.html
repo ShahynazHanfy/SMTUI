@@ -222,8 +222,6 @@
                     <!-- <a class="btn btn-secondary" style="background-color: rgb(180, 187, 83);"
                         ><i class="material-icons">&#xE147;</i> <span>Add New
                             Project</span></a> -->
-
-
                 </span>
             </div>
         </ng-template>
@@ -296,8 +294,15 @@
                     <!-- <img src="../../../../assets/img/bg5.jpg" width="32" style="vertical-align: middle" /> -->
                     <!-- <span class="image-text">{{customer.rank}}</span> -->
                     <!-- <p-progressBar [value]=customer.rank></p-progressBar> -->
-                    <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar>
+                    <!-- <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar> -->
 
+                    <div class="form-group">
+                        <select id="inputStatecontactName" (change)="updateProjectRank(customer)" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="updatedRank" class="form-control">
+                            <option *ngFor="let i of lstFrom1To100" value="{{customer}}">{{i}}</option>
+                        </select>
+                    </div>
+                   
                 </td>
                 <td *ngIf="customer.projectStatusName =='New'">
                     <div
@@ -464,6 +469,7 @@
                     <span style="font-weight: bold;">{{customer.projectName}}</span>
                 </td>
                 <td>{{customer.projectCreationDate | date: 'MM/dd/yyyy, h:mm a'}}</td>
+               
                 <td *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales' || role=='CEO'">
                     <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar>
 
