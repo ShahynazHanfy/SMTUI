@@ -34,7 +34,7 @@
                 <label for="inputStatecontactName">End User</label>
                 <select id="inputStatecontactName" [ngModelOptions]="{standalone: true}"
                     [(ngModel)]="projectObj.endUsersId" class="form-control">
-                    <option *ngFor="let i of lstEndUsers" value="{{i.id}}">{{i.contactName}}</option>
+                    <option *ngFor="let i of lstEndUsers" value="{{i.id}}">{{i.companyName}}</option>
                 </select>
             </div>
             <div class="form-group col-md-6">
