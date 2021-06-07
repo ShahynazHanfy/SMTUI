@@ -75,6 +75,7 @@ export class ProjectComponent implements OnInit {
   selectedColumns: ProjectComponentModel[];
   projectSystem: ProjectSystem
   displayBasic: boolean;
+  lstFrom1To100:number[]
   AcceptedProject: boolean = false
   lstConsultatnt: Consultant[]
   displayContractor: boolean = false;
@@ -147,7 +148,7 @@ export class ProjectComponent implements OnInit {
     this.lstConsultatnt = []
     this.selectedColumns = []
     this.lstAssignedProjectsForEmployee = []
-
+    this.lstFrom1To100 = []
     this.consultantObj = {
       id: 0, contactName: '', consultantName: '', email: '', phone: '', relevantPhone: '', titleName: ''
     }
@@ -205,6 +206,10 @@ export class ProjectComponent implements OnInit {
         this.projectDescriptionList.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
       })
     }
+    for (let index = 0; index <= 100; index++) {
+      this.lstFrom1To100.push(index);
+      
+    }
 
     this.projStatusService.GetAllProjectStatus().subscribe(e => {
       this.lstProjStatus = e
@@ -246,6 +251,14 @@ export class ProjectComponent implements OnInit {
       },
       error => { console.log(error) }
     );
+  }
+  updateProjectRank($event, customer) {
+
+    customer.rank = $event.target.value
+    console.log("hamada", $event.target.value, customer)
+    this.projectService.updateProject(customer.id,customer).subscribe(e=>{
+      console.log("success")
+    })
   }
   goToProjCom() {
     this.route.navigate(['/projectComponent']);

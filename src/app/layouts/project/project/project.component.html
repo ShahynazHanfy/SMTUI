@@ -292,29 +292,29 @@
                     {{customer.contractorName}}
                 </td> -->
                 <td
-                    *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales' || role=='CEO'">
-                    <!-- <img src="../../../../assets/img/bg5.jpg" width="32" style="vertical-align: middle" /> -->
-                    <!-- <span class="image-text">{{customer.rank}}</span> -->
-                    <!-- <p-progressBar [value]=customer.rank></p-progressBar> -->
-                    <!-- <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar> -->
+                *ngIf="role=='Admin' || role=='SalesManager' ||role=='PreSalesManager'||role=='PreSales' || role=='CEO'">
+                <!-- <img src="../../../../assets/img/bg5.jpg" width="32" style="vertical-align: middle" /> -->
+                <!-- <span class="image-text">{{customer.rank}}</span> -->
+                <!-- <p-progressBar [value]=customer.rank></p-progressBar> -->
+                <!-- <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar> -->
 
-                    <div class="form-group">
-                        <!-- <select id="inputStatecontactName" (change)="updateProjectRank()" [ngModelOptions]="{standalone: true}"
-                        [(ngModel)]="selectedValue"  class="form-control">
-                            
-                            <option *ngFor="let i of lstFrom1To100" [value]="i" >{{i}}</option>
-                        </select> -->
+                <div class="form-group">
+                    <!-- <select id="inputStatecontactName" (change)="updateProjectRank()" [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="selectedValue"  class="form-control">
+                        
+                        <option *ngFor="let i of lstFrom1To100" [value]="i" >{{i}}</option>
+                    </select> -->
 
-                        <select [ngModelOptions]="{standalone: true}" class="form-control"
-                            (change)="updateProjectRank($event,customer)">
-                            <option *ngFor="let option of lstFrom1To100; index as i"
-                                [selected]="option === customer.rank">
-                                {{ option }}
-                            </option>
-                        </select>
-                    </div>
+                    <select [ngModelOptions]="{standalone: true}" class="form-control"
+                        (change)="updateProjectRank($event,customer)">
+                        <option *ngFor="let option of lstFrom1To100; index as i"
+                            [selected]="option === customer.rank">
+                            {{ option }}
+                        </option>
+                    </select>
+                </div>
 
-                </td>
+            </td>
                 <td *ngIf="customer.projectStatusName =='New'">
                     <div
                         style="background-color: #d8cdff;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
