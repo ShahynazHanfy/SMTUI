@@ -71,6 +71,7 @@ export class ProjectComponent implements OnInit {
   lstoddocproj: ProjectDocuments[]
   lstDocumentCategory: DocumentCategory[]
   selectedColumns: ProjectComponentModel[];
+  selectedValue: number;
   projectSystem: ProjectSystem
   displayBasic: boolean;
   AcceptedProject: boolean = false
@@ -78,14 +79,14 @@ export class ProjectComponent implements OnInit {
   displayContractor: boolean = false;
   contractorObj: Contractors
   displayEndUsers: boolean;
-  lstFrom1To100:number[]
+  lstFrom1To100: number[]
   EndUsersObj: EndUsers
   displayConsultant: boolean;
   ConsultantObj: Consultant
   consultantObj: Consultant
   acceptdescription: boolean;
   acceptProjectId: any;
-  updatedRank:string
+  updatedRank: string
   projectDescritionFlag: boolean;
   constructor(private route: Router, private projStatusService: ProjectStatusService,
     private projectComponentService: ProjectComponentService,
@@ -107,6 +108,9 @@ export class ProjectComponent implements OnInit {
   activityValues: number[] = [0, 100];
 
   ngOnInit(): void {
+
+    //  this.selectedValue = 10;
+
 
     this.role = localStorage.getItem('roles');
     console.log("this.role", this.role)
@@ -178,12 +182,24 @@ export class ProjectComponent implements OnInit {
     }
     if (this.role == 'PreSales' || this.role == 'PreSalesManager') {
       this.projectService.GetAllAcceptedProjects().subscribe(e => {
-        this.projectList = e
+        this.projectList = e;
+
+
+        //  this.lstFrom1To100.forEach(item => {
+        //         this.projectList.forEach(element => {
+
+        //             if(element.rank == item)
+        //             {
+        // this.selectedValue = item;
+        //             }
+        //           });
+
+        //         });
         console.log("AcceptedProjects", this.projectList)
 
       })
 
-    } 
+    }
     if (this.role == 'Admin' || this.role == 'SalesManager') {
       this.projectService.GetAllProjects().subscribe(e => {
         this.projectList = e,
@@ -201,7 +217,7 @@ export class ProjectComponent implements OnInit {
     }
     for (let index = 0; index <= 100; index++) {
       this.lstFrom1To100.push(index)
-      
+
     }
     this.projStatusService.GetAllProjectStatus().subscribe(e => {
       this.lstProjStatus = e
@@ -232,8 +248,13 @@ export class ProjectComponent implements OnInit {
       secondCtrl: ['', Validators.required]
     });
   }
-  updateProjectRank(customer){
-    console.log("hamada",this.updatedRank,customer)
+  updateProjectRank($event, customer) {
+
+    customer.rank = $event.target.value
+    console.log("hamada", $event.target.value, customer)
+    this.projectService.updateProject(customer.id,customer).subscribe(e=>{
+      console.log("success")
+    })
   }
   showBasicDialog(id) {
     this.displayBasic = true;
@@ -257,7 +278,7 @@ export class ProjectComponent implements OnInit {
   search(term: string) {
 
   }
-  reloadPage(){
+  reloadPage() {
 
   }
   colChanges() {
@@ -306,8 +327,8 @@ export class ProjectComponent implements OnInit {
             this.showTheFirstStepDialog = false
             this.projectService.GetAllProjects().subscribe(e => {
               this.projectList = e
-            this.ngOnInit()
-            this.activeIndex =0
+              this.ngOnInit()
+              this.activeIndex = 0
 
               resolve('cons');
 
@@ -489,7 +510,7 @@ export class ProjectComponent implements OnInit {
               this.projectService.GetAllProjects().subscribe(e => {
                 this.projectList = e,
                   console.log("projectList admin", this.projectList)
-        
+
                 this.projectList.forEach(customer => customer.projectCreationDate = new Date(customer.projectCreationDate));
               })
             }
@@ -500,7 +521,7 @@ export class ProjectComponent implements OnInit {
                 this.projectDescriptionList.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
               })
             }
-        
+
           },
           msg => { // Error
             this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Enter Description' });
