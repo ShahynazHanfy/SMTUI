@@ -291,30 +291,30 @@
                 <!-- <td>
                     {{customer.contractorName}}
                 </td> -->
-                <td
-                *ngIf="role=='Admin' || role=='SalesManager' || role=='CEO'">
-                <!-- <img src="../../../../assets/img/bg5.jpg" width="32" style="vertical-align: middle" /> -->
-                <!-- <span class="image-text">{{customer.rank}}</span> -->
-                <!-- <p-progressBar [value]=customer.rank></p-progressBar> -->
-                <!-- <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar> -->
+                <td>
+                    <!-- <img src="../../../../assets/img/bg5.jpg" width="32" style="vertical-align: middle" /> -->
+                    <!-- <span class="image-text">{{customer.rank}}</span> -->
+                    <!-- <p-progressBar [value]=customer.rank></p-progressBar> -->
+                    <!-- <p-progressBar [value]="customer.rank" [showValue]="true"></p-progressBar> -->
 
-                <div class="form-group">
-                    <!-- <select id="inputStatecontactName" (change)="updateProjectRank()" [ngModelOptions]="{standalone: true}"
+                    <div class="form-group">
+                        <!-- <select id="inputStatecontactName" (change)="updateProjectRank()" [ngModelOptions]="{standalone: true}"
                     [(ngModel)]="selectedValue"  class="form-control">
                         
                         <option *ngFor="let i of lstFrom1To100" [value]="i" >{{i}}</option>
                     </select> -->
 
-                    <select [ngModelOptions]="{standalone: true}" class="form-control"
-                        (change)="updateProjectRank($event,customer)">
-                        <option *ngFor="let option of lstFrom1To100; index as i"
-                            [selected]="option === customer.rank">
-                            {{ option }}
-                        </option>
-                    </select>
-                </div>
+                        <select [ngModelOptions]="{standalone: true}" 
+                        [disabled]="!(role=='SalesManager')" class="form-control"
+                            (change)="updateProjectRank($event,customer)">
+                            <option *ngFor="let option of lstFrom1To100; index as i"
+                                [selected]="option === customer.rank">
+                                {{ option }}
+                            </option>
+                        </select>
+                    </div>
 
-            </td>
+                </td>
                 <td *ngIf="customer.projectStatusName =='New'">
                     <div
                         style="background-color: #d8cdff;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
@@ -344,8 +344,7 @@
                     </div>
                 </td>
                 <td *ngIf="customer.projectStatusName=='Assigned'">
-                    <div
-                     (mouseenter)="ViewAllOfferedOffers(customer.id)" (mouseleave)="closeViewAllOfferedOffers()"
+                    <div (mouseenter)="ViewAllOfferedOffers(customer.id)" (mouseleave)="closeViewAllOfferedOffers()"
                         style="background-color: #dbdada;width: 90px;padding-bottom: 5px;text-align: center;border-radius: 5px;">
                         <span [class]="'customer-badge status-' + customer.projectStatusName"
                             style="font-weight: bold; color: #b34216;text-transform: uppercase; font-size: 12px;letter-spacing: .3px;font-weight: 700;font-weight: 700;padding: .25em .5rem;border-radius: 2px;">{{customer.projectStatusName}}</span>
@@ -779,36 +778,33 @@
 
 
 
-<p-dialog [(visible)]="ViewAssignedProjectFlag" [style]="{width: '20vw'}" [closable]="false"
-	[baseZIndex]="10000">
-	<p-toast position="top-left" key="tl"></p-toast>
-	<p-toast position="top-center" key="tc"></p-toast>
-	<p-toast position="bottom-center" key="bc"></p-toast>
-	<div class="card">
-		<p-table #dt2 [value]="lstAssignedProjectsForEmployee" dataKey="id"
-         styleClass="p-datatable-customers container-fluid e"
-			
-			[globalFilterFields]="['userName','descriptionDate']">
-			<!-- <ng-template pTemplate="header">
+<p-dialog [(visible)]="ViewAssignedProjectFlag" [style]="{width: '20vw'}" [closable]="false" [baseZIndex]="10000">
+    <p-toast position="top-left" key="tl"></p-toast>
+    <p-toast position="top-center" key="tc"></p-toast>
+    <p-toast position="bottom-center" key="bc"></p-toast>
+    <div class="card">
+        <p-table #dt2 [value]="lstAssignedProjectsForEmployee" dataKey="id"
+            styleClass="p-datatable-customers container-fluid e" [globalFilterFields]="['userName','descriptionDate']">
+            <!-- <ng-template pTemplate="header">
 				<tr>
 					<th>PreSales Name</th>
 				</tr>
 			</ng-template> -->
-			<ng-template pTemplate="body" let-assignedProject>
-	
-				<tr>
-					<td>
-						<div class="row">
-							<span style="font-weight: bold;" class="col-9">{{assignedProject.employeeName}}</span>
-						</div>
-					</td>
-				</tr>
-			</ng-template>
-			<ng-template pTemplate="emptymessage">
-				<tr>
-					<td colspan="5" *ngIf="lstAssignedProjectsForEmployee.length==0">No Pre-Sales found.</td>
-				</tr>
-			</ng-template>
-		</p-table>
-	</div>
+            <ng-template pTemplate="body" let-assignedProject>
+
+                <tr>
+                    <td>
+                        <div class="row">
+                            <span style="font-weight: bold;" class="col-9">{{assignedProject.employeeName}}</span>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5" *ngIf="lstAssignedProjectsForEmployee.length==0">No Pre-Sales found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
 </p-dialog>
