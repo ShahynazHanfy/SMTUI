@@ -78,12 +78,14 @@ export class ProjectComponent implements OnInit {
   displayContractor: boolean = false;
   contractorObj: Contractors
   displayEndUsers: boolean;
+  lstFrom1To100:number[]
   EndUsersObj: EndUsers
   displayConsultant: boolean;
   ConsultantObj: Consultant
   consultantObj: Consultant
   acceptdescription: boolean;
   acceptProjectId: any;
+  updatedRank:string
   projectDescritionFlag: boolean;
   constructor(private route: Router, private projStatusService: ProjectStatusService,
     private projectComponentService: ProjectComponentService,
@@ -139,6 +141,7 @@ export class ProjectComponent implements OnInit {
     this.projectList = []
     this.lstConsultatnt = []
     this.selectedColumns = []
+    this.lstFrom1To100 = []
     this.consultantObj = {
       id: 0, contactName: '', consultantName: '', email: '', phone: '', relevantPhone: '', titleName: ''
     }
@@ -196,7 +199,10 @@ export class ProjectComponent implements OnInit {
         this.projectDescriptionList.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
       })
     }
-
+    for (let index = 0; index <= 100; index++) {
+      this.lstFrom1To100.push(index)
+      
+    }
     this.projStatusService.GetAllProjectStatus().subscribe(e => {
       this.lstProjStatus = e
     })
@@ -225,6 +231,9 @@ export class ProjectComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
+  }
+  updateProjectRank(customer){
+    console.log("hamada",this.updatedRank,customer)
   }
   showBasicDialog(id) {
     this.displayBasic = true;
@@ -567,6 +576,8 @@ export class ProjectComponent implements OnInit {
     )
   }
 }
+
+
 
 
 
