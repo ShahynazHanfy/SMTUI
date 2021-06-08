@@ -283,6 +283,7 @@ export class ProjectComponent implements OnInit {
     this.projectObj.projectComponentsId = Number(this.projectObj.projectComponentsId)
     this.projectObj.projectStatusId = Number(this.projectObj.projectStatusId)
     this.projectObj.consultantId = Number(this.projectObj.consultantId)
+    console.log("Project before add",this.projectObj)
 
     let promise = new Promise((resolve, reject) => {
       this.projectService.insertProject(this.projectObj).toPromise()
@@ -345,7 +346,31 @@ export class ProjectComponent implements OnInit {
     return item;
   }
   NextStep() {
-    this.activeIndex = this.activeIndex + 1
+    if(this.projectObj.contractorsId==0)
+    {
+        this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Contractor' });
+    }
+    if(this.projectObj.endUsersId==0)
+    {
+        this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select End User' });
+    }
+    if(this.projectObj.governorateId==0)
+    {
+        this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Governorate' });
+    }
+    if(this.selectedColumns.length == 0)
+    {
+        this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Project Components' });
+    }
+    if(this.projectObj.consultantId==0)
+    {
+        this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select consultant' });
+    }
+    if(this.projectObj.contractorsId!=0 &&this.projectObj.governorateId!=0 && this.projectObj.endUsersId!=0
+      && this.selectedColumns.length != 0 && this.projectObj.consultantId!=0)
+      {
+        this.activeIndex = this.activeIndex + 1
+      }
     console.log("projDesc", this.ProjectDescriptionObj)
   }
   PreviousStep() {

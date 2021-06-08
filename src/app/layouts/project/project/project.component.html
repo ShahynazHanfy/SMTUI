@@ -778,7 +778,8 @@
 
 
 
-<p-dialog [(visible)]="ViewAssignedProjectFlag" [style]="{width: '20vw'}" [closable]="false" [baseZIndex]="10000">
+<p-dialog [(visible)]="ViewAssignedProjectFlag" [style]="{width: '20vw'}" [closable]="false"
+ [baseZIndex]="10000" *ngIf="role=='PreSalesManager' || role=='PreSalesManager'|| role=='CEO'||role=='Admin'">
     <p-toast position="top-left" key="tl"></p-toast>
     <p-toast position="top-center" key="tc"></p-toast>
     <p-toast position="bottom-center" key="bc"></p-toast>
