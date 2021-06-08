@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Authenticate } from "../../Shared/Models/Authenticate";
 import { AuthenticateService } from "../../Shared/Services/Authenticate/authenticate.service";
 import { Routes, RouterModule, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,8 @@ export class LoginComponent implements OnInit {
   password: string = ''
   fieldTextType: boolean;
 
-  constructor(private authService: AuthenticateService, private route: Router) { }
+  constructor(private authService: AuthenticateService, private route: Router,
+    private messageService: MessageService) { }
 
   ngOnInit(): void {
 
@@ -25,7 +27,7 @@ export class LoginComponent implements OnInit {
   login() {
     console.log("mail", this.email)
     this.authService.login(this.email, this.password).subscribe(res => {
-      console.log("Thank you",res)
+      console.log("Thank you", res)
       localStorage.setItem("userName", res["userName"])
       localStorage.setItem("token", res["token"])
       localStorage.setItem("roles", res["roles"])
@@ -34,7 +36,12 @@ export class LoginComponent implements OnInit {
       localStorage.setItem("userId", res["userId"])
       this.route.navigate(['/admin']);
 
-    })
+    },
+      error => 
+      this.messageService.add({ severity: 'error',key:'tl', summary: 'Username or password incorrect', detail: 'Username or password incorrect!' })
+  
+
+    )
     // return false
   }
 
@@ -44,7 +51,7 @@ export class LoginComponent implements OnInit {
   public onKeyPass(event: any) {
     this.password = event.target.value
   }
-  clickBtn(){
+  clickBtn() {
     this.route.navigate(['/Forgotpassword']);
 
   }

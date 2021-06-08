@@ -1,3 +1,29 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+
 <div class="container" id="container">
     <div class="form-container sign-up-container">
         <form action="#">
@@ -15,12 +41,12 @@
         </form>
     </div>
     <div class="form-container sign-in-container">
-        <form action="#">
+        <form>
             <h1>Sign in</h1>
             <div class="social-container">
-                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social"><i class="pi pi-facebook"></i></a>
+                <a href="#" class="social"><i class="pi pi-twitter"></i></a>
+                <a href="#" class="social"><i class="pi pi-google"></i></a>
             </div>
             <span>or use your account</span>
             <input type="email" name="email" (keyup)="onKeyMail($event)" placeholder="Email" />

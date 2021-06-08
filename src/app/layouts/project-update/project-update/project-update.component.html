@@ -15,7 +15,7 @@
 							<div class="p-inputgroup">
 								<div class="form-group col-12" [style]="{minWidth: '420px'}" style="padding: 0 0 0 0;">
 									<label for="inputState">Select Document Category</label>
-									<select id="inputState" [ngModelOptions]="{standalone: true}"
+									<select id="inputState"
 										[(ngModel)]="docproject.documentsCategoryId" class="form-control">
 										<option *ngFor="let i of lstDocumentCategory" value="{{i.id}}">
 											{{i.categoryName}}</option>
@@ -83,6 +83,10 @@
 						placeholder=" Description ......." pInputTextarea rows="10" cols="48"></textarea>
 					<br>
 				</div> -->
+				<div style="margin-top: 10px;">
+                    <label>DeadLine</label>
+                    <p-calendar inputId="basic" name='deadline' [(ngModel)]='projectUpdate.deadline'></p-calendar>
+                </div>
 				<div class="input-group container-fluid uploadFile">
 					<div class="input-group-prepend" style="background-color: rgb(215, 226, 226);">
 						<span class="input-group-text"
@@ -371,12 +375,20 @@
 					</table>
 				</div>
 			</div>
-			<div class="input-group container-fluid uploadFile">
+			<!-- <div class="input-group container-fluid uploadFile">
 				<div class="input-group-prepend">
 					<span class="input-group-text">Description</span>
 				</div>
 				<textarea class="form-control" aria-label="With textarea"
 					[(ngModel)]="offerDescription.description"></textarea>
+			</div> -->
+			<div class="input-group container-fluid uploadFile">
+				<div class="input-group-prepend" style="background-color: rgb(215, 226, 226);">
+					<span class="input-group-text"
+						style="color: rgb(12, 12, 12);margin-right: 10px;">Description</span>
+				</div>
+				<textarea class="form-control" [(ngModel)]="offerDescription.description"
+					aria-label="With textarea"></textarea>
 			</div>
 		</div>
 		<ng-template pTemplate="footer">
