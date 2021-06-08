@@ -34,7 +34,7 @@ import { PickListModule } from 'primeng/picklist';
 import { HttpClientModule } from '@angular/common/http';
 // import { MatFormFieldModule } from '@angular/material/form-field';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 // import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import {StepsModule} from 'primeng/steps';
 // import { BrowserModule } from '@angular/platform-browser'
@@ -93,7 +93,7 @@ import {StepsModule} from 'primeng/steps';
   ],
     
   providers: [ConfirmationService,
-    MessageService,],
+    MessageService,DatePipe],
 
 })
 export class ProjectModule { }

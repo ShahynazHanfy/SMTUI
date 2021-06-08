@@ -49,6 +49,7 @@ import { GovernoratesComponent } from "./components/governorates/governorates.co
 import { ProjectComponentComponent } from "./components/project-component/project-component.component";
 import { ProjectStatusComponent } from "./components/project-status/project-status.component";
 import { LoginComponent } from "./components/login/login.component";
+import { DatePipe } from "@angular/common";
 // import { CommonModule } from '@angular/common';
 
 @NgModule({

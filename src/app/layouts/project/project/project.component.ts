@@ -33,6 +33,7 @@ import { ConsultantService } from 'app/shared/Services/Consultant/consultant.ser
 import { ProjectComponentComponent } from 'app/components/project-component/project-component.component';
 import { AssignProjectService } from 'app/shared/Services/AssignProject/assign-project.service';
 import { AssigneProject } from 'app/shared/Models/AssignedProject';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-project',
@@ -91,6 +92,12 @@ export class ProjectComponent implements OnInit {
   ViewAssignedProjectFlag: boolean;
   lstAssignedProjectsForEmployee: AssigneProject[]
   AssignedProjectsDec: AssigneProject
+  maxDate: string;
+  deadLine: Date= new Date();
+  year: number;
+  month: number;
+  day: number;
+  strDate:string=''
     constructor(private route: Router, private projStatusService: ProjectStatusService,
     private projectComponentService: ProjectComponentService,
     private EndUsersService: EndUsersService,
@@ -107,12 +114,29 @@ export class ProjectComponent implements OnInit {
     private ProjectSystemService: ProjectSystemService,
     private ContractorsService: ContractorsService,
     private ConsultantService: ConsultantService,
-    private assignProjectService: AssignProjectService
+    private assignProjectService: AssignProjectService,
+    private datePipe:DatePipe
 
   ) { }
   activityValues: number[] = [0, 100];
 
   ngOnInit(): void {
+    //this.deadLine = new Date();
+    console.log("this.deadLine",this.deadLine);
+    this.strDate = this.datePipe.transform(this.deadLine, 'dd/MM/yyyy');
+    console.log("this.strDate",this.strDate);
+    // this.year = this.deadLine.getFullYear();
+    // this.month = this.deadLine.getMonth();
+    var dateitems = this.strDate.split('/');
+    this.day=Number(dateitems[0]);
+    this.month=Number(dateitems[1]);
+    this.year=Number(dateitems[2]);
+
+    console.log("dateitems", dateitems[0]);
+
+    //  console.log("this.day",this.day)
+      this.maxDate = (this.year) + "-" + (this.month) + "-" +(this.day+4)
+     console.log("maxDate", this.maxDate);
 
     this.role = localStorage.getItem('roles');
     console.log("this.role", this.role)

@@ -62,8 +62,10 @@
                 </p-dropdown>
                 <div style="margin-top: 10px;">
                     <label>DeadLine</label>
-                    <p-calendar inputId="basic" name='deadline' [(ngModel)]='projectObj.deadline'></p-calendar>
-                </div>
+                    <input type="date" name="first" class="form-control" placeholder="deadline"
+                    [(ngModel)]="projectObj.deadline"  min="{{maxDate | date:'yyyy-MM-dd'}}" required>
+                   <!-- <p-calendar inputId="basic" max="{{maxDate | date:'yyyy-MM-dd'}}" name='deadline' [(ngModel)]='projectObj.deadline'></p-calendar>  -->
+                </div> 
 
 
             </div>
@@ -150,8 +152,8 @@
                                     <div class="col">
                                         {{i.documentFile}}
                                     </div>
-                                    <div class="col"><button class="btn btn-danger"
-                                            (click)="deleteDocFromList(i)">Delete</button></div>
+                                    <!-- <div class="col"><button class="btn btn-danger"
+                                            (click)="deleteDocFromList(i)">Delete</button></div> -->
                                 </div>
                             </td>
 
@@ -304,7 +306,7 @@
                         <option *ngFor="let i of lstFrom1To100" [value]="i" >{{i}}</option>
                     </select> -->
 
-                        <select [ngModelOptions]="{standalone: true}" 
+                        <select 
                         [disabled]="!(role=='SalesManager')" class="form-control"
                             (change)="updateProjectRank($event,customer)">
                             <option *ngFor="let option of lstFrom1To100; index as i"
