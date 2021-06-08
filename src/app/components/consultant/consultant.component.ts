@@ -16,7 +16,8 @@ export class ConsultantComponent implements OnInit {
   Editboolean: boolean;
   displayBasic: boolean;
   NewDialogbool: boolean;
-  constructor(private ConsultantService:ConsultantService, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
+  constructor(private ConsultantService:ConsultantService,
+     private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.ConsultantObj={id:0,contactName:'',consultantName:'',email:'',phone:'',relevantPhone:'',titleName:''}

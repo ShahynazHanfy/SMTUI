@@ -582,6 +582,10 @@
         <th><span style="margin-right: 10px;">Project Creation Date : </span></th>
         <td>{{projectObj.projectCreationDate| date :'MM/dd/yyyy, h:mm a'}}</td>
     </tr>
+    <tr class=" form-control">
+        <th><span style="margin-right: 10px;">Project DeadLine : </span></th>
+        <td>{{projectObj.deadline| date :'MM/dd/yyyy, h:mm a'}}</td>
+    </tr>
     <tr class=" form-control" *ngIf="projectObj.acceptedDate!=null">
         <th><span style="margin-right: 10px;">Project Accepted Date : </span></th>
         <td>{{projectObj.acceptedDate| date :'MM/dd/yyyy, h:mm a'}}</td>
