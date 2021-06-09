@@ -63,9 +63,9 @@
                 <div style="margin-top: 10px;">
                     <label>DeadLine</label>
                     <input type="date" name="first" class="form-control" placeholder="deadline"
-                    [(ngModel)]="projectObj.deadline"  min="{{maxDate | date:'yyyy-MM-dd'}}" required>
-                   <!-- <p-calendar inputId="basic" max="{{maxDate | date:'yyyy-MM-dd'}}" name='deadline' [(ngModel)]='projectObj.deadline'></p-calendar>  -->
-                </div> 
+                        [(ngModel)]="projectObj.deadline" min="{{maxDate | date:'yyyy-MM-dd'}}" required>
+                    <!-- <p-calendar inputId="basic" max="{{maxDate | date:'yyyy-MM-dd'}}" name='deadline' [(ngModel)]='projectObj.deadline'></p-calendar>  -->
+                </div>
 
 
             </div>
@@ -306,8 +306,7 @@
                         <option *ngFor="let i of lstFrom1To100" [value]="i" >{{i}}</option>
                     </select> -->
 
-                        <select 
-                        [disabled]="!(role=='SalesManager')" class="form-control"
+                        <select [disabled]="!(role=='SalesManager')" class="form-control"
                             (change)="updateProjectRank($event,customer)">
                             <option *ngFor="let option of lstFrom1To100; index as i"
                                 [selected]="option === customer.rank">
@@ -587,6 +586,7 @@
     <tr class=" form-control">
         <th><span style="margin-right: 10px;">Project DeadLine : </span></th>
         <td>{{projectObj.deadline| date :'MM/dd/yyyy, h:mm a'}}</td>
+        <button class="btn btn-primary">Edit</button>
     </tr>
     <tr class=" form-control" *ngIf="projectObj.acceptedDate!=null">
         <th><span style="margin-right: 10px;">Project Accepted Date : </span></th>
@@ -784,8 +784,8 @@
 
 
 
-<p-dialog [(visible)]="ViewAssignedProjectFlag" [style]="{width: '20vw'}" [closable]="false"
- [baseZIndex]="10000" *ngIf="role=='PreSalesManager' || role=='PreSalesManager'|| role=='CEO'||role=='Admin'">
+<p-dialog [(visible)]="ViewAssignedProjectFlag" [style]="{width: '20vw'}" [closable]="false" [baseZIndex]="10000"
+    *ngIf="role=='PreSalesManager' || role=='PreSalesManager'|| role=='CEO'||role=='Admin'">
     <p-toast position="top-left" key="tl"></p-toast>
     <p-toast position="top-center" key="tc"></p-toast>
     <p-toast position="bottom-center" key="bc"></p-toast>
