@@ -154,7 +154,8 @@ export class ProjectUpdateComponent implements OnInit {
     this.stateOptions = [{ label: 'EGP', value: 'EGP' }, { label: 'USD', value: 'USD' }, { label: 'EUR', value: 'EUR' }];
     this.projectId = this.activeRoute.snapshot.params['projectId'];
     console.log("projectId", this.projectId)
-    this.AssignProject = {employeeName:"",
+    this.AssignProject = {
+      employeeName: "",
       projectId: this.projectId,
       employeeId: 0, id: 0, isAssigned: false, projectUpdateId: 0, description: '', assignedProjectDate: new Date
     }
@@ -205,7 +206,7 @@ export class ProjectUpdateComponent implements OnInit {
     this.costObj = {
       id: 0, cost: 0, currency: ''
     }
-    this.AssignedProjectsDec = { id: 0, description: "",employeeName:"", assignedProjectDate: new Date, employeeId: 0, isAssigned: false, projectId: 0, projectUpdateId: 0 }
+    this.AssignedProjectsDec = { id: 0, description: "", employeeName: "", assignedProjectDate: new Date, employeeId: 0, isAssigned: false, projectId: 0, projectUpdateId: 0 }
     this.OfferStatusService.GetAllOfferStatuses().subscribe(e => {
       this.LstOfferStatus = e
       console.log("offerStatus", this.LstOfferStatus)
@@ -324,56 +325,64 @@ export class ProjectUpdateComponent implements OnInit {
     this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Message Content' });
   }
   SaveProjectUpdate() {
-    let promise = new Promise((resolve, reject) => {
-      this.ProjectUpdateService.insertProjectUpdate(this.projectUpdate).toPromise()
-        .then(
-          response => { // Success
-            this.projectUpdateId = Number(response)
-            console.log("res", response)
-            this.lstoddocproj.forEach(element => {
-              element.projectUpdateId = this.projectUpdateId
-            });
-            this.projectUpdate = { DueDate: new Date, ProjectId: this.projectId, ProjectName: '', id: 0, deadline: new Date }
-            this.projectdocumentService.insertdocument(this.lstoddocproj).toPromise()
-            this.NewLeaveDialogbool = false
-            resolve('cons');
-          },
-          msg => { // Error
-            reject(msg);
-          }
-        ).then(
-          response => { // Success
-            this.ProjectUpdateDescription.projectUpdateId = this.projectUpdateId
-            console.log("ProjectUpdateDescription", this.ProjectUpdateDescription)
-            this.projectDescriptionService.insertProjectDescription(this.ProjectUpdateDescription).toPromise()
-            resolve('ProjectUpdateDescription');
 
-          },
-          msg => { // Error
-            reject(msg);
-          }
-        )
-        .then(
-          response => { // Success
-            this.ProjectUpdateDescription.projectUpdateId = this.projectUpdateId
-            this.RloadPage()
-            resolve('cons');
-            this.RloadPage()
-          },
-          msg => { // Error
-            reject(msg);
-          }
-        );
-    });
-    this.projectDescriptionService.GetDescriptionsByProjectId(this.projectId).subscribe(e => {
-      this.LstProjectUpdateDescription = e
-      // this.indexDesc = this.LstProjectUpdateDescription[0]
-      console.log("hhhhhhhhhhhhh")
-      this.LstProjectUpdateDescription.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
+    if (this.projectUpdate.deadline != new Date && this.ProjectUpdateDescription.description != '' && this.lstoddocproj.length != 0) {
 
-      console.log("LstProjectUpdateDescription", e)
-    })
-    return promise;
+      console.log("projectUpdate", this.projectUpdate)
+      let promise = new Promise((resolve, reject) => {
+        this.ProjectUpdateService.insertProjectUpdate(this.projectUpdate).toPromise()
+          .then(
+            response => { // Success
+              this.projectUpdateId = Number(response)
+              console.log("res", response)
+              this.lstoddocproj.forEach(element => {
+                element.projectUpdateId = this.projectUpdateId
+              });
+              this.projectUpdate = { DueDate: new Date, ProjectId: this.projectId, ProjectName: '', id: 0, deadline: new Date }
+              this.projectdocumentService.insertdocument(this.lstoddocproj).toPromise()
+              resolve('cons');
+            },
+            msg => { // Error
+              reject(msg);
+            }
+          ).then(
+            response => { // Success
+              this.ProjectUpdateDescription.projectUpdateId = this.projectUpdateId
+              console.log("ProjectUpdateDescription", this.ProjectUpdateDescription)
+              this.projectDescriptionService.insertProjectDescription(this.ProjectUpdateDescription).toPromise()
+              resolve('ProjectUpdateDescription');
+
+            },
+            msg => { // Error
+              reject(msg);
+            }
+          )
+          .then(
+            response => { // Success
+              this.ProjectUpdateDescription.projectUpdateId = this.projectUpdateId
+              this.RloadPage()
+              resolve('cons');
+              this.NewLeaveDialogbool = false
+
+              this.RloadPage()
+            },
+            msg => { // Error
+              reject(msg);
+            }
+          );
+      });
+      this.projectDescriptionService.GetDescriptionsByProjectId(this.projectId).subscribe(e => {
+        this.LstProjectUpdateDescription = e
+        this.LstProjectUpdateDescription.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
+
+      })
+      return promise;
+    }
+    else {
+      this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Fill All The Fields' });
+
+    }
+
     // this.ProjectUpdateService.insertProjectUpdate(this.projectUpdate).subscribe(e => {
     //   console.log("projectUpdate inserted Successfully")
     // })
@@ -515,36 +524,45 @@ export class ProjectUpdateComponent implements OnInit {
     this.MakeOfferFlag = true
   }
   SaveOffer() {
-    let promise = new Promise((resolve, reject) => {
-      this.costService.insertProjectCost(this.costObj).toPromise()
-        .then(
-          response => { // Success
-            this.costObj.currency = this.value1
-            this.offer.projectCostsId = response
-            this.offer.offerStatusId = Number(this.offer.offerStatusId)
-            this.offer.projectUpdateId = Number(this.projectUpdateIdForOffer)
-            this.offer.offerStatusId = 1
-            this.offerService.insertOffer(this.offer).subscribe(e => {
-              this.offerId = e
-              this.lstdocOffer.forEach(element => {
-                element.offerId = this.offerId
-              });
-              this.datasheetService.insertOfferDocuments(this.lstdocOffer).toPromise()
-              this.offerDescription.offersId = this.offerId
-              this.offerDescription.projectUpdateId = Number(this.projectUpdateIdForOffer)
-              this.offerdescriptionService.insertOfferDescription(this.offerDescription).toPromise()
-              this.MakeOfferFlag = false
-              this.RloadPage()
-            })
-          },
-          msg => { // Error
-            reject(msg);
-          }
-        )
-    }
-    );
 
-    return promise;
+    if (this.costObj.cost != 0 && this.lstdocOffer.length != 0) {
+      console.log("d5l")
+
+      let promise = new Promise((resolve, reject) => {
+        this.costObj.currency = this.value1
+        // this.costObj.cost.
+        this.costService.insertProjectCost(this.costObj).toPromise()
+          .then(
+            response => { // Success
+              this.offer.projectCostsId = response
+              this.offer.offerStatusId = Number(this.offer.offerStatusId)
+              this.offer.projectUpdateId = Number(this.projectUpdateIdForOffer)
+              this.offer.offerStatusId = 1
+              this.offerService.insertOffer(this.offer).subscribe(e => {
+                this.offerId = e
+                this.lstdocOffer.forEach(element => {
+                  element.offerId = this.offerId
+                });
+                this.datasheetService.insertOfferDocuments(this.lstdocOffer).toPromise()
+                this.offerDescription.offersId = this.offerId
+                this.offerDescription.projectUpdateId = Number(this.projectUpdateIdForOffer)
+                this.offerdescriptionService.insertOfferDescription(this.offerDescription).toPromise()
+                this.MakeOfferFlag = false
+                this.RloadPage()
+              })
+            },
+            msg => { // Error
+              reject(msg);
+            }
+          )
+      }
+      );
+
+      return promise;
+    } else {
+      this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Fill All The Fields' });
+
+    }
   }
   showLatestDoc() {
     this.testPath = 'PharmacyDictionary.docx'
@@ -557,17 +575,10 @@ export class ProjectUpdateComponent implements OnInit {
   showOffers(projectUpdate) {
     console.log("projUpdateId", projectUpdate)
     this.ViewOffersFlag = true
-    // this.offerService.GetAllOffers().subscribe(
-    //   res => {
-    //     this.lstOffer = res,
-    //       this.lstOffer.forEach(customer => customer.offerCreationDate = new Date(customer.offerCreationDate));
-    //   }
-    // ),
-    //   err => console.log(err)
     if (projectUpdate.id == null) {
       projectUpdate.id = 0
     }
-    if (this.role == 'PreSales' || this.role == 'PreSalesManager') {
+    if (this.role == 'PreSales' || this.role == 'PreSalesManager' ||this.role == 'Admin') {
       this.offerdescriptionService.GetAllOfferByProjectUpdateId(projectUpdate.projectId, projectUpdate.id).subscribe(
         res => {
           console.log("lstOfferDescription", this.lstOfferDescription)
@@ -658,13 +669,12 @@ export class ProjectUpdateComponent implements OnInit {
 
     })
   }
-  closeViewAllOfferedOffers()
-  {
+  closeViewAllOfferedOffers() {
     this.ViewAssignedProjectFlag = false
   }
   ViewAllOfferedOffers() {
     this.ViewAssignedProjectFlag = true
-    if (this.role == 'PreSalesManager'|| this.role=='PreSales') {
+    if (this.role == 'PreSalesManager' || this.role == 'PreSales') {
       this.assignProjectService.GetAllAssignProjects().subscribe(
         res => {
           this.lstAssignedProjectsForEmployee = res,
@@ -680,9 +690,10 @@ export class ProjectUpdateComponent implements OnInit {
   viewAssignProjectDesc(assignedProjectsById) {
     this.ViewAssignedDescFlag = true
     this.assignProjectService.GetAssignProject(assignedProjectsById).subscribe(
-      res =>{ this.AssignedProjectsDec = res,
-      console.log("assign project",this.AssignedProjectsDec)
-    }
+      res => {
+        this.AssignedProjectsDec = res,
+          console.log("assign project", this.AssignedProjectsDec)
+      }
     )
   }
 }
