@@ -539,40 +539,45 @@ export class ProjectComponent implements OnInit {
     this.acceptdescription = true
   }
   AcceptProject() {
-    this.projectObj.acceptedDate = new Date()
-    let promise = new Promise((resolve, reject) => {
-      this.projectService.AcceptProject(this.acceptProjectId).toPromise()
-        .then(
-          res => {
-            this.ProjectDescriptionObj.projectId = this.acceptProjectId
-            console.log("this.ProjectDescriptionObj.projectId", this.ProjectDescriptionObj.projectId)
-            this.projectDescriptionService.insertProjectDescription(this.ProjectDescriptionObj).toPromise()
-            resolve('cons');
-            this.acceptdescription = false
-            if (this.role == 'Admin' || this.role == 'SalesManager') {
-              this.projectService.GetAllProjects().subscribe(e => {
-                this.projectList = e,
-                  console.log("projectList admin", this.projectList)
+    this.projectObj.acceptedDate = new Date
 
-                this.projectList.forEach(customer => customer.projectCreationDate = new Date(customer.projectCreationDate));
-              })
-            }
-            if (this.role == 'Sales') {
-              this.projectDescriptionService.GetAllProjectByUserId(this.userId).subscribe(e => {
-                this.projectDescriptionList = e,
-                  console.log("projDesscSales", this.projectDescriptionList)
-                this.projectDescriptionList.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
-              })
-            }
+    if (this.ProjectDescriptionObj.description != '') {
+      let promise = new Promise((resolve, reject) => {
+        this.projectService.AcceptProject(this.acceptProjectId).toPromise()
+          .then(
+            res => {
+              this.ProjectDescriptionObj.projectId = this.acceptProjectId
+              console.log("this.ProjectDescriptionObj.projectId", this.ProjectDescriptionObj.projectId)
+              this.projectDescriptionService.insertProjectDescription(this.ProjectDescriptionObj).toPromise()
+              resolve('cons');
+              this.acceptdescription = false
+              if (this.role == 'Admin' || this.role == 'SalesManager') {
+                this.projectService.GetAllProjects().subscribe(e => {
+                  this.projectList = e,
+                    console.log("projectList admin", this.projectList)
 
-          },
-          msg => { // Error
-            this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Enter Description' });
-            reject(msg);
-          })
-    });
-    return promise;
+                  this.projectList.forEach(customer => customer.projectCreationDate = new Date(customer.projectCreationDate));
+                })
+              }
+              if (this.role == 'Sales') {
+                this.projectDescriptionService.GetAllProjectByUserId(this.userId).subscribe(e => {
+                  this.projectDescriptionList = e,
+                    console.log("projDesscSales", this.projectDescriptionList)
+                  this.projectDescriptionList.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
+                })
+              }
 
+            },
+            msg => { // Error
+              this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Enter Description' });
+              reject(msg);
+            })
+      });
+      return promise;
+    } else {
+      this.messageService.add({ severity: 'error', key: "tm", summary: 'Error', detail: 'Please Enter Description' });
+      console.log("bom")
+    }
 
 
 
@@ -661,9 +666,9 @@ export class ProjectComponent implements OnInit {
     // this.showCalender = false
     this.showCalenderDialog = true
     this.ProjectDescriptionDeadline.projectId = this.projectObj.id
-    console.log("obj",this.projectObj)
+    console.log("obj", this.projectObj)
 
-    let promise = new Promise((resolve, reject) => {    
+    let promise = new Promise((resolve, reject) => {
       this.projectDescriptionService.insertProjectDescription(this.ProjectDescriptionDeadline).toPromise()
         .then(
           res => {
