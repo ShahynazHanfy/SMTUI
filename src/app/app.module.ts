@@ -120,7 +120,7 @@ import { DatePipe } from "@angular/common";
     // AngularMultiSelectModule
 
   ],
-  providers: [ConfirmationService,MessageService],
+  providers: [ConfirmationService,MessageService,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

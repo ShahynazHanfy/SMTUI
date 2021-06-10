@@ -34,6 +34,7 @@ import { ProjectComponentComponent } from 'app/components/project-component/proj
 import { AssignProjectService } from 'app/shared/Services/AssignProject/assign-project.service';
 import { AssigneProject } from 'app/shared/Models/AssignedProject';
 import { DatePipe } from '@angular/common';
+import { promise } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-project',
@@ -50,6 +51,7 @@ export class ProjectComponent implements OnInit {
   projectId: number
   message: string;
   ProjectDescriptionObj: ProjectDescription
+  ProjectDescriptionDeadline: ProjectDescription
   projectList: Project[]
   projectDescriptionList: ProjectDescription[]
   LstprojectDescription: ProjectDescription[]
@@ -76,7 +78,7 @@ export class ProjectComponent implements OnInit {
   selectedColumns: ProjectComponentModel[];
   projectSystem: ProjectSystem
   displayBasic: boolean;
-  lstFrom1To100:number[]
+  lstFrom1To100: number[]
   AcceptedProject: boolean = false
   lstConsultatnt: Consultant[]
   displayContractor: boolean = false;
@@ -87,18 +89,20 @@ export class ProjectComponent implements OnInit {
   ConsultantObj: Consultant
   consultantObj: Consultant
   acceptdescription: boolean;
+  showCalender: boolean = false
   acceptProjectId: any;
   projectDescritionFlag: boolean;
   ViewAssignedProjectFlag: boolean;
+  showCalenderDialog: boolean = false
   lstAssignedProjectsForEmployee: AssigneProject[]
   AssignedProjectsDec: AssigneProject
   maxDate: string;
-  deadLine: Date= new Date();
+  deadLine: Date = new Date();
   year: number;
   month: number;
   day: number;
-  strDate:string=''
-    constructor(private route: Router, private projStatusService: ProjectStatusService,
+  strDate: string = ''
+  constructor(private route: Router, private projStatusService: ProjectStatusService,
     private projectComponentService: ProjectComponentService,
     private EndUsersService: EndUsersService,
     private governorateService: GovernoratesService,
@@ -115,28 +119,28 @@ export class ProjectComponent implements OnInit {
     private ContractorsService: ContractorsService,
     private ConsultantService: ConsultantService,
     private assignProjectService: AssignProjectService,
-    private datePipe:DatePipe
+    private datePipe: DatePipe
 
   ) { }
   activityValues: number[] = [0, 100];
 
   ngOnInit(): void {
     //this.deadLine = new Date();
-    console.log("this.deadLine",this.deadLine);
+    console.log("this.deadLine", this.deadLine);
     this.strDate = this.datePipe.transform(this.deadLine, 'dd/MM/yyyy');
-    console.log("this.strDate",this.strDate);
+    console.log("this.strDate", this.strDate);
     // this.year = this.deadLine.getFullYear();
     // this.month = this.deadLine.getMonth();
     var dateitems = this.strDate.split('/');
-    this.day=Number(dateitems[0]);
-    this.month=Number(dateitems[1]);
-    this.year=Number(dateitems[2]);
+    this.day = Number(dateitems[0]);
+    this.month = Number(dateitems[1]);
+    this.year = Number(dateitems[2]);
 
     console.log("dateitems", dateitems[0]);
 
     //  console.log("this.day",this.day)
-      this.maxDate = (this.year) + "-" + (this.month) + "-" +(this.day+4)
-     console.log("maxDate", this.maxDate);
+    this.maxDate = (this.year) + "-" + (this.month) + "-" + (this.day + 4)
+    console.log("maxDate", this.maxDate);
 
     this.role = localStorage.getItem('roles');
     console.log("this.role", this.role)
@@ -194,6 +198,10 @@ export class ProjectComponent implements OnInit {
       contractorContactName: '', projectComponentName: '', projectComponentsId: 0, projectCreationDate: new Date,
       governorateId: 0, projectName: '', projectStatusId: 1, rank: 0, governorateName: '', id: 0, projectStatusName: 'New'
     }
+    this.ProjectDescriptionDeadline = {
+      id: 0, projectName: '', description: '', userName: this.userName,
+      descriptionDate: new Date, projectId: 0, projectUpdateId: 0, userId: this.userId
+    }
     this.projectSystem = {
       projectId: 0, id: 0, lstprojectComponents: []
     }
@@ -214,7 +222,7 @@ export class ProjectComponent implements OnInit {
 
       })
 
-    } 
+    }
     if (this.role == 'Admin' || this.role == 'SalesManager') {
       this.projectService.GetAllProjects().subscribe(e => {
         this.projectList = e,
@@ -232,7 +240,7 @@ export class ProjectComponent implements OnInit {
     }
     for (let index = 0; index <= 100; index++) {
       this.lstFrom1To100.push(index);
-      
+
     }
 
     this.projStatusService.GetAllProjectStatus().subscribe(e => {
@@ -280,7 +288,7 @@ export class ProjectComponent implements OnInit {
 
     customer.rank = $event.target.value
     console.log("hamada", $event.target.value, customer)
-    this.projectService.updateProject(customer.id,customer).subscribe(e=>{
+    this.projectService.updateProject(customer.id, customer).subscribe(e => {
       console.log("success")
     })
   }
@@ -294,7 +302,7 @@ export class ProjectComponent implements OnInit {
   search(term: string) {
 
   }
-  reloadPage(){
+  reloadPage() {
 
   }
   colChanges() {
@@ -307,7 +315,7 @@ export class ProjectComponent implements OnInit {
     this.projectObj.projectComponentsId = Number(this.projectObj.projectComponentsId)
     this.projectObj.projectStatusId = Number(this.projectObj.projectStatusId)
     this.projectObj.consultantId = Number(this.projectObj.consultantId)
-    console.log("Project before add",this.projectObj)
+    console.log("Project before add", this.projectObj)
 
     let promise = new Promise((resolve, reject) => {
       this.projectService.insertProject(this.projectObj).toPromise()
@@ -344,8 +352,8 @@ export class ProjectComponent implements OnInit {
             this.showTheFirstStepDialog = false
             this.projectService.GetAllProjects().subscribe(e => {
               this.projectList = e
-            this.ngOnInit()
-            this.activeIndex =0
+              this.ngOnInit()
+              this.activeIndex = 0
 
               resolve('cons');
 
@@ -370,31 +378,25 @@ export class ProjectComponent implements OnInit {
     return item;
   }
   NextStep() {
-    if(this.projectObj.contractorsId==0)
-    {
-        this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Contractor' });
+    if (this.projectObj.contractorsId == 0) {
+      this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Contractor' });
     }
-    if(this.projectObj.endUsersId==0)
-    {
-        this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select End User' });
+    if (this.projectObj.endUsersId == 0) {
+      this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select End User' });
     }
-    if(this.projectObj.governorateId==0)
-    {
-        this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Governorate' });
+    if (this.projectObj.governorateId == 0) {
+      this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Governorate' });
     }
-    if(this.selectedColumns.length == 0)
-    {
-        this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Project Components' });
+    if (this.selectedColumns.length == 0) {
+      this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Project Components' });
     }
-    if(this.projectObj.consultantId==0)
-    {
-        this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select consultant' });
+    if (this.projectObj.consultantId == 0) {
+      this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select consultant' });
     }
-    if(this.projectObj.contractorsId!=0 &&this.projectObj.governorateId!=0 && this.projectObj.endUsersId!=0
-      && this.selectedColumns.length != 0 && this.projectObj.consultantId!=0)
-      {
-        this.activeIndex = this.activeIndex + 1
-      }
+    if (this.projectObj.contractorsId != 0 && this.projectObj.governorateId != 0 && this.projectObj.endUsersId != 0
+      && this.selectedColumns.length != 0 && this.projectObj.consultantId != 0) {
+      this.activeIndex = this.activeIndex + 1
+    }
     console.log("projDesc", this.ProjectDescriptionObj)
   }
   PreviousStep() {
@@ -551,7 +553,7 @@ export class ProjectComponent implements OnInit {
               this.projectService.GetAllProjects().subscribe(e => {
                 this.projectList = e,
                   console.log("projectList admin", this.projectList)
-        
+
                 this.projectList.forEach(customer => customer.projectCreationDate = new Date(customer.projectCreationDate));
               })
             }
@@ -562,7 +564,7 @@ export class ProjectComponent implements OnInit {
                 this.projectDescriptionList.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
               })
             }
-        
+
           },
           msg => { // Error
             this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Enter Description' });
@@ -639,13 +641,12 @@ export class ProjectComponent implements OnInit {
   }
 
 
-  closeViewAllOfferedOffers()
-  {
+  closeViewAllOfferedOffers() {
     this.ViewAssignedProjectFlag = false
   }
   ViewAllOfferedOffers(projectId) {
     this.ViewAssignedProjectFlag = true
-    if (this.role == 'PreSalesManager' || this.role=='PreSales' || this.role=='Admin') {
+    if (this.role == 'PreSalesManager' || this.role == 'PreSales' || this.role == 'Admin') {
       this.assignProjectService.GetAllAssignedProjectsByProjectId(projectId).subscribe(
         res => {
           this.lstAssignedProjectsForEmployee = res,
@@ -653,6 +654,53 @@ export class ProjectComponent implements OnInit {
         }
       )
     }
+  }
+  updateInDeadline() {
+    console.log("updateInDeadline", this.projectObj)
+
+    // this.showCalender = false
+    this.showCalenderDialog = true
+    this.ProjectDescriptionDeadline.projectId = this.projectObj.id
+    console.log("obj",this.projectObj)
+
+    let promise = new Promise((resolve, reject) => {    
+      this.projectDescriptionService.insertProjectDescription(this.ProjectDescriptionDeadline).toPromise()
+        .then(
+          res => {
+            this.projectService.updateProject(this.projectObj.id, this.projectObj).toPromise()
+            this.hideDialogs()
+            resolve('cons');
+
+          },
+          msg => { // Error
+            this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please fill fields' });
+            reject(msg);
+          })
+      // .then(
+      //   res => { // For save projectComponent
+      //     this.projectSystem.projectId = this.projectId
+      //     this.projectSystem.lstprojectComponents = this.selectedColumns
+      //     console.log("projSystem", this.projectSystem)
+      //     console.log("selectedColumns", this.selectedColumns)
+      //     this.ProjectSystemService.insertProjectSystems(this.projectSystem).toPromise()
+      //     resolve('cons');
+      //   },
+      //   msg => { // Error
+      //     this.messageService.add({ severity: 'error', key: "tc", summary: 'Error', detail: 'Please Select Correct Category and File' });
+      //     reject(msg);
+      //   }
+      // )
+
+    });
+    return promise;
+    this.projectService.updateProject(this.projectObj.id, this.projectObj).subscribe(e => {
+      console.log("success")
+
+    })
+  }
+  hideDialogs() {
+    this.showCalenderDialog = false
+    this.showCalender = false
   }
 }
 

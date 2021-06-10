@@ -584,9 +584,19 @@
         <td>{{projectObj.projectCreationDate| date :'MM/dd/yyyy, h:mm a'}}</td>
     </tr>
     <tr class=" form-control">
-        <th><span style="margin-right: 10px;">Project DeadLine : </span></th>
-        <td>{{projectObj.deadline| date :'MM/dd/yyyy, h:mm a'}}</td>
-        <button class="btn btn-primary">Edit</button>
+        <th><span style="margin: 10px;">Project DeadLine : </span></th>
+        <td class="row">
+            <div class="col-4">
+                <span *ngIf="showCalender==false"> {{projectObj.deadline| date :'MM/dd/yyyy, h:mm a'}}</span>
+                <input *ngIf="showCalender==true" [(ngModel)]="projectObj.deadline" type="date" name="first"
+                    class="form-control" placeholder="deadline" min="{{maxDate | date:'yyyy-MM-dd'}}" required>
+            </div>
+            <div class="col-2" style="margin-top: 7px;cursor: pointer;">
+                <i class="pi pi-pencil" *ngIf="showCalender==false" (click)="showCalender=true"></i>
+                <i class="pi pi-save" *ngIf="showCalender==true" (click)="showCalenderDialog=true"></i>
+            </div>
+
+        </td>
     </tr>
     <tr class=" form-control" *ngIf="projectObj.acceptedDate!=null">
         <th><span style="margin-right: 10px;">Project Accepted Date : </span></th>
@@ -814,4 +824,17 @@
             </ng-template>
         </p-table>
     </div>
+</p-dialog>
+
+<p-dialog [(visible)]="showCalenderDialog" [style]="{width: '30vw'}" [baseZIndex]="10000">
+    <form>
+        <textarea name="first" [ngModelOptions]="{standalone: true}" id="descriptionaccept"
+            [(ngModel)]="ProjectDescriptionDeadline.description" placeholder="Why you change the deadline ?"
+            pInputTextarea rows="7" cols="40"></textarea>
+
+        <button type="submit" (click)="updateInDeadline()" style="float: right;margin: 10px;"
+            class="btn btn-primary">Save</button>
+        <button type="button" (click)="hideDialogs()" style="float: right;margin: 10px;"
+            class="btn btn-primary">NO</button>
+    </form>
 </p-dialog>
