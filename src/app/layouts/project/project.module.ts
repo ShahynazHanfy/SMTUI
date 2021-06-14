@@ -37,20 +37,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule, DatePipe } from '@angular/common';
 // import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import {StepsModule} from 'primeng/steps';
+import { TooltipModule } from 'primeng/tooltip';
 // import { BrowserModule } from '@angular/platform-browser'
-// import { TooltipModule } from 'ng2-tooltip-directive';
- 
+import {TreeModule} from 'primeng/tree';
 
 
 @NgModule({
   imports: [
+    TreeModule,
     CommonModule,
     ProjectRouting,
     FormsModule,
     // BrowserModule,
     // NgWizardModule.forRoot(ngWizardConfig),
     AccordionModule,
-    // TooltipModule,
+     TooltipModule,
     // MatDialogModule,
     StepsModule,
     ButtonModule,

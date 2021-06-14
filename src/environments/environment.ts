@@ -21,7 +21,7 @@ export const environment = {
   GetLatestDocuments:'http://localhost:57910/api/ProjectDocuments/GetLatestDocuments/',
   GetDescriptionsByProjectId:'http://localhost:57910/api/ProjectDescriptions/GetDescriptionsByProjectId/',
   GetDescriptionsByProjectUpdateId:'http://localhost:57910/api/ProjectDescriptions/GetDescriptionsByProjectUpdateId/',
-  GetAllProjectByUserId:'http://localhost:57910/api/ProjectDescriptions/GetAllProjectByUserId/',
+  GetAllProjectByUserId:'http://localhost:57910/api/Projects/GetAllProjectByUserId/',
   ProjectDocumentByProjectID:'http://localhost:57910/api/ProjectDocuments/GetProjectDocumentByProjectId/',
   ProjectSystem:'http://localhost:57910/api/ProjectSystems/',
   OfferStatus:'http://localhost:57910/api/OfferStatus/',

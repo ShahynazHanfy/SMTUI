@@ -32,6 +32,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TooltipModule } from 'primeng/tooltip';
 @NgModule({
   imports: [
     // CommonModule,
@@ -48,7 +49,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     DialogModule,
     ButtonModule,
     ConfirmDialogModule,
-
+  //  TooltipModule
   ],
   declarations: [
     DashboardComponent,

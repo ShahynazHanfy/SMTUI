@@ -63,7 +63,7 @@ export class ProjectUpdateComponent implements OnInit {
   dataSheetObj: Datasheet
   TempOfferId: number
   userId: string = localStorage.getItem('userId')
-  EmpId: string = localStorage.getItem('empId')
+  EmpId: number 
   projectUpdateId: number
   projectUpdateIdForOffer: number
   result: ProjectUpdateExtraData[]
@@ -110,6 +110,7 @@ export class ProjectUpdateComponent implements OnInit {
   ViewOfferDescFlag: boolean;
   ViewAssignedProjectFlag: boolean;
   ViewAssignedDescFlag: boolean;
+  ViewAssignedProjectForUserFlag: boolean;
   constructor(private activeRoute: ActivatedRoute,
     private projectService: ProjectService,
     private ProjectUpdateService: ProjectUpdateService,
@@ -150,6 +151,7 @@ export class ProjectUpdateComponent implements OnInit {
     this.lstAssignedProjectsForEmployee = []
     console.log("ds", this.value1)
     this.role = localStorage.getItem('roles');
+    this.EmpId = Number(localStorage.getItem('empId')) 
     this.lstOfCurrency = ['$', 'U', 'EGP']
     this.stateOptions = [{ label: 'EGP', value: 'EGP' }, { label: 'USD', value: 'USD' }, { label: 'EUR', value: 'EUR' }];
     this.projectId = this.activeRoute.snapshot.params['projectId'];
@@ -669,24 +671,37 @@ export class ProjectUpdateComponent implements OnInit {
 
     })
   }
-  closeViewAllOfferedOffers() {
-    this.ViewAssignedProjectFlag = false
-  }
-  ViewAllOfferedOffers() {
-    this.ViewAssignedProjectFlag = true
-    if (this.role == 'PreSalesManager' || this.role == 'PreSales') {
-      this.assignProjectService.GetAllAssignProjects().subscribe(
-        res => {
-          this.lstAssignedProjectsForEmployee = res,
-            console.log("lstAssignedProjectsForEmployee", this.lstAssignedProjectsForEmployee)
-        }
-      )
-    }
-    this.offerdescriptionService.GetAllOfferOfferedByUserId(this.userId).subscribe(
-      res => {
-        this.LstProjectUpdateDescription = res
-      })
-  }
+  // closeViewAllOfferedOffers() {
+  //   this.ViewAssignedProjectFlag = false
+  //   this.ViewAssignedProjectForUserFlag=false
+  // }
+  // ViewAllOfferedOffers() {
+  //   this.ViewAssignedProjectFlag = true
+  //   if (this.role == 'PreSalesManager' || this.role == 'PreSales'|| this.role == 'Admin'|| this.role == 'CEO') {
+  //     this.assignProjectService.GetAllAssignProjects().subscribe(
+  //       res => {
+  //         this.lstAssignedProjectsForEmployee = res,
+  //           console.log("lstAssignedProjectsForEmployee", this.lstAssignedProjectsForEmployee)
+  //       }
+  //     )
+  //   }
+  //   this.offerdescriptionService.GetAllOfferOfferedByUserId(this.userId).subscribe(
+  //     res => {
+  //       this.LstProjectUpdateDescription = res
+  //     })
+  // }
+
+  // ViewAssignedProjectForUser()
+  // {
+  //   this.ViewAssignedProjectForUserFlag=true
+
+  //   this.assignProjectService.GetAllAssignedProjectsByEmployeeId(this.EmpId).subscribe(
+  //     res => {
+  //       this.lstAssignedProjectsForEmployee = res,
+  //         console.log("lstAssignedProjectsForEmployee", this.lstAssignedProjectsForEmployee)
+  //     }
+  //   )
+  // }
   viewAssignProjectDesc(assignedProjectsById) {
     this.ViewAssignedDescFlag = true
     this.assignProjectService.GetAssignProject(assignedProjectsById).subscribe(

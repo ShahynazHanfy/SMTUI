@@ -224,6 +224,15 @@
                     <!-- <a class="btn btn-secondary" style="background-color: rgb(180, 187, 83);"
                         ><i class="material-icons">&#xE147;</i> <span>Add New
                             Project</span></a> -->
+                            
+                </span>
+                <span style="float: right;margin-top: 20px;margin-right: 25px;">
+                    <span *ngIf="role=='PreSales' || role=='PreSalesManager' || role=='CEO' || role=='Admin'"
+                    class="pi pi-slack" (click)="ViewAllAssignedProject()" pTooltip="Show All Assigned Projects"
+                    tooltipPosition="top" style="cursor: pointer;margin-left: 8px;" aria-hidden="true"></span>
+                <span *ngIf="role=='PreSales' || role=='PreSalesManager' || role=='CEO' || role=='Admin'"
+                    class="pi pi-folder-open" (click)="ViewAssignedProjectForUser()" pTooltip="Assigned Projects For User"
+                    tooltipPosition="top" style="cursor: pointer;margin-left: 15px;" aria-hidden="true"></span>
                 </span>
             </div>
         </ng-template>
@@ -403,7 +412,7 @@
         </ng-template>
     </p-table>
 
-    <p-table #dt2 [value]="projectDescriptionList" *ngIf="role=='Sales'" dataKey="id" [rows]="10"
+    <p-table #dt2 [value]="projectListForSales" *ngIf="role=='Sales'" dataKey="id" [rows]="10"
         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
         styleClass="p-datatable-customers container-fluid" [paginator]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -536,18 +545,18 @@
                 <td>
                     <i class="pi" style="font-size: small;">
 
-                        <button class="btn btn-success" [routerLink]="['projectUpdate',customer.projectId]">
+                        <button class="btn btn-success" [routerLink]="['projectUpdate',customer.id]">
                             Update</button>
                     </i>
                 </td>
                 <td>
-                    <span class="pi pi-wallet" (click)="ViewDescriptionByProjectId(customer.projectId)"
+                    <span class="pi pi-wallet" (click)="ViewDescriptionByProjectId(customer.id)"
                         style="cursor: pointer;margin-left: 20px;" aria-hidden="true"></span>
 
                 </td>
                 <td>
                     <span class="pi pi-compass" aria-hidden="true" style="cursor: pointer;"
-                        (click)="showBasicDialog(customer.projectId)"></span>
+                        (click)="showBasicDialog(customer.id)"></span>
 
                 </td>
 
@@ -837,4 +846,171 @@
         <button type="button" (click)="hideDialogs()" style="float: right;margin: 10px;"
             class="btn btn-primary">NO</button>
     </form>
+</p-dialog>
+
+<p-dialog header=" View All Assigned Projects" [(visible)]="ViewAssignedProjectFlag2" [style]="{width: '60vw'}"
+	[baseZIndex]="10000">
+	<p-toast position="top-left" key="tl"></p-toast>
+	<p-toast position="top-center" key="tc"></p-toast>
+	<p-toast position="bottom-center" key="bc"></p-toast>
+	<div class="card">
+		<p-table #dt2 [value]="lstAssignedProjectsForEmployee" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
+			[rowsPerPageOptions]="[5,10,50]" styleClass="p-datatable-customers container-fluid" [paginator]="true"
+			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+			[globalFilterFields]="['userName','descriptionDate']">
+			<ng-template pTemplate="caption">
+				<div class="row">
+					<div class="col-4 p-input-icon-left p-ml-auto">
+						<i class="pi pi-search" style="margin-left: 20px;"></i>
+						<input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
+							placeholder="Search keyword" />
+					</div>
+				</div>
+			</ng-template>
+			<ng-template pTemplate="header">
+				<tr>
+					<th>PreSales Name
+						<p-columnFilter type="text" field="employeeName" display="menu"></p-columnFilter>
+					</th>
+					<th>projectName
+						<p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
+					</th>
+					<th>Assigned Date
+						<p-columnFilter type="date" field="assignedProjectDate" display="menu"></p-columnFilter>
+					</th>
+					<th>Show Description</th>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="body" let-assignedProject>
+
+				<tr>
+
+					<td>
+						<div class="row">
+							<span style="font-weight: bold;" class="col-9">{{assignedProject.employeeName}}</span>
+						</div>
+					</td>
+					<td>{{assignedProject.projectName}}</td>
+					<td>{{assignedProject.assignedProjectDate | date: 'MM/dd/yyyy, h:mm a'}}</td>
+					<td *ngIf="assignedProject.id!=0">
+						<button class="btn btn-primary" (click)="viewAssignProjectDesc(assignedProject.id)">
+							Description
+						</button>
+					</td>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="emptymessage">
+				<tr>
+					<td colspan="5" *ngIf="lstAssignedProjectsForEmployee.length==0">No customers found.</td>
+				</tr>
+			</ng-template>
+		</p-table>
+	</div>
+</p-dialog>
+<p-dialog header=" View Assigned Projects For User" [(visible)]="ViewAssignedProjectForUserFlag" [style]="{width: '60vw'}"
+	[baseZIndex]="10000">
+	<p-toast position="top-left" key="tl"></p-toast>
+	<p-toast position="top-center" key="tc"></p-toast>
+	<p-toast position="bottom-center" key="bc"></p-toast>
+	<div class="card">
+		<p-table #dt2 [value]="lstAssignedProjectsForEmployee" dataKey="id" [rows]="5" [showCurrentPageReport]="true"
+			[rowsPerPageOptions]="[5,10,50]" styleClass="p-datatable-customers container-fluid" [paginator]="true"
+			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+			[globalFilterFields]="['userName','descriptionDate']">
+			<ng-template pTemplate="caption">
+				<div class="row">
+					<div class="col-4 p-input-icon-left p-ml-auto">
+						<i class="pi pi-search" style="margin-left: 20px;"></i>
+						<input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
+							placeholder="Search keyword" />
+					</div>
+				</div>
+			</ng-template>
+			<ng-template pTemplate="header">
+				<tr>
+					<th>PreSales Name
+						<p-columnFilter type="text" field="employeeName" display="menu"></p-columnFilter>
+					</th>
+					<th>projectName
+						<p-columnFilter type="text" field="projectName" display="menu"></p-columnFilter>
+					</th>
+					<th>Assigned Date
+						<p-columnFilter type="date" field="assignedProjectDate" display="menu"></p-columnFilter>
+					</th>
+					<th>Show Description</th>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="body" let-assignedProject>
+
+				<tr>
+
+					<td>
+						<div class="row">
+							<span style="font-weight: bold;" class="col-9">{{assignedProject.employeeName}}</span>
+						</div>
+					</td>
+					<td>{{assignedProject.projectName}}</td>
+					<td>{{assignedProject.assignedProjectDate | date: 'MM/dd/yyyy, h:mm a'}}</td>
+					<td *ngIf="assignedProject.id!=0">
+						<button class="btn btn-primary" (click)="viewAssignProjectDesc(assignedProject.id)">
+							Description
+						</button>
+					</td>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="emptymessage">
+				<tr>
+					<td colspan="5" *ngIf="lstAssignedProjectsForEmployee.length==0">No customers found.</td>
+				</tr>
+			</ng-template>
+		</p-table>
+	</div>
+</p-dialog>
+
+<p-dialog header=" View Assigned Description " [(visible)]="ViewAssignedDescFlag" [style]="{width: '40vw'}"
+	[baseZIndex]="10000">
+	<p-toast position="top-left" key="tl"></p-toast>
+	<p-toast position="top-center" key="tc"></p-toast>
+	<p-toast position="bottom-center" key="bc"></p-toast>
+	<div class="row">
+		<div class="row container">
+
+			<div style="margin-left: 10px;">
+				<br>
+				<table class="table">
+					<thead>
+						<tr>
+							<!-- <th>PreSales Name</th> -->
+							<th>Date</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<!-- <td>
+								{{AssignedProjectsDec.employeeName}}
+							</td> -->
+							<td>
+								{{AssignedProjectsDec.assignedProjectDate | date: 'MM/dd/yyyy, h:mm a'}}
+							</td>
+							<td>
+								{{AssignedProjectsDec.description}}
+							</td>
+						</tr>
+						<tr *ngIf="AssignedProjectsDec.id == 0">
+							<td colspan="4" style="color: rgb(102, 97, 23);">No Description found.</td>
+						</tr>
+					</tbody>
+
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- </div> -->
+	<br>
+	<ng-template pTemplate="footer">
+		<p-button icon="pi pi-times" (click)="ViewAssignedDescFlag=false" label="" class="p-button-secondary">Exit
+		</p-button>
+	</ng-template>
+
 </p-dialog>

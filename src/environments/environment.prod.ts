@@ -21,7 +21,7 @@ export const environment = {
   GetLatestDocuments:'http://10.10.0.129/SMTAPI/api/ProjectDocuments/GetLatestDocuments/',
   GetDescriptionsByProjectId:'http://10.10.0.129/SMTAPI/api/ProjectDescriptions/GetDescriptionsByProjectId/',
   GetDescriptionsByProjectUpdateId:'http://10.10.0.129/SMTAPI/api/ProjectDescriptions/GetDescriptionsByProjectUpdateId/',
-  GetAllProjectByUserId:'http://10.10.0.129/SMTAPI/api/ProjectDescriptions/GetAllProjectByUserId/',
+  GetAllProjectByUserId:'http://10.10.0.129/SMTAPI/api/Projects/GetAllProjectByUserId/',
   ProjectDocumentByProjectID:'http://10.10.0.129/SMTAPI/api/ProjectDocuments/GetProjectDocumentByProjectId/',
   ProjectSystem:'http://10.10.0.129/SMTAPI/api/ProjectSystems/',
   OfferStatus:'http://10.10.0.129/SMTAPI/api/OfferStatus/',

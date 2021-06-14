@@ -40,5 +40,7 @@ export class ProjectService {
   GetAllAcceptedProjects(): Observable<Project[]> {
     return this.httpClient.get<Project[]>(`${environment.GetAllAcceptedProjects}`, this.httpHeader)
   }
-
+  GetAllProjectByUserId(UserId:string): Observable <Project[]>{
+    return this.httpClient.get<Project[]> (`${environment.GetAllProjectByUserId}${UserId}`,this.httpHeader) ;
+  }
 }

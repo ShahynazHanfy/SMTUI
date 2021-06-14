@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem("token", res["token"])
       localStorage.setItem("roles", res["roles"])
 
-      localStorage.setItem("empId", res["empId"])
+      localStorage.setItem('empId', res['empId'])
       localStorage.setItem("userId", res["userId"])
       this.route.navigate(['/admin']);
 

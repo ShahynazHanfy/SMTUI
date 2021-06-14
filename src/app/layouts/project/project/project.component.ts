@@ -53,6 +53,7 @@ export class ProjectComponent implements OnInit {
   ProjectDescriptionObj: ProjectDescription
   ProjectDescriptionDeadline: ProjectDescription
   projectList: Project[]
+  projectListForSales:Project[]
   projectDescriptionList: ProjectDescription[]
   LstprojectDescription: ProjectDescription[]
   projectObj: Project
@@ -63,6 +64,7 @@ export class ProjectComponent implements OnInit {
   lstContractors: Contractors[]
   userId: string = localStorage.getItem('userId')
   userName: string = localStorage.getItem('userName')
+  EmpId: number 
   role: string;
   project: Project
   showTheFirstStepDialog: boolean;
@@ -102,6 +104,9 @@ export class ProjectComponent implements OnInit {
   month: number;
   day: number;
   strDate: string = ''
+  ViewAssignedProjectForUserFlag: boolean;
+  ViewAssignedDescFlag: boolean;
+  ViewAssignedProjectFlag2: boolean;
   constructor(private route: Router, private projStatusService: ProjectStatusService,
     private projectComponentService: ProjectComponentService,
     private EndUsersService: EndUsersService,
@@ -141,7 +146,7 @@ export class ProjectComponent implements OnInit {
     //  console.log("this.day",this.day)
     this.maxDate = (this.year) + "-" + (this.month) + "-" + (this.day + 4)
     console.log("maxDate", this.maxDate);
-
+    this.EmpId = Number(localStorage.getItem('empId')) 
     this.role = localStorage.getItem('roles');
     console.log("this.role", this.role)
     this.items = [{
@@ -163,6 +168,7 @@ export class ProjectComponent implements OnInit {
       }
     }
     ];
+    this.projectListForSales=[]
     this.lstProjStatus = []
     this.lstoddocproj = []
     this.lstProjComponent = []
@@ -180,6 +186,7 @@ export class ProjectComponent implements OnInit {
     this.consultantObj = {
       id: 0, contactName: '', consultantName: '', email: '', phone: '', relevantPhone: '', titleName: ''
     }
+    this.AssignedProjectsDec = { id: 0, description: "", employeeName: "", assignedProjectDate: new Date, employeeId: 0, isAssigned: false, projectId: 0, projectUpdateId: 0 }
 
     this.ProjectDescriptionObj =
     {
@@ -232,10 +239,10 @@ export class ProjectComponent implements OnInit {
       })
     }
     if (this.role == 'Sales') {
-      this.projectDescriptionService.GetAllProjectByUserId(this.userId).subscribe(e => {
-        this.projectDescriptionList = e,
-          console.log("projDesscSales", this.projectDescriptionList)
-        this.projectDescriptionList.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
+      this.projectService.GetAllProjectByUserId(this.userId).subscribe(e => {
+        this.projectListForSales = e,
+          console.log("projDesscSales", this.projectListForSales)
+        this.projectListForSales.forEach(customer => customer.projectCreationDate = new Date(customer.projectCreationDate));
       })
     }
     for (let index = 0; index <= 100; index++) {
@@ -560,10 +567,10 @@ export class ProjectComponent implements OnInit {
                 })
               }
               if (this.role == 'Sales') {
-                this.projectDescriptionService.GetAllProjectByUserId(this.userId).subscribe(e => {
-                  this.projectDescriptionList = e,
-                    console.log("projDesscSales", this.projectDescriptionList)
-                  this.projectDescriptionList.forEach(customer => customer.descriptionDate = new Date(customer.descriptionDate));
+                this.projectService.GetAllProjectByUserId(this.userId).subscribe(e => {
+                  this.projectListForSales = e,
+                    console.log("projDesscSales", this.projectListForSales)
+                  this.projectListForSales.forEach(customer => customer.projectCreationDate = new Date(customer.projectCreationDate));
                 })
               }
 
@@ -651,14 +658,12 @@ export class ProjectComponent implements OnInit {
   }
   ViewAllOfferedOffers(projectId) {
     this.ViewAssignedProjectFlag = true
-    if (this.role == 'PreSalesManager' || this.role == 'PreSales' || this.role == 'Admin') {
       this.assignProjectService.GetAllAssignedProjectsByProjectId(projectId).subscribe(
         res => {
           this.lstAssignedProjectsForEmployee = res,
             console.log("lstAssignedProjectsForEmployee", this.lstAssignedProjectsForEmployee)
         }
       )
-    }
   }
   updateInDeadline() {
     console.log("updateInDeadline", this.projectObj)
@@ -706,6 +711,42 @@ export class ProjectComponent implements OnInit {
   hideDialogs() {
     this.showCalenderDialog = false
     this.showCalender = false
+  }
+  closeViewAllAssignedProject() {
+    this.ViewAssignedProjectFlag2 = false
+    this.ViewAssignedProjectForUserFlag=false
+  }
+  ViewAllAssignedProject() {
+    this.ViewAssignedProjectFlag2 = true
+    if (this.role == 'PreSalesManager' || this.role == 'PreSales'|| this.role == 'Admin'|| this.role == 'CEO') {
+      this.assignProjectService.GetAllAssignProjects().subscribe(
+        res => {
+          this.lstAssignedProjectsForEmployee = res,
+            console.log("lstAssignedProjectsForEmployee", this.lstAssignedProjectsForEmployee)
+        }
+      )
+    }
+  }
+
+  ViewAssignedProjectForUser()
+  {
+    this.ViewAssignedProjectForUserFlag=true
+
+    this.assignProjectService.GetAllAssignedProjectsByEmployeeId(this.EmpId).subscribe(
+      res => {
+        this.lstAssignedProjectsForEmployee = res,
+          console.log("lstAssignedProjectsForEmployee", this.lstAssignedProjectsForEmployee)
+      }
+    )
+  }
+  viewAssignProjectDesc(assignedProjectsById) {
+    this.ViewAssignedDescFlag = true
+    this.assignProjectService.GetAssignProject(assignedProjectsById).subscribe(
+      res => {
+        this.AssignedProjectsDec = res,
+          console.log("assign project", this.AssignedProjectsDec)
+      }
+    )
   }
 }
 
